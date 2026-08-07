@@ -1,0 +1,16 @@
+{
+  "name": "breathebettertonight",
+  "version": "0.1.0",
+  "description": "breathebettertonight.com - breathing and sleep health website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
