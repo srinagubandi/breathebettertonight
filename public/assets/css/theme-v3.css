@@ -1,0 +1,35 @@
+/* ── THEME V3: Clean Light / Blue ────────────────────────────
+   "No Mask. No Hose. Just Sleep."
+   Colors: Deep Blue #0D3B6E · Sky #4A9FD4 · White
+──────────────────────────────────────────────────────────── */
+:root {
+  --accent:            #0D3B6E;
+  --accent-dark:       #092d56;
+  --header-bg:         #ffffff;
+  --header-phone-color:#0D3B6E;
+  --cta-bg:            #0D3B6E;
+  --cta-color:         #ffffff;
+  --hero-overlay:      linear-gradient(to top, rgba(13,59,110,0.85) 30%, rgba(13,59,110,0.25) 100%);
+  --section-dark-bg:   #0D3B6E;
+  --section-light-bg:  #f0f6ff;
+  --stats-bg:          #ffffff;
+  --stats-border:      #dbeafe;
+  --symptom-bg:        rgba(13,59,110,0.06);
+  --card-bg:           #ffffff;
+  --form-bg:           #f0f6ff;
+  --footer-bg:         #0D3B6E;
+  --heading-color:     #0D3B6E;
+  --text-body:         #1e3a5f;
+  --text-muted:        #4a6fa5;
+  --border:            #dbeafe;
+}
+body { background: #ffffff; color: #1e3a5f; }
+.sticky-header { border-bottom: 2px solid #dbeafe; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.header-cta { background: #0D3B6E; }
+.stat-value { color: #0D3B6E; }
+.symptom-item { border-left-color: #0D3B6E; }
+.testimonial-card { border-top-color: #0D3B6E; }
+.step-num { background: #0D3B6E; }
+.ty-check { background: #0D3B6E; }
+.next-step-num { background: #0D3B6E; }
+.faq-question::after { color: #0D3B6E; }
