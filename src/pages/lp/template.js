@@ -1,28 +1,25 @@
 /**
- * LP TEMPLATE
- * ═══════════════════════════════════════════════════════════════
- * Renders a full landing page for any doctor + variant + city.
- * All content comes from the doctor config file.
- * To change copy, colors, or structure — edit the config or CSS.
- * ═══════════════════════════════════════════════════════════════
+ * LP TEMPLATE — v1.1.0
+ * Updated to match mockup designs precisely.
  */
 
 const { layout } = require('../../shared/layout');
 const { resolveCityLabel, resolvePhone } = require('../../data/index');
 
-/**
- * Replaces {city} tokens in strings with the resolved city label.
- */
 function injectCity(str, cityLabel) {
   return str.replace(/\{city\}/g, cityLabel);
 }
 
-/**
- * Renders the full LP HTML.
- * @param {object} doctor      — doctor config object
- * @param {string} variantSlug — e.g. 'v1'
- * @param {string|null} citySlug — e.g. 'arlington-tx' or null
- */
+// Stat icons (SVG inline, teal on dark bg)
+const STAT_ICONS = [
+  // People/group icon
+  `<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>`,
+  // Trending down icon
+  `<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6z"/></svg>`,
+  // Shield/check icon
+  `<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>`,
+];
+
 function renderLP(doctor, variantSlug, citySlug) {
   const variant   = doctor.variants[variantSlug];
   const cityLabel = resolveCityLabel(doctor, citySlug);
@@ -36,18 +33,19 @@ function renderLP(doctor, variantSlug, citySlug) {
     `<span class="hero-badge">${b.icon} ${b.label}</span>`
   ).join('');
 
-  // ── Stats ───────────────────────────────────────────────────
-  const statsHTML = doctor.stats.map(s => `
+  // ── Stats — cards with icons ─────────────────────────────────
+  const statsHTML = doctor.stats.map((s, i) => `
     <div class="stat-item">
+      <div class="stat-icon">${STAT_ICONS[i] || '★'}</div>
       <div class="stat-value">${s.value}</div>
       <div class="stat-label">${s.label}</div>
     </div>`
   ).join('');
 
-  // ── Symptoms ────────────────────────────────────────────────
+  // ── Symptoms — circular icon containers ──────────────────────
   const symptomsHTML = doctor.symptoms.map(s => `
     <div class="symptom-item">
-      <div class="symptom-icon">${s.icon}</div>
+      <div class="symptom-icon-wrap">${s.icon}</div>
       <div>
         <div class="symptom-label">${s.label}</div>
         <div class="symptom-desc">${s.desc}</div>
@@ -55,7 +53,7 @@ function renderLP(doctor, variantSlug, citySlug) {
     </div>`
   ).join('');
 
-  // ── Steps ───────────────────────────────────────────────────
+  // ── Steps ────────────────────────────────────────────────────
   const stepsHTML = doctor.steps.map(s => `
     <div class="step-item">
       <div class="step-num">${s.num}</div>
@@ -66,7 +64,7 @@ function renderLP(doctor, variantSlug, citySlug) {
     </div>`
   ).join('');
 
-  // ── Testimonials ────────────────────────────────────────────
+  // ── Testimonials ─────────────────────────────────────────────
   const testimonialsHTML = doctor.testimonials.map(t => `
     <div class="testimonial-card">
       <div class="testimonial-stars">★★★★★</div>
@@ -76,7 +74,7 @@ function renderLP(doctor, variantSlug, citySlug) {
     </div>`
   ).join('');
 
-  // ── FAQ ─────────────────────────────────────────────────────
+  // ── FAQ ──────────────────────────────────────────────────────
   const faqHTML = doctor.faqs.map(f => `
     <div class="faq-item">
       <button class="faq-question">${f.q}</button>
@@ -131,6 +129,7 @@ function renderLP(doctor, variantSlug, citySlug) {
           <div class="doctor-name">${doctor.name}, ${doctor.credentials}</div>
           <div class="doctor-creds">${doctor.practice}</div>
           <div class="doctor-location">📍 Serving ${cityLabel}</div>
+          <div class="doctor-badge">★ ${doctor.badges[0].label}</div>
           <div class="doctor-bio">${doctor.bio}</div>
         </div>
       </div>
@@ -147,14 +146,14 @@ function renderLP(doctor, variantSlug, citySlug) {
       <h2 class="ghl-form-title">Claim Your Free Sleep Consultation</h2>
       <p class="ghl-form-sub">Takes less than 60 seconds. No obligation. Often covered by insurance.</p>
       <!-- ════════════════════════════════════════════════════
-           GHL EMBED — Replace the placeholder below with your
-           GoHighLevel form JavaScript embed code.
-           The div id="ghl-form-embed" is your target container.
+           GHL EMBED — Replace the div below with your
+           GoHighLevel JavaScript embed code.
       ════════════════════════════════════════════════════ -->
       <div id="ghl-form-embed">
         <div class="ghl-embed-placeholder">
-          📋 GoHighLevel Form Embed<br/>
-          <small>Replace this block with your GHL JavaScript embed code.</small>
+          <div class="ghl-icon">📋</div>
+          <div class="ghl-label">Consultation Form</div>
+          <div class="ghl-sub">Replace this block with your GHL JavaScript embed code.</div>
         </div>
       </div>
     </section>
@@ -167,11 +166,11 @@ function renderLP(doctor, variantSlug, citySlug) {
 
     <!-- ══ BOTTOM CTA ═════════════════════════════════════════ -->
     <section class="section section-dark" style="text-align:center;">
-      <h2 class="section-title" style="color:#fff;">Ready to Sleep Better?</h2>
-      <p class="section-sub">Your free consultation with ${doctor.name} is the first step.</p>
-      <a href="#ghl-form" class="btn-full" style="max-width:400px;margin:0 auto;">${variant.cta}</a>
-      <p style="margin-top:16px;font-size:0.85rem;color:rgba(255,255,255,0.6);">
-        Or call us directly: <a href="tel:${phoneRaw}" style="color:#fff;font-weight:700;">${phone}</a>
+      <h2 class="section-title" style="color:#fff;margin-bottom:8px;">Ready to Sleep Better?</h2>
+      <p class="section-sub" style="margin-bottom:24px;">Your free consultation with ${doctor.name} is the first step.</p>
+      <a href="#ghl-form" class="btn-full" style="max-width:420px;margin:0 auto 16px;">${variant.cta}</a>
+      <p style="font-size:0.85rem;color:rgba(255,255,255,0.55);">
+        Or call: <a href="tel:${phoneRaw}" style="color:#fff;font-weight:700;">${phone}</a>
       </p>
     </section>
 
