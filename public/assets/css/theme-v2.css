@@ -1,0 +1,30 @@
+/* ── THEME V2: Warm Dark / Amber ─────────────────────────────
+   "Wake Up Feeling Human Again."
+   Colors: Charcoal #1A1A1A · Amber #E07B2A · Warm White
+──────────────────────────────────────────────────────────── */
+:root {
+  --accent:            #E07B2A;
+  --accent-dark:       #C06820;
+  --header-bg:         #E07B2A;
+  --header-phone-color:#ffffff;
+  --cta-bg:            #E07B2A;
+  --cta-color:         #ffffff;
+  --hero-overlay:      linear-gradient(to top, rgba(20,15,10,0.95) 35%, rgba(20,15,10,0.45) 100%);
+  --section-dark-bg:   #1A1208;
+  --section-light-bg:  #fdf8f3;
+  --stats-bg:          #ffffff;
+  --stats-border:      #f0e6d8;
+  --symptom-bg:        rgba(255,255,255,0.07);
+  --card-bg:           #ffffff;
+  --form-bg:           #fdf8f3;
+  --footer-bg:         #1A1208;
+  --heading-color:     #1A1208;
+  --text-body:         #3d2e1e;
+  --text-muted:        #7a6652;
+  --border:            #f0e6d8;
+}
+body { background: #ffffff; color: #3d2e1e; }
+.testimonial-card { border-top-color: #E07B2A; }
+.step-num { background: #E07B2A; }
+.ty-check { background: #E07B2A; }
+.next-step-num { background: #E07B2A; }

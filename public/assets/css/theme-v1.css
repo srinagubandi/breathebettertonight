@@ -1,0 +1,26 @@
+/* ── THEME V1: Dark Navy / Teal ──────────────────────────────
+   "Tired of Your CPAP?"
+   Colors: Navy #0D1B2A · Teal #00B4C8 · White
+──────────────────────────────────────────────────────────── */
+:root {
+  --accent:            #00B4C8;
+  --accent-dark:       #0096AA;
+  --header-bg:         #0D1B2A;
+  --header-phone-color:#ffffff;
+  --cta-bg:            #00B4C8;
+  --cta-color:         #ffffff;
+  --hero-overlay:      linear-gradient(to top, rgba(13,27,42,0.95) 35%, rgba(13,27,42,0.45) 100%);
+  --section-dark-bg:   #0D1B2A;
+  --section-light-bg:  #f0f9fb;
+  --stats-bg:          #ffffff;
+  --stats-border:      #e5e7eb;
+  --symptom-bg:        rgba(255,255,255,0.07);
+  --card-bg:           #ffffff;
+  --form-bg:           #f0f9fb;
+  --footer-bg:         #0D1B2A;
+  --heading-color:     #0D1B2A;
+  --text-body:         #374151;
+  --text-muted:        #6b7280;
+  --border:            #e5e7eb;
+}
+body { background: #ffffff; color: #374151; }
