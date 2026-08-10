@@ -107,7 +107,11 @@ function getAllRoutes() {
  * Falls back to doctor.city if no citySlug provided.
  */
 function resolveCityLabel(doctor, citySlug) {
-  if (!citySlug) return doctor.city || doctor.state || '';
+  if (!citySlug) {
+    // Default to first city in the cities array, or fall back to state
+    const firstCity = (doctor.cities || [])[0];
+    return firstCity ? firstCity.label : (doctor.city || doctor.state || '');
+  }
   const cityObj = (doctor.cities || []).find(c => c.slug === citySlug);
   return cityObj ? cityObj.label : citySlug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
