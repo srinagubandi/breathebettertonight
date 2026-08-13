@@ -191,3 +191,7 @@ Version **`v2.1.0`** was committed on `feature/unique-lp-design-systems-v3`, mer
 
 V11 and V13 have been visually reviewed after local rendering at the selected mobile and desktop viewports. V11 retains the source PDF’s dark navy/teal, high-contrast nighttime direction while using only universal symptom language and no form area. V13 retains the source PDF’s clean light/blue, educational clinical-trust direction while using only universal symptom language and no treatment/coverage claims. Both retain the top phone, provider/review placeholders, chat launcher, shared legal links, and non-diagnostic disclosure.
 All PDF-inspired release checks now pass locally. Responsive QA captured V1–V13 at both 414×896 mobile and 1440px desktop. Supporting QA captured all V1–V13 thank-you and below-target pages at both viewports, plus the shared legal pages. The structural accessibility/content check passed for all **13** LPs. Dynamic route regression passed for **234/234** generated LP, city, TY, and TY-BT routes with no retired survey marker.
+
+## Deployment Record — PDF-Inspired Universal Variants
+
+Version **`v2.2.0`** was committed on `feature/pdf-inspired-universal-lps`, merged to `main`, tagged, and pushed to GitHub. Railway deployed the new release from `main`. Production smoke tests passed for **V11**, **V12**, and **V13**, each serving the shared universal symptom-led headline without retired form, insurance, CPAP, qualification, or treatment-process language. The total generated route inventory is now **234** routes.
