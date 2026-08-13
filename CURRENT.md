@@ -150,3 +150,6 @@ The project release version has been advanced from `1.0.0` to `2.0.0`. `package.
 ## Release Readiness — 2026-08-13
 
 All required symptom-led LP code, responsive styles, original hero assets, shared legal placeholders, shared chat launcher, route checks, and visual QA assets are ready on `feature/symptom-led-lps-v2`. Generated local QA screenshots are intentionally excluded from Git because the reusable `scripts/` commands recreate them on demand. The next action is to commit the version `2.0.0` release, push the feature branch, merge it to `main`, and manually trigger/verify Railway deployment.
+## Deployment Record — 2026-08-13
+
+Version **`v2.0.0`** was committed on `feature/symptom-led-lps-v2` as `0157f11`, merged to `main` as `b5ca675`, tagged `v2.0.0`, and pushed to GitHub. Railway deployed the new code from `main`; the production response contains `symptom-lp.css`, `chat-launcher.css`, the Partner Impact V6 content, and the shared Terms & Conditions link. A production regression test then passed across **all 108 generated LP, city, TY, and TY-BT routes**. Both `/privacy-policy` and `/terms-and-conditions` returned HTTP 200.
