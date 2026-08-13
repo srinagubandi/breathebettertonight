@@ -1,0 +1,22 @@
+/* Shared chat launcher — works above every theme on mobile and desktop. */
+.chat-widget { position: fixed; right: 18px; bottom: 18px; z-index: 80; font-family: Inter, system-ui, sans-serif; }
+.chat-launcher { display: inline-flex; min-height: 54px; align-items: center; gap: 9px; padding: 0 18px; border: 0; border-radius: 999px; background: var(--accent, #00B4C8); color: var(--cta-color, #fff); box-shadow: 0 16px 35px rgba(4, 24, 42, .24); cursor: pointer; font: inherit; font-size: .85rem; font-weight: 900; }
+.chat-launcher svg { width: 22px; height: 22px; fill: currentColor; }
+.chat-panel { position: absolute; right: 0; bottom: 66px; width: min(350px, calc(100vw - 36px)); padding: 18px; border: 1px solid rgba(20, 62, 88, .15); border-radius: 18px; background: #fff; box-shadow: 0 22px 60px rgba(3, 20, 37, .22); color: #18334A; }
+.chat-panel[hidden] { display: none; }
+.chat-panel-head { display: flex; gap: 15px; align-items: flex-start; justify-content: space-between; }
+.chat-panel-kicker { margin: 0 0 4px; color: #008A9D; font-size: .65rem; font-weight: 900; letter-spacing: .09em; text-transform: uppercase; }
+.chat-panel h2 { max-width: 245px; margin: 0; color: #102C45; font-size: 1.12rem; line-height: 1.16; letter-spacing: -.02em; }
+.chat-close { display: grid; width: 30px; height: 30px; place-items: center; padding: 0; border: 0; border-radius: 50%; background: #EAF8FA; color: #0A5160; cursor: pointer; font-size: 1.4rem; line-height: 1; }
+.chat-panel-copy { margin: 13px 0; color: #5D7181; font-size: .82rem; line-height: 1.48; }
+.chat-provider-note { margin: 0 0 12px; padding: 10px; border-radius: 10px; background: #F1F9FA; color: #54727A; font-size: .74rem; line-height: 1.4; }
+.chat-provider-link, .chat-call-link { display: flex; min-height: 45px; align-items: center; justify-content: center; border-radius: 10px; font-size: .8rem; font-weight: 900; text-decoration: none; }
+.chat-provider-link { margin-bottom: 9px; background: #103149; color: #fff; }
+.chat-call-link { background: #10B7C8; color: #fff; }
+.chat-panel-disclaimer { margin: 11px 0 0; color: #78909A; font-size: .67rem; line-height: 1.4; }
+@media (max-width: 520px) {
+  .chat-widget { right: 14px; bottom: 14px; }
+  .chat-launcher { width: 54px; padding: 0; justify-content: center; }
+  .chat-launcher-label { position: absolute; overflow: hidden; width: 1px; height: 1px; clip: rect(0 0 0 0); white-space: nowrap; }
+  .chat-panel { right: 0; bottom: 66px; }
+}

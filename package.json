@@ -1,11 +1,14 @@
 {
   "name": "breathebettertonight",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "BreatheBetterTonight.com — Sleep apnea oral appliance lead generation. Multi-doctor, multi-variant, multi-city LP system.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "node server.js",
+    "qa:routes": "node scripts/verify_generated_routes.js",
+    "qa:responsive": "python3 scripts/capture_responsive_qa.py",
+    "qa:supporting": "python3 scripts/capture_supporting_qa.py"
   },
   "dependencies": {
     "dotenv": "^16.0.3",

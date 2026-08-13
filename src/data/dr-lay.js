@@ -1,153 +1,154 @@
 /**
- * DOCTOR CONFIG — Dr. Willis Lay
- * ═══════════════════════════════════════════════════════════════
- * HOW TO ADD A NEW DOCTOR:
- *   1. Copy this file to src/data/dr-[slug].js
- *   2. Update all fields below
- *   3. Register it in src/data/index.js
- *   That's it — routes, pages, and admin listing auto-generate.
+ * Dr. Willis Lay configuration.
  *
- * HOW TO ADD A NEW CITY:
- *   Add an entry to the `cities` array below.
- *   The city name will be injected into LP copy automatically.
- *
- * HOW TO ADD A NEW VARIANT:
- *   Add an entry to the `variants` object below.
- *   A new LP, TY, and TY-BT page will be auto-generated.
- * ═══════════════════════════════════════════════════════════════
+ * This is data-only. Add a city under `cities` or a landing-page object under
+ * `variants`; routes are registered automatically by the existing route system.
  */
-
 module.exports = {
-
-  // ── Identity ──────────────────────────────────────────────────
-  slug:        'dr-lay',
-  name:        'Dr. Willis Lay',
+  slug: 'dr-lay',
+  name: 'Dr. Willis Lay',
   credentials: 'DDS',
-  practice:    'Pantego Dental',
-  phone:       '(817) 274-1825',
-  phoneRaw:    '8172741825',
-  address:     '1810 S Bowen Rd, Pantego, TX 76013',
-  state:       'TX',
-  website:     'https://www.drwillislay.com/',
-  photo:       '/assets/images/dr-lay-photo.jpg', // Replace with real headshot
+  practice: 'Pantego Dental',
+  phone: '(817) 274-1825',
+  phoneRaw: '8172741825',
+  address: '1810 S Bowen Rd, Pantego, TX 76013',
+  state: 'TX',
+  website: 'https://www.drwillislay.com/',
 
-  // ── Cities served ─────────────────────────────────────────────
-  // Each city gets its own LP copy injection.
-  // slug is used in the URL: /dr-lay/v1/arlington-tx
-  // label is displayed on the page.
-  // phone can override the default phone per city (e.g. call tracking number).
   cities: [
-    { slug: 'arlington-tx',    label: 'Arlington, TX',    phone: null }, // null = use default
-    { slug: 'pantego-tx',      label: 'Pantego, TX',      phone: null },
-    { slug: 'grand-prairie-tx',label: 'Grand Prairie, TX',phone: null },
-    { slug: 'mansfield-tx',    label: 'Mansfield, TX',    phone: null },
-    { slug: 'fort-worth-tx',   label: 'Fort Worth, TX',   phone: null },
-    // Add more cities here — no code changes needed
+    { slug: 'arlington-tx', label: 'Arlington, TX', phone: null },
+    { slug: 'pantego-tx', label: 'Pantego, TX', phone: null },
+    { slug: 'grand-prairie-tx', label: 'Grand Prairie, TX', phone: null },
+    { slug: 'mansfield-tx', label: 'Mansfield, TX', phone: null },
+    { slug: 'fort-worth-tx', label: 'Fort Worth, TX', phone: null },
   ],
 
-  // ── Doctor bio ────────────────────────────────────────────────
-  bio: 'Dr. Willis Lay has served the Arlington and Pantego community for years, offering a full range of dental services including oral appliance therapy for patients struggling with sleep apnea and snoring. His practice accepts most major insurance plans and offers medical billing for qualifying sleep treatments.',
-
-  // ── Trust badges ──────────────────────────────────────────────
-  badges: [
-    { icon: '✓', label: 'Family Dentist' },
-    { icon: '✓', label: 'Medicare & Insurance' },
-    { icon: '✓', label: 'Free Consult' },
-  ],
-
-  // ── Stats bar ─────────────────────────────────────────────────
-  stats: [
-    { value: '80%', label: 'of Sleep Apnea Goes Undiagnosed' },
-    { value: '50%', label: 'of CPAP Users Quit Within a Year' },
-    { value: '$0',  label: 'Out of Pocket With Insurance*' },
-  ],
-
-  // ── Symptoms ──────────────────────────────────────────────────
-  symptoms: [
-    { icon: '😤', label: 'Loud Snoring',      desc: 'Disrupts your sleep and your partner\'s.' },
-    { icon: '😴', label: 'Daytime Fatigue',   desc: 'Low energy, poor focus, no motivation.' },
-    { icon: '😮', label: 'CPAP Intolerance',  desc: 'Uncomfortable, inconvenient, unsustainable.' },
-  ],
-
-  // ── How it works ──────────────────────────────────────────────
-  steps: [
-    { num: '1', title: 'Free Consultation',       desc: 'We evaluate your sleep and discuss your options at no cost.' },
-    { num: '2', title: 'Insurance Verified',       desc: 'We check your benefits and confirm your coverage upfront.' },
-    { num: '3', title: 'Custom Appliance Fitted',  desc: 'Your custom oral appliance is made for comfort and lasting results.' },
-  ],
-
-  // ── Testimonials ──────────────────────────────────────────────
-  testimonials: [
-    {
-      quote: 'From the moment I arrived I knew I had chosen the right place. Dr. Lay explained everything clearly. I no longer snore and my wife finally sleeps through the night.',
-      name:  'Anas L.',
-      city:  'Arlington, TX',
-    },
-    {
-      quote: 'Dr. Lay took the time to show me exactly what to expect. The oral appliance has been life-changing — I wake up feeling rested for the first time in years.',
-      name:  'Eng W.',
-      city:  'Pantego, TX',
-    },
-    {
-      quote: 'I was skeptical at first but the team was so professional. My sleep apnea is under control and I didn\'t have to deal with a CPAP machine at all.',
-      name:  'Maria S.',
-      city:  'Grand Prairie, TX',
-    },
-  ],
-
-  // ── FAQ ───────────────────────────────────────────────────────
-  faqs: [
-    {
-      q: 'Will my insurance cover oral appliance therapy?',
-      a: 'Most major medical insurance plans and Medicare cover oral appliance therapy for diagnosed sleep apnea. Our team verifies your coverage before your first appointment.',
-    },
-    {
-      q: 'How is this different from a CPAP machine?',
-      a: 'An oral appliance is a small, custom-fitted device you wear in your mouth while you sleep — no mask, no hose, no noise. Most patients find it far more comfortable.',
-    },
-    {
-      q: 'Do I need a sleep study first?',
-      a: 'A sleep study or existing diagnosis is typically required. We can help guide you through the process and work with your physician.',
-    },
-    {
-      q: 'How long does treatment take?',
-      a: 'Most patients are fitted within 2–3 weeks of their consultation. Follow-up adjustments ensure optimal results.',
-    },
-  ],
-
-  // ── LP Variants ───────────────────────────────────────────────
-  // Add as many variants as needed.
-  // Each variant auto-generates: LP, TY page, TY-BT page.
-  // URL pattern: /[doctor-slug]/[variant-slug]
-  // With city:   /[doctor-slug]/[variant-slug]/[city-slug]
-  variants: {
-    v1: {
-      label:       'Dark Navy / Teal — "Tired of Your CPAP?"',
-      theme:       'v1',
-      hero:        '/assets/images/hero-v1.jpg',
-      headline:    'Tired of Your CPAP?',
-      subheadline: '{city} Patients Are Sleeping Better Without It.',
-      cta:         'SEE IF YOU QUALIFY — FREE',
-    },
-    v2: {
-      label:       'Warm Dark / Amber — "Wake Up Feeling Human Again"',
-      theme:       'v2',
-      hero:        '/assets/images/hero-v2.jpg',
-      headline:    'Wake Up Feeling Human Again.',
-      subheadline: 'Dr. Willis Lay serves {city} and surrounding areas.',
-      cta:         'CLAIM MY FREE SLEEP CONSULT',
-    },
-    v3: {
-      label:       'Clean Light / Blue — "No Mask. No Hose. Just Sleep."',
-      theme:       'v3',
-      hero:        '/assets/images/hero-v3.jpg',
-      headline:    'No Mask. No Hose. Just Sleep.',
-      subheadline: '{city} — Dr. Willis Lay, DDS',
-      cta:         'CHECK MY INSURANCE COVERAGE',
-    },
-    // Add more variants here — no code changes needed
+  // Keep these placeholders until approved provider content is supplied.
+  profile: {
+    photo: null,
+    photoLabel: 'Doctor photo',
+    bioPlaceholder: 'Provider bio placeholder — add approved experience, qualifications, and service area.',
+    reviewLabel: 'Verified review placeholder',
+    reviewQuote: 'Add verified patient feedback here.',
+    reviewAttribution: 'Patient Initial, City',
   },
 
-  // ── Admin listing metadata ────────────────────────────────────
+  faqs: [
+    {
+      q: 'Is this symptom screen a diagnosis?',
+      a: 'No. It is a private way to recognize common sleep-related symptoms. A qualified healthcare professional can evaluate sleep concerns and determine next steps.',
+    },
+    {
+      q: 'What happens after I recognize these symptoms?',
+      a: 'You can contact the practice to discuss your concerns and the appropriate evaluation pathway. A sleep study or home sleep test may be needed to diagnose sleep apnea.',
+    },
+  ],
+
+  // Every variant auto-generates LP, thank-you, below-target, city, and admin routes.
+  variants: {
+    v1: {
+      label: 'Symptom Self-Check — Navy / Teal',
+      theme: 'v1',
+      hero: '/assets/images/symptom-v1.jpg',
+      eyebrow: 'Symptom self-check',
+      headline: 'Do these sleep symptoms sound familiar?',
+      subheadline: 'Loud snoring, gasping, and waking exhausted deserve a closer look.',
+      cta: 'Start a private symptom check',
+      symptomTitle: 'Start with the signs you can recognize.',
+      symptomIntro: 'Select what sounds familiar. This screen is for awareness only.',
+      symptoms: [
+        { icon: 'sound', label: 'Loud or frequent snoring', desc: 'Especially when it disturbs a partner.' },
+        { icon: 'pause', label: 'Pauses in breathing', desc: 'Often noticed by someone else.' },
+        { icon: 'air', label: 'Waking gasping or choking', desc: 'A nighttime sign worth discussing.' },
+        { icon: 'sun', label: 'Tired after a full night', desc: 'Low energy can carry into the day.' },
+      ],
+    },
+    v2: {
+      label: 'The Morning After — Charcoal / Amber',
+      theme: 'v2',
+      hero: '/assets/images/symptom-v2.jpg',
+      eyebrow: 'The morning after',
+      headline: 'How did you wake up today?',
+      subheadline: 'Foggy. Headachy. Still not rested?',
+      cta: 'Review my symptoms',
+      symptomTitle: 'Morning signs to notice.',
+      symptomIntro: 'These symptoms can have many causes. They are worth discussing when they persist.',
+      symptoms: [
+        { icon: 'sun', label: 'Woke up unrefreshed', desc: 'Even after what seemed like a full night.' },
+        { icon: 'head', label: 'Morning headaches', desc: 'A common sign to mention at an evaluation.' },
+        { icon: 'drop', label: 'Dry mouth or sore throat', desc: 'Notice how often it happens on waking.' },
+        { icon: 'focus', label: 'Brain fog or irritability', desc: 'Sleep quality can affect your day.' },
+      ],
+    },
+    v3: {
+      label: 'Partner Signal — Midnight / Cyan',
+      theme: 'v3',
+      hero: '/assets/images/symptom-v3.jpg',
+      eyebrow: 'Partner signal',
+      headline: 'Your partner may notice the signs first.',
+      subheadline: 'Some sleep symptoms are easier for someone else to spot.',
+      cta: 'See what these signs may mean',
+      symptomTitle: 'What a bed partner may notice.',
+      symptomIntro: 'Use these observations to start a calm, private conversation.',
+      symptoms: [
+        { icon: 'sound', label: 'Loud or frequent snoring', desc: 'That interrupts their sleep too.' },
+        { icon: 'pause', label: 'Pauses in breathing', desc: 'Periods of quiet between breaths.' },
+        { icon: 'air', label: 'Gasping or choking sounds', desc: 'Sudden sounds during the night.' },
+        { icon: 'move', label: 'Restless movement', desc: 'Tossing, turning, or disrupted sleep.' },
+      ],
+    },
+    v4: {
+      label: 'Energy Debt — Light / Blue',
+      theme: 'v4',
+      hero: '/assets/images/symptom-v4.jpg',
+      eyebrow: 'Energy debt',
+      headline: 'Is your day running on empty?',
+      subheadline: 'Your energy symptoms may start the night before.',
+      cta: 'Take the energy check',
+      symptomTitle: 'Daytime signs to notice.',
+      symptomIntro: 'These patterns can make everyday life feel harder than it should.',
+      symptoms: [
+        { icon: 'battery', label: 'Afternoon crash', desc: 'Energy drops when you need it most.' },
+        { icon: 'focus', label: 'Trouble focusing', desc: 'Losing focus in routine moments.' },
+        { icon: 'spark', label: 'Low motivation', desc: 'Feeling drained before the day is over.' },
+        { icon: 'sun', label: 'Excessive daytime sleepiness', desc: 'Struggling to stay alert in the day.' },
+      ],
+    },
+    v5: {
+      label: 'Sleep Pattern Check — Indigo / Violet',
+      theme: 'v5',
+      hero: '/assets/images/symptom-v5.jpg',
+      eyebrow: 'Sleep pattern check',
+      headline: 'What is your sleep pattern saying?',
+      subheadline: 'Notice the symptoms. Understand the pattern.',
+      cta: 'Get my sleep pattern check',
+      symptomTitle: 'Tonight’s symptom check.',
+      symptomIntro: 'A private place to notice the patterns that may be affecting your rest.',
+      symptoms: [
+        { icon: 'moon', label: 'Waking up more than once', desc: 'Repeated interruptions can affect rest.' },
+        { icon: 'air', label: 'Waking short of breath', desc: 'A symptom to bring up with a provider.' },
+        { icon: 'move', label: 'Restless sleep', desc: 'Tossing and turning through the night.' },
+        { icon: 'sun', label: 'Tired even after sleeping', desc: 'Daytime sleepiness or low energy.' },
+      ],
+    },
+    v6: {
+      label: 'Partner Impact — Navy / Teal',
+      theme: 'v6',
+      hero: '/assets/images/symptom-v6.jpg',
+      eyebrow: 'Partner impact',
+      headline: 'Is their snoring keeping you awake?',
+      subheadline: 'One person’s sleep symptoms can affect both of you.',
+      cta: 'Start a private symptom check',
+      symptomTitle: 'Signs you may notice.',
+      symptomIntro: 'A respectful way to recognize sleep signs that affect the whole room.',
+      symptoms: [
+        { icon: 'sound', label: 'Loud or frequent snoring', desc: 'Noise that disrupts a partner’s rest.' },
+        { icon: 'pause', label: 'Pauses in breathing', desc: 'A noticeable break between breaths.' },
+        { icon: 'air', label: 'Gasping or choking sounds', desc: 'Sudden noises in the night.' },
+        { icon: 'move', label: 'Restless movement', desc: 'Sleep that looks visibly unsettled.' },
+      ],
+    },
+  },
+
   adminLabel: 'Dr. Willis Lay — Pantego Dental — Arlington, TX',
 };

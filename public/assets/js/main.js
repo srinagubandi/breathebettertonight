@@ -1,26 +1,31 @@
-/* ── BreatheBetterTonight.com — main.js ── */
+// Shared interactions for BreatheBetterTonight.com
+// The same small script supports every doctor, variant, city, TY, and TY-BT route.
 
-// FAQ accordion
-document.querySelectorAll('.faq-question').forEach(function(btn) {
-  btn.addEventListener('click', function() {
-    var item = this.closest('.faq-item');
-    var isOpen = item.classList.contains('open');
-    // Close all
-    document.querySelectorAll('.faq-item.open').forEach(function(el) {
-      el.classList.remove('open');
+// Accessible FAQ accordion: only one answer is expanded at a time.
+document.querySelectorAll('.faq-question').forEach((button) => {
+  button.addEventListener('click', () => {
+    const item = button.closest('.faq-item');
+    const isOpen = item.classList.contains('is-open');
+
+    document.querySelectorAll('.faq-item.is-open').forEach((openItem) => {
+      openItem.classList.remove('is-open');
+      const openButton = openItem.querySelector('.faq-question');
+      if (openButton) openButton.setAttribute('aria-expanded', 'false');
     });
-    // Open clicked if it was closed
-    if (!isOpen) item.classList.add('open');
+
+    if (!isOpen) {
+      item.classList.add('is-open');
+      button.setAttribute('aria-expanded', 'true');
+    }
   });
 });
 
-// Smooth scroll for anchor CTAs
-document.querySelectorAll('a[href^="#"]').forEach(function(a) {
-  a.addEventListener('click', function(e) {
-    var target = document.querySelector(this.getAttribute('href'));
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+// Anchor CTAs remain useful before a form integration is added.
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  anchor.addEventListener('click', (event) => {
+    const target = document.querySelector(anchor.getAttribute('href'));
+    if (!target) return;
+    event.preventDefault();
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });

@@ -4,6 +4,8 @@
  * Injects: title, theme class, GA4/GTM/Pixel placeholders, content.
  */
 
+const { renderChatLauncher } = require('./chat');
+
 function layout({ title, theme = 'v1', body, phone = '', phoneRaw = '' }) {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -23,6 +25,8 @@ function layout({ title, theme = 'v1', body, phone = '', phoneRaw = '' }) {
 
   <!-- ── Base styles ── -->
   <link rel="stylesheet" href="/assets/css/base.css" />
+  <link rel="stylesheet" href="/assets/css/symptom-lp.css" />
+  <link rel="stylesheet" href="/assets/css/chat-launcher.css" />
 
   <!-- ── Theme styles ── -->
   <link rel="stylesheet" href="/assets/css/theme-${theme}.css" />
@@ -84,7 +88,7 @@ function layout({ title, theme = 'v1', body, phone = '', phoneRaw = '' }) {
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
       ${phone}
     </a>
-    <a href="#ghl-form" class="header-cta btn-primary">FREE CONSULT</a>
+    <a href="#symptom-check" class="header-cta btn-primary">SYMPTOM CHECK</a>
   </header>
 
   <!-- ── Page content ── -->
@@ -101,17 +105,20 @@ function layout({ title, theme = 'v1', body, phone = '', phoneRaw = '' }) {
       <div class="footer-links">
         <a href="/privacy-policy">Privacy Policy</a>
         <span>·</span>
-        <a href="/terms">Terms of Service</a>
+        <a href="/terms-and-conditions">Terms &amp; Conditions</a>
       </div>
       <p class="footer-disclaimer">
-        * Insurance coverage varies. Results may vary. This website is for informational purposes only and does not constitute medical advice. Consult a qualified healthcare provider for diagnosis and treatment of sleep disorders. BreatheBetterTonight.com is a lead generation service connecting patients with licensed dental providers.
+        This website provides general symptom-awareness information and does not provide medical advice or a diagnosis. Consult a qualified healthcare professional about persistent sleep concerns.
       </p>
       <p class="footer-copy">© ${new Date().getFullYear()} BreatheBetterTonight.com — All rights reserved.</p>
     </div>
   </footer>
 
+  ${renderChatLauncher({ phone, phoneRaw })}
+
   <!-- ── Base JS ── -->
   <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/chat-launcher.js"></script>
 
 </body>
 </html>`;

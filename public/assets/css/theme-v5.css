@@ -1,0 +1,27 @@
+/* Variant 5 — Sleep Pattern Check: indigo / violet / aqua */
+:root {
+  --accent: #5FE7FF;
+  --accent-dark: #2CC7DE;
+  --header-bg: #07112D;
+  --header-phone-color: #ffffff;
+  --cta-bg: #5FE7FF;
+  --cta-color: #07112D;
+  --section-light-bg: #0D1740;
+  --card-bg: #111F4C;
+  --provider-bg: #080F2A;
+  --provider-card-bg: #101B43;
+  --review-bg: #17194C;
+  --next-step-bg: #080D25;
+  --button-secondary-bg: #665BE7;
+  --button-secondary-color: #ffffff;
+  --page-bg: #0B1231;
+  --heading-color: #ffffff;
+  --text-body: #DCE7FF;
+  --text-muted: #A9B8D9;
+}
+body { background: var(--page-bg); color: var(--text-body); }
+.theme-v5 .symptom-section, .theme-v5 .faq-section, .theme-v5 .medical-disclaimer { background: #0B1231; }
+.theme-v5 .symptom-card, .theme-v5 .provider-card, .theme-v5 .review-placeholder { border-color: rgba(95, 231, 255, .22); box-shadow: none; }
+.theme-v5 .symptom-copy h3, .theme-v5 .provider-copy h2, .theme-v5 .review-placeholder blockquote, .theme-v5 .faq-question { color: #ffffff; }
+.theme-v5 .screening-note, .theme-v5 .provider-bio, .theme-v5 .provider-location, .theme-v5 .review-attribution, .theme-v5 .faq-answer, .theme-v5 .medical-disclaimer { color: #A9B8D9; }
+.theme-v5 .doctor-photo { background: rgba(95,231,255,.09); border-color: rgba(95,231,255,.48); }
