@@ -239,3 +239,73 @@ body.design-quiet-minimal { --accent: #0A0A0A; --accent-dark: #000000; --section
   .design-pulse-grid .symptom-card { min-height: auto; }
   .design-quiet-minimal .symptom-hero-scrim { background: linear-gradient(180deg, rgba(255,255,255,.15) 0%, rgba(255,255,255,.85) 45%, rgba(255,255,255,.98) 100%); }
 }
+
+/* V11 · PDF Concept Dark Navy / Teal: high-contrast nighttime stack */
+body.design-concept-dark-teal { --accent: #10D0CF; --accent-dark: #009C9E; --section-light-bg: #061A2E; --heading-color: #FFFFFF; --text-body: #D0E3E8; --text-muted: #8FAEB9; }
+.design-concept-dark-teal { background: #041526; }
+.design-concept-dark-teal .symptom-hero { min-height: 660px; }
+.design-concept-dark-teal .symptom-hero-scrim { background: linear-gradient(90deg, rgba(2,15,30,.98) 0%, rgba(2,15,30,.86) 48%, rgba(2,15,30,.22) 78%); }
+.design-concept-dark-teal .symptom-hero h1 { max-width: 590px; font-size: clamp(3rem, 6vw, 5.7rem); }
+.design-concept-dark-teal .button-primary { border-radius: 5px; background: #10D0CF; color: #032038; box-shadow: 0 6px 0 #007D83; }
+.design-concept-dark-teal .symptom-section, .design-concept-dark-teal .provider-section, .design-concept-dark-teal .faq-section, .design-concept-dark-teal .medical-disclaimer { background: #061A2E; }
+.design-concept-dark-teal .symptom-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.design-concept-dark-teal .symptom-card { display: block; min-height: 196px; padding: 22px 17px; border: 1px solid rgba(16,208,207,.26); border-radius: 8px; background: linear-gradient(145deg, #0A2B47, #071D33); box-shadow: none; }
+.design-concept-dark-teal .symptom-card::before { display: block; margin-bottom: 10px; color: #10D0CF; font-size: .68rem; font-weight: 900; letter-spacing: .1em; content: 'SYMPTOM'; }
+.design-concept-dark-teal .symptom-icon { margin-bottom: 12px; background: rgba(16,208,207,.15); color: #10D0CF; }
+.design-concept-dark-teal .symptom-copy h3 { color: #fff; }
+.design-concept-dark-teal .symptom-copy p { color: #B7CDD6; }
+.design-concept-dark-teal .symptom-arrow { display: none; }
+.design-concept-dark-teal .screening-note { border-color: rgba(16,208,207,.32); background: rgba(16,208,207,.07); color: #CDE7E8; }
+.design-concept-dark-teal .provider-card { border: 1px solid rgba(16,208,207,.32); border-radius: 8px; background: #0A2B47; box-shadow: 0 20px 40px rgba(0,0,0,.22); }
+.design-concept-dark-teal .provider-card * { color: #fff !important; }
+.design-concept-dark-teal .provider-practice, .design-concept-dark-teal .review-label { color: #10D0CF !important; }
+.design-concept-dark-teal .review-placeholder { border-radius: 6px; background: rgba(16,208,207,.1); }
+.design-concept-dark-teal .next-step-section { background: #10D0CF; }
+.design-concept-dark-teal .next-step-section * { color: #032038 !important; }
+.design-concept-dark-teal .next-step-section .button-secondary { background: #032038; color: #fff !important; }
+.design-concept-dark-teal .faq-question { color: #fff; }
+
+/* V12 · PDF Concept Warm Dark / Amber: intimate amber and cream stack */
+body.design-concept-warm-amber { --accent: #F39B1E; --accent-dark: #C66D00; --section-light-bg: #FDF6EB; --heading-color: #2C221D; --text-body: #5A473A; --text-muted: #806B5A; }
+.design-concept-warm-amber { background: #FDF6EB; }
+.design-concept-warm-amber .symptom-hero { min-height: 680px; }
+.design-concept-warm-amber .symptom-hero-scrim { background: linear-gradient(90deg, rgba(37,27,21,.97) 0%, rgba(37,27,21,.82) 44%, rgba(37,27,21,.2) 78%); }
+.design-concept-warm-amber .symptom-hero h1, .design-concept-warm-amber h2 { font-family: Georgia, 'Times New Roman', serif; }
+.design-concept-warm-amber .symptom-hero h1 { max-width: 550px; font-size: clamp(3rem, 5.9vw, 5.6rem); }
+.design-concept-warm-amber .button-primary { border-radius: 5px; background: #F39B1E; color: #2C221D; }
+.design-concept-warm-amber .symptom-section { background: #FDF6EB; }
+.design-concept-warm-amber .symptom-grid { grid-template-columns: 1fr; max-width: 760px; margin-inline: auto; gap: 10px; }
+.design-concept-warm-amber .symptom-card { grid-template-columns: 46px minmax(0,1fr); min-height: 84px; border: 1px solid #E2C8A6; border-radius: 10px; background: #FFFCF7; box-shadow: 0 5px 12px rgba(75,45,20,.04); }
+.design-concept-warm-amber .symptom-card::before { display: grid; place-items: center; width: 24px; height: 24px; color: #fff; border-radius: 5px; background: #F39B1E; font-size: .8rem; font-weight: 900; content: '✓'; }
+.design-concept-warm-amber .symptom-icon { width: 0; height: 0; overflow: hidden; }
+.design-concept-warm-amber .symptom-arrow { color: #C66D00; }
+.design-concept-warm-amber .provider-section { background: #F6E9D7; }
+.design-concept-warm-amber .provider-card { border: 1px solid #E2C8A6; border-radius: 12px; box-shadow: none; }
+.design-concept-warm-amber .review-placeholder { border-radius: 9px; background: #FFF8ED; border-left: 4px solid #F39B1E; }
+.design-concept-warm-amber .next-step-section { background: #2C221D; }
+
+/* V13 · PDF Concept Clean Light / Blue: open clinical-trust education cards */
+body.design-concept-clean-blue { --accent: #0A61BA; --accent-dark: #074A8E; --section-light-bg: #EEF7FF; --heading-color: #0A315B; --text-body: #315A7C; --text-muted: #6989A4; }
+.design-concept-clean-blue { background: #F7FBFF; }
+.design-concept-clean-blue .symptom-hero { min-height: 570px; }
+.design-concept-clean-blue .symptom-hero-scrim { background: linear-gradient(90deg, rgba(247,251,255,.99) 0%, rgba(247,251,255,.91) 44%, rgba(247,251,255,.15) 76%); }
+.design-concept-clean-blue .symptom-hero-content { color: #0A315B; }
+.design-concept-clean-blue .symptom-hero h1 { max-width: 590px; color: #0A315B; font-size: clamp(2.8rem, 5.5vw, 5.3rem); }
+.design-concept-clean-blue .hero-subtitle, .design-concept-clean-blue .hero-microcopy { color: #537795; }
+.design-concept-clean-blue .button-primary { border-radius: 999px; background: #0A61BA; }
+.design-concept-clean-blue .symptom-section { background: #EEF7FF; }
+.design-concept-clean-blue .symptom-grid { grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.design-concept-clean-blue .symptom-card { display: block; min-height: 200px; border: 1px solid #CDE3F7; border-radius: 14px; background: #fff; box-shadow: 0 8px 20px rgba(27,94,149,.08); text-align: center; }
+.design-concept-clean-blue .symptom-card::before { display: block; margin-bottom: 12px; color: #0A61BA; font-size: .72rem; font-weight: 900; letter-spacing: .08em; content: 'NOTICE'; }
+.design-concept-clean-blue .symptom-icon { margin: 0 auto 13px; background: #E4F1FC; color: #0A61BA; }
+.design-concept-clean-blue .symptom-arrow { display: none; }
+.design-concept-clean-blue .provider-card { border: 1px solid #CDE3F7; border-radius: 16px; box-shadow: none; }
+.design-concept-clean-blue .review-placeholder { border-radius: 12px; background: #EEF7FF; }
+.design-concept-clean-blue .next-step-section { background: #0A61BA; }
+
+@media (max-width: 759px) {
+  .design-concept-dark-teal .symptom-grid, .design-concept-clean-blue .symptom-grid { grid-template-columns: 1fr; }
+  .design-concept-dark-teal .symptom-card, .design-concept-clean-blue .symptom-card { min-height: auto; text-align: left; }
+  .design-concept-clean-blue .symptom-icon { margin: 0 0 12px; }
+  .design-concept-warm-amber .symptom-card { padding: 15px; }
+}
