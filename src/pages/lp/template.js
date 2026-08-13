@@ -31,8 +31,11 @@ function renderLP(doctor, variantSlug, citySlug) {
   const phone = resolvePhone(doctor, citySlug);
   const phoneRaw = phone.replace(/\D/g, '');
   const profile = doctor.profile;
+  const designSystem = variant.designSystem || 'default';
+  // All designs deliberately share this approved content; only structure and styling vary.
+  const content = doctor.sharedContent || variant;
 
-  const symptomCards = variant.symptoms.map((symptom, index) => `
+  const symptomCards = content.symptoms.map((symptom, index) => `
     <article class="symptom-card" data-symptom-index="${index}">
       <div class="symptom-icon">${icon(symptom.icon)}</div>
       <div class="symptom-copy">
@@ -53,14 +56,15 @@ function renderLP(doctor, variantSlug, citySlug) {
     : `<span class="doctor-photo-placeholder" aria-hidden="true">DR<br>PHOTO</span>`;
 
   const body = `
+    <div class="lp-shell ds-${designSystem}">
     <section class="symptom-hero" id="top">
       <div class="symptom-hero-media" style="background-image:url('${variant.hero}');"></div>
       <div class="symptom-hero-scrim"></div>
       <div class="symptom-hero-content container">
-        <p class="eyebrow">${variant.eyebrow}</p>
-        <h1>${variant.headline}</h1>
-        <p class="hero-subtitle">${variant.subheadline}</p>
-        <a href="#symptom-check" class="button button-primary">${variant.cta}<span aria-hidden="true">→</span></a>
+        <p class="eyebrow">${content.eyebrow}</p>
+        <h1>${content.headline}</h1>
+        <p class="hero-subtitle">${content.subheadline}</p>
+        <a href="#symptom-check" class="button button-primary">${content.cta}<span aria-hidden="true">→</span></a>
         <p class="hero-microcopy">Private, pressure-free symptom awareness</p>
       </div>
     </section>
@@ -68,8 +72,8 @@ function renderLP(doctor, variantSlug, citySlug) {
     <section class="symptom-section" id="symptom-check">
       <div class="container section-narrow">
         <p class="eyebrow eyebrow-accent">Private symptom check</p>
-        <h2>${variant.symptomTitle}</h2>
-        <p class="section-intro">${variant.symptomIntro}</p>
+        <h2>${content.symptomTitle}</h2>
+        <p class="section-intro">${content.symptomIntro}</p>
         <div class="symptom-grid">${symptomCards}</div>
         <div class="screening-note">
           <span aria-hidden="true">✓</span>
@@ -121,11 +125,13 @@ function renderLP(doctor, variantSlug, citySlug) {
 
     <section class="medical-disclaimer">
       <div class="container"><p>This symptom screen is not a diagnosis and does not replace medical advice. A qualified healthcare professional can evaluate sleep concerns and recommend appropriate next steps.</p></div>
-    </section>`;
+    </section>
+    </div>`;
 
   return layout({
-    title: `${variant.headline} — ${doctor.name}, ${cityLabel}`,
+    title: `${content.headline} — ${doctor.name}, ${cityLabel}`,
     theme: variant.theme,
+    designSystem,
     body,
     phone,
     phoneRaw,

@@ -1,0 +1,241 @@
+/*
+ * Design Systems V3
+ * Six visually distinct LP systems. The top phone treatment intentionally uses
+ * Seahawks blue / green across all variants as the shared call-to-action rule.
+ */
+:root { --phone-blue: #002244; --phone-green: #69BE28; }
+
+/* Shared high-visibility top phone treatment */
+.design-header { min-height: 58px; padding: 8px 14px; background: var(--phone-blue) !important; border: 0; box-shadow: 0 2px 10px rgba(0, 0, 0, .16); }
+.design-header .top-phone { display: inline-flex; align-items: center; gap: 8px; min-height: 38px; padding: 0 14px; background: var(--phone-blue) !important; border: 1px solid rgba(105, 190, 40, .55); border-radius: 999px; color: var(--phone-green) !important; font-size: .88rem; font-weight: 900; letter-spacing: .025em; text-decoration: none; }
+.design-header .top-phone svg { fill: var(--phone-green); }
+.design-header .header-cta { border: 1px solid rgba(255,255,255,.33); background: rgba(255,255,255,.1) !important; color: #fff !important; box-shadow: none; }
+
+/* V1 · Signal Check: dark editorial / assessment dashboard */
+body.design-signal-check { --accent: #16B8B5; --accent-dark: #0A8989; --section-light-bg: #F3F9FA; --heading-color: #06243B; --text-body: #28495C; --text-muted: #607987; }
+.design-signal-check .symptom-hero { min-height: 660px; }
+.design-signal-check .symptom-hero-scrim { background: linear-gradient(90deg, rgba(0,24,43,.97) 0%, rgba(0,24,43,.88) 44%, rgba(0,24,43,.25) 76%); }
+.design-signal-check .symptom-hero h1 { max-width: 560px; font-size: clamp(2.8rem, 5.4vw, 5.35rem); }
+.design-signal-check .symptom-section { background: linear-gradient(180deg, #F6FBFC 0%, #EAF6F8 100%); }
+.design-signal-check .symptom-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.design-signal-check .symptom-card { border-radius: 10px; border-left: 4px solid var(--accent); box-shadow: none; }
+.design-signal-check .provider-card { border-radius: 10px; box-shadow: 0 18px 44px rgba(5, 35, 55, .08); }
+.design-signal-check .next-step-section { background: #06243B; }
+
+/* V2 · The Morning After: warm editorial magazine */
+body.design-morning-after { --accent: #B94E23; --accent-dark: #893718; --section-light-bg: #FBF3E7; --heading-color: #271C18; --text-body: #4B3930; --text-muted: #7D6557; }
+.design-morning-after { background: #FFF9F0; }
+.design-morning-after .symptom-hero { min-height: 690px; }
+.design-morning-after .symptom-hero-scrim { background: linear-gradient(90deg, rgba(35,27,23,.97) 0%, rgba(35,27,23,.84) 43%, rgba(35,27,23,.18) 76%); }
+.design-morning-after .symptom-hero h1, .design-morning-after h2 { font-family: Georgia, 'Times New Roman', serif; font-weight: 700; letter-spacing: -.045em; }
+.design-morning-after .symptom-hero h1 { max-width: 630px; font-size: clamp(3rem, 6vw, 5.6rem); }
+.design-morning-after .button-primary { border-radius: 2px; background: #C95D2B; }
+.design-morning-after .symptom-section { background: #FFF8ED; }
+.design-morning-after .symptom-grid { position: relative; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding-top: 16px; }
+.design-morning-after .symptom-grid::before { position: absolute; top: 37px; right: 10%; left: 10%; height: 2px; background: #C8A58D; content: ''; }
+.design-morning-after .symptom-card { position: relative; z-index: 1; display: block; min-height: 188px; padding: 22px 16px; background: transparent; border: 0; box-shadow: none; text-align: center; }
+.design-morning-after .symptom-icon { margin: 0 auto 12px; border-radius: 50%; background: #F5E4D3; color: #B94E23; }
+.design-morning-after .symptom-arrow { display: none; }
+.design-morning-after .provider-section { background: #F3E5D3; }
+.design-morning-after .provider-card { border: 2px solid #D9BEA4; border-radius: 3px; box-shadow: none; }
+.design-morning-after .review-placeholder { border-radius: 3px; background: #B94E23; color: #fff; }
+.design-morning-after .review-placeholder * { color: #fff !important; }
+.design-morning-after .next-step-section { background: #261E1A; }
+
+/* V3 · Partner Signal: conversational split / speech-bubble cards */
+body.design-partner-signal { --accent: #F0786C; --accent-dark: #CD5B54; --section-light-bg: #F6F0FB; --heading-color: #332147; --text-body: #534260; --text-muted: #7B6A86; }
+.design-partner-signal .symptom-hero { min-height: 640px; }
+.design-partner-signal .symptom-hero-scrim { background: linear-gradient(90deg, rgba(47,31,63,.9) 0%, rgba(47,31,63,.73) 40%, rgba(47,31,63,.42) 68%, rgba(47,31,63,.18) 100%); }
+.design-partner-signal .symptom-section { background: #F6F0FB; }
+.design-partner-signal .symptom-grid { gap: 16px; }
+.design-partner-signal .symptom-card { grid-template-columns: 44px minmax(0, 1fr); border: 0; border-radius: 22px 22px 22px 4px; background: #fff; box-shadow: 0 10px 25px rgba(58, 35, 75, .12); }
+.design-partner-signal .symptom-card:nth-child(even) { margin-left: 11%; border-radius: 22px 22px 4px 22px; background: #EEDFF4; }
+.design-partner-signal .symptom-card:nth-child(even) .symptom-icon { background: #fff; }
+.design-partner-signal .symptom-arrow { display: none; }
+.design-partner-signal .provider-card { grid-template-columns: 1fr; border-radius: 28px; background: #fff; }
+.design-partner-signal .provider-profile { border-bottom: 1px solid #E8DBF0; padding-bottom: 18px; }
+.design-partner-signal .review-placeholder { background: #39264C; }
+.design-partner-signal .review-placeholder * { color: #fff !important; }
+.design-partner-signal .next-step-section { background: #39264C; }
+
+/* V4 · Energy Audit: light utility dashboard / energetic meters */
+body.design-energy-audit { --accent: #62A900; --accent-dark: #367A00; --section-light-bg: #F6F8F0; --heading-color: #133F33; --text-body: #355949; --text-muted: #6B8175; }
+.design-energy-audit { background: #FFFDF8; }
+.design-energy-audit .symptom-hero { min-height: 570px; background: #FFFDF8; }
+.design-energy-audit .symptom-hero-scrim { background: linear-gradient(90deg, rgba(255,253,248,.99) 0%, rgba(255,253,248,.92) 43%, rgba(255,253,248,.2) 75%); }
+.design-energy-audit .symptom-hero-content { color: #133F33; }
+.design-energy-audit .symptom-hero h1 { color: #133F33; max-width: 590px; font-size: clamp(2.75rem, 5.4vw, 5.25rem); }
+.design-energy-audit .hero-subtitle, .design-energy-audit .hero-microcopy { color: #496858; }
+.design-energy-audit .symptom-section { background: #F6F8F0; }
+.design-energy-audit .symptom-grid { grid-template-columns: repeat(4, minmax(0,1fr)); }
+.design-energy-audit .symptom-card { display: block; min-height: 190px; border: 1px solid #D7E4D6; border-radius: 14px; background: #fff; box-shadow: none; }
+.design-energy-audit .symptom-card::after { display: block; width: 74%; height: 7px; margin: 18px auto 0; border-radius: 999px; background: linear-gradient(90deg, #50B6E7 0 54%, #DDE7DD 54%); content: ''; }
+.design-energy-audit .symptom-card:nth-child(2)::after { background: linear-gradient(90deg, #62A900 0 60%, #DDE7DD 60%); }
+.design-energy-audit .symptom-card:nth-child(3)::after { background: linear-gradient(90deg, #50B6E7 0 48%, #DDE7DD 48%); }
+.design-energy-audit .symptom-card:nth-child(4)::after { background: linear-gradient(90deg, #62A900 0 64%, #DDE7DD 64%); }
+.design-energy-audit .symptom-icon { margin-bottom: 13px; background: #E9F6DD; color: #4A9800; }
+.design-energy-audit .symptom-arrow { display: none; }
+.design-energy-audit .provider-card { border-radius: 14px; border: 1px solid #D7E4D6; box-shadow: none; }
+.design-energy-audit .next-step-section { background: #0E4B35; }
+
+/* V5 · Night Pattern: premium dark-glass timeline */
+body.design-night-pattern { --accent: #87D9FF; --accent-dark: #5CA6F2; --section-light-bg: #09133A; --heading-color: #fff; --text-body: #D8E7FF; --text-muted: #9EB4D6; }
+.design-night-pattern { background: radial-gradient(circle at 20% 0%, #14295E, #070E29 58%); }
+.design-night-pattern .symptom-hero { min-height: 700px; }
+.design-night-pattern .symptom-hero-scrim { background: linear-gradient(90deg, rgba(5,14,39,.95) 0%, rgba(5,14,39,.83) 43%, rgba(5,14,39,.32) 76%); }
+.design-night-pattern .symptom-hero h1 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(3rem, 5.8vw, 5.6rem); max-width: 620px; }
+.design-night-pattern .symptom-section, .design-night-pattern .provider-section, .design-night-pattern .faq-section, .design-night-pattern .medical-disclaimer { background: transparent; }
+.design-night-pattern .symptom-grid { position: relative; grid-template-columns: repeat(4, 1fr); gap: 13px; }
+.design-night-pattern .symptom-card { display: block; min-height: 188px; padding: 24px 18px; border: 1px solid rgba(146, 187, 255, .24); border-radius: 18px; background: linear-gradient(145deg, rgba(34, 54, 113, .78), rgba(14, 24, 65, .78)); box-shadow: 0 16px 33px rgba(0,0,0,.24); }
+.design-night-pattern .symptom-card::before { display: block; width: 12px; height: 12px; margin: 0 0 15px; border: 3px solid #EFC86F; border-radius: 50%; box-shadow: 0 0 0 5px rgba(239,200,111,.14); content: ''; }
+.design-night-pattern .symptom-icon { background: rgba(135,217,255,.15); color: #87D9FF; }
+.design-night-pattern .symptom-copy h3, .design-night-pattern .symptom-copy p { color: #fff; }
+.design-night-pattern .symptom-copy p { color: #B8C8E2; }
+.design-night-pattern .symptom-arrow { display: none; }
+.design-night-pattern .provider-card { border: 1px solid rgba(146, 187, 255, .24); border-radius: 18px; background: rgba(14, 24, 65, .84); box-shadow: none; }
+.design-night-pattern .review-placeholder { background: rgba(103, 82, 188, .22); }
+.design-night-pattern .review-placeholder * { color: #fff !important; }
+.design-night-pattern .next-step-section { background: #060B20; }
+.design-night-pattern .faq-question { color: #fff; }
+
+/* V6 · Shared Sleep: high-empathy home story with coral accents */
+body.design-shared-sleep { --accent: #F25E54; --accent-dark: #C8443C; --section-light-bg: #F7F5ED; --heading-color: #092A4A; --text-body: #37566B; --text-muted: #6F8490; }
+.design-shared-sleep .symptom-hero { min-height: 660px; }
+.design-shared-sleep .symptom-hero-scrim { background: linear-gradient(90deg, rgba(4,35,71,.97) 0%, rgba(4,35,71,.84) 45%, rgba(4,35,71,.22) 79%); }
+.design-shared-sleep .symptom-hero h1 { max-width: 600px; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.9rem, 5.7vw, 5.55rem); }
+.design-shared-sleep .symptom-section { background: #F7F5ED; }
+.design-shared-sleep .symptom-grid { grid-template-columns: 1fr 1fr; gap: 18px; }
+.design-shared-sleep .symptom-card { border: 0; border-radius: 0; background: transparent; box-shadow: none; border-bottom: 1px solid #D6DEDB; }
+.design-shared-sleep .symptom-icon { border-radius: 50%; background: #FFE6E3; color: #E5534A; }
+.design-shared-sleep .symptom-arrow { color: #F25E54; }
+.design-shared-sleep .provider-section { background: #E9F5F4; }
+.design-shared-sleep .provider-card { position: relative; top: -24px; border: 0; border-radius: 8px; box-shadow: 0 20px 40px rgba(8,42,71,.12); }
+.design-shared-sleep .review-placeholder { border-left: 5px solid #F25E54; border-radius: 0; background: #fff7f5; }
+.design-shared-sleep .next-step-section { background: #082A4A; }
+
+/* Responsive differences kept deliberate, not merely scaled down */
+@media (min-width: 760px) {
+  .design-morning-after .design-header { justify-content: center; }
+  .design-morning-after .design-header .top-phone { position: absolute; left: 50%; transform: translateX(-50%); }
+  .design-partner-signal .design-header { justify-content: space-between; }
+  .design-energy-audit .design-header { min-height: 46px; }
+  .design-energy-audit .design-header .top-phone { margin-inline: auto; }
+  .design-night-pattern .design-header { margin: 18px auto -74px; width: min(1120px, calc(100% - 80px)); border: 1px solid rgba(135,217,255,.35); border-radius: 18px; background: rgba(7,15,44,.78) !important; backdrop-filter: blur(13px); }
+  .design-night-pattern .symptom-hero { padding-top: 52px; }
+  .design-shared-sleep .design-header .top-phone { position: absolute; top: 14px; right: 28px; min-height: 54px; box-shadow: 0 12px 30px rgba(0,0,0,.24); }
+}
+
+@media (max-width: 759px) {
+  .design-header { position: relative; min-height: 56px; }
+  .design-header .top-phone { min-height: 37px; padding-inline: 13px; font-size: .83rem; }
+  .design-header .header-cta { font-size: .62rem; }
+  .design-signal-check .symptom-hero, .design-morning-after .symptom-hero, .design-partner-signal .symptom-hero, .design-night-pattern .symptom-hero, .design-shared-sleep .symptom-hero { min-height: 610px; }
+  .design-signal-check .symptom-hero-scrim, .design-morning-after .symptom-hero-scrim, .design-partner-signal .symptom-hero-scrim, .design-night-pattern .symptom-hero-scrim, .design-shared-sleep .symptom-hero-scrim { background: linear-gradient(180deg, rgba(5,14,32,.18) 0%, rgba(5,14,32,.8) 44%, rgba(5,14,32,.97) 100%); }
+  .design-morning-after .symptom-grid, .design-energy-audit .symptom-grid, .design-night-pattern .symptom-grid { grid-template-columns: 1fr; }
+  .design-morning-after .symptom-grid::before { top: 5%; bottom: 5%; left: 21px; width: 2px; height: auto; }
+  .design-morning-after .symptom-card { display: grid; grid-template-columns: 42px 1fr; min-height: auto; gap: 13px; padding: 14px 8px; text-align: left; }
+  .design-morning-after .symptom-icon { margin: 0; }
+  .design-energy-audit .symptom-card, .design-night-pattern .symptom-card { min-height: auto; }
+  .design-partner-signal .symptom-card:nth-child(even) { margin-left: 0; }
+  .design-shared-sleep .symptom-grid { grid-template-columns: 1fr; gap: 4px; }
+  .design-night-pattern .symptom-hero-content { padding-top: 92px; }
+  .design-night-pattern .design-header { background: #07112D !important; }
+  .design-shared-sleep .design-header .top-phone { border-radius: 12px; }
+}
+
+/* V7 · Proof Wall: confident blue/cream alternating evidence blocks */
+body.design-proof-wall { --accent: #E8A31A; --accent-dark: #B57600; --section-light-bg: #FDF8EA; --heading-color: #102A43; --text-body: #40566A; --text-muted: #6E7D88; }
+.design-proof-wall { background: #FDF8EA; }
+.design-proof-wall .symptom-hero { min-height: 630px; }
+.design-proof-wall .symptom-hero-scrim { background: linear-gradient(90deg, rgba(16,42,67,.96) 0%, rgba(16,42,67,.78) 46%, rgba(16,42,67,.2) 78%); }
+.design-proof-wall .symptom-hero h1 { max-width: 600px; font-size: clamp(3rem, 5.9vw, 5.55rem); }
+.design-proof-wall .symptom-section { background: #FDF8EA; }
+.design-proof-wall .symptom-grid { grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid #DECFA5; }
+.design-proof-wall .symptom-card { display: block; min-height: 220px; padding: 25px 20px; border: 0; border-right: 1px solid #DECFA5; border-radius: 0; background: #FFFDF6; box-shadow: none; }
+.design-proof-wall .symptom-card:nth-child(even) { background: #EDF4F8; }
+.design-proof-wall .symptom-card:last-child { border-right: 0; }
+.design-proof-wall .symptom-card::before { display: block; color: #E8A31A; font-size: .72rem; font-weight: 900; letter-spacing: .12em; content: 'SYMPTOM SIGNAL'; }
+.design-proof-wall .symptom-icon { margin: 15px 0 12px; background: #102A43; color: #fff; }
+.design-proof-wall .symptom-arrow { display: none; }
+.design-proof-wall .provider-card { border: 0; border-top: 6px solid #E8A31A; border-radius: 0; background: #102A43; }
+.design-proof-wall .provider-card * { color: #fff !important; }
+.design-proof-wall .provider-practice, .design-proof-wall .review-label { color: #F2C558 !important; }
+.design-proof-wall .doctor-photo { background: #FDF8EA; }
+.design-proof-wall .review-placeholder { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); }
+.design-proof-wall .next-step-section { background: #E8A31A; }
+.design-proof-wall .next-step-section .button-secondary { background: #102A43; }
+
+/* V8 · Calm Checklist: sage paper, oversized ticks, soft asymmetric cards */
+body.design-calm-checklist { --accent: #2F7D65; --accent-dark: #18523F; --section-light-bg: #EFF4EB; --heading-color: #223D32; --text-body: #456052; --text-muted: #728276; }
+.design-calm-checklist { background: #F9F7F0; }
+.design-calm-checklist .symptom-hero { min-height: 590px; }
+.design-calm-checklist .symptom-hero-scrim { background: linear-gradient(90deg, rgba(249,247,240,.98) 0%, rgba(249,247,240,.87) 45%, rgba(249,247,240,.15) 76%); }
+.design-calm-checklist .symptom-hero-content { color: #223D32; }
+.design-calm-checklist .symptom-hero h1 { color: #223D32; max-width: 590px; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.85rem, 5.6vw, 5.35rem); }
+.design-calm-checklist .hero-subtitle, .design-calm-checklist .hero-microcopy { color: #5E7668; }
+.design-calm-checklist .button-primary { border-radius: 999px; background: #2F7D65; }
+.design-calm-checklist .symptom-section { background: #EFF4EB; }
+.design-calm-checklist .symptom-grid { grid-template-columns: 1.1fr .9fr; gap: 18px; }
+.design-calm-checklist .symptom-card { grid-template-columns: 54px minmax(0,1fr); min-height: 110px; padding: 23px; border: 1px solid #CED9C9; border-radius: 6px 24px 24px 24px; background: #FBFCF7; box-shadow: 0 9px 24px rgba(40,76,57,.06); }
+.design-calm-checklist .symptom-card:nth-child(even) { transform: translateX(20px); border-radius: 24px 6px 24px 24px; background: #E2EEDF; }
+.design-calm-checklist .symptom-icon { width: 50px; height: 50px; border-radius: 50%; background: #2F7D65; color: #fff; }
+.design-calm-checklist .symptom-icon::after { position: absolute; color: #fff; font-size: .9rem; content: '✓'; }
+.design-calm-checklist .symptom-icon svg { width: 0; height: 0; }
+.design-calm-checklist .symptom-arrow { display: none; }
+.design-calm-checklist .provider-section { background: #F9F7F0; }
+.design-calm-checklist .provider-card { border: 1px solid #CED9C9; border-radius: 24px; box-shadow: none; }
+.design-calm-checklist .review-placeholder { background: #E2EEDF; border-radius: 18px; }
+.design-calm-checklist .next-step-section { background: #2F7D65; }
+
+/* V9 · Pulse Grid: coral/fuchsia offset collage and high-energy type */
+body.design-pulse-grid { --accent: #F04E68; --accent-dark: #C62950; --section-light-bg: #FFF0F4; --heading-color: #38162B; --text-body: #663449; --text-muted: #8E6575; }
+.design-pulse-grid { background: #FFF5F7; }
+.design-pulse-grid .symptom-hero { min-height: 620px; }
+.design-pulse-grid .symptom-hero-scrim { background: linear-gradient(90deg, rgba(56,22,43,.95) 0%, rgba(56,22,43,.76) 41%, rgba(56,22,43,.24) 76%); }
+.design-pulse-grid .symptom-hero h1 { max-width: 650px; font-size: clamp(3rem, 6.1vw, 5.8rem); font-weight: 900; letter-spacing: -.07em; }
+.design-pulse-grid .button-primary { border-radius: 5px; background: #F04E68; box-shadow: 8px 8px 0 #7B1F65; }
+.design-pulse-grid .symptom-section { background: #FFF0F4; }
+.design-pulse-grid .symptom-grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
+.design-pulse-grid .symptom-card { min-height: 160px; border: 2px solid #38162B; border-radius: 0; background: #fff; box-shadow: 8px 8px 0 #F04E68; }
+.design-pulse-grid .symptom-card:nth-child(2) { transform: translateY(24px); background: #FAD6E0; }
+.design-pulse-grid .symptom-card:nth-child(3) { transform: translateY(-12px); background: #FEE7BD; }
+.design-pulse-grid .symptom-card:nth-child(4) { transform: translateY(13px); background: #E7D6F6; }
+.design-pulse-grid .symptom-icon { border-radius: 6px; background: #38162B; color: #fff; }
+.design-pulse-grid .symptom-arrow { color: #F04E68; }
+.design-pulse-grid .provider-card { border: 3px solid #38162B; border-radius: 0; box-shadow: 10px 10px 0 #F04E68; }
+.design-pulse-grid .review-placeholder { border-radius: 0; background: #38162B; }
+.design-pulse-grid .review-placeholder * { color: #fff !important; }
+.design-pulse-grid .next-step-section { background: #7B1F65; }
+
+/* V10 · Quiet Minimal: black/white typographic reduction */
+body.design-quiet-minimal { --accent: #0A0A0A; --accent-dark: #000000; --section-light-bg: #FFFFFF; --heading-color: #0A0A0A; --text-body: #3F3F3F; --text-muted: #6F6F6F; }
+.design-quiet-minimal { background: #fff; }
+.design-quiet-minimal .symptom-hero { min-height: 630px; }
+.design-quiet-minimal .symptom-hero-scrim { background: linear-gradient(90deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.86) 47%, rgba(255,255,255,.15) 78%); }
+.design-quiet-minimal .symptom-hero-content { color: #0A0A0A; }
+.design-quiet-minimal .symptom-hero h1 { color: #0A0A0A; max-width: 640px; font-size: clamp(3rem, 6vw, 5.8rem); font-weight: 800; letter-spacing: -.075em; }
+.design-quiet-minimal .hero-subtitle, .design-quiet-minimal .hero-microcopy { color: #545454; }
+.design-quiet-minimal .button-primary { border: 2px solid #0A0A0A; border-radius: 0; background: #fff; color: #0A0A0A; box-shadow: none; }
+.design-quiet-minimal .symptom-section { background: #fff; }
+.design-quiet-minimal .symptom-grid { gap: 0; border-top: 1px solid #111; }
+.design-quiet-minimal .symptom-card { min-height: 108px; border: 0; border-bottom: 1px solid #111; border-radius: 0; box-shadow: none; background: #fff; }
+.design-quiet-minimal .symptom-icon { background: #0A0A0A; color: #fff; border-radius: 50%; }
+.design-quiet-minimal .symptom-arrow { color: #0A0A0A; }
+.design-quiet-minimal .provider-section { background: #0A0A0A; }
+.design-quiet-minimal .provider-card { border: 1px solid #fff; border-radius: 0; background: #0A0A0A; box-shadow: none; }
+.design-quiet-minimal .provider-card * { color: #fff !important; }
+.design-quiet-minimal .provider-practice, .design-quiet-minimal .review-label { color: #D8D8D8 !important; }
+.design-quiet-minimal .doctor-photo { background: #fff; }
+.design-quiet-minimal .review-placeholder { border: 1px solid #666; border-radius: 0; background: transparent; }
+.design-quiet-minimal .next-step-section { background: #fff; color: #0A0A0A; border-top: 1px solid #0A0A0A; border-bottom: 1px solid #0A0A0A; }
+.design-quiet-minimal .next-step-section h2, .design-quiet-minimal .next-step-section .eyebrow, .design-quiet-minimal .next-step-section p:not(.eyebrow) { color: #0A0A0A !important; }
+.design-quiet-minimal .button-secondary { border: 2px solid #0A0A0A; border-radius: 0; background: #0A0A0A; color: #fff; }
+
+@media (max-width: 759px) {
+  .design-proof-wall .symptom-grid, .design-calm-checklist .symptom-grid, .design-pulse-grid .symptom-grid { grid-template-columns: 1fr; }
+  .design-proof-wall .symptom-card { min-height: auto; border-right: 0; border-bottom: 1px solid #DECFA5; }
+  .design-calm-checklist .symptom-card:nth-child(even) { transform: none; }
+  .design-pulse-grid .symptom-card:nth-child(2), .design-pulse-grid .symptom-card:nth-child(3), .design-pulse-grid .symptom-card:nth-child(4) { transform: none; }
+  .design-pulse-grid .symptom-card { min-height: auto; }
+  .design-quiet-minimal .symptom-hero-scrim { background: linear-gradient(180deg, rgba(255,255,255,.15) 0%, rgba(255,255,255,.85) 45%, rgba(255,255,255,.98) 100%); }
+}
