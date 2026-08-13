@@ -182,3 +182,7 @@ The first V4 visual QA confirms V7 and V10 are materially different implementati
 | 10 | Passed ten-LP structural accessibility/content regression: shared headline, CTA, symptoms, phone treatment, chat, legal links, FAQ semantics, language, viewport, and no-form policy | Complete |
 
 The reusable `qa:basics` package command now executes the ten-LP accessibility/content check when a local server is running. `qa:responsive` and `qa:supporting` include all ten variants.
+
+## Deployment Record — Ten-LP Release
+
+Version **`v2.1.0`** was committed on `feature/unique-lp-design-systems-v3`, merged to `main`, tagged, and pushed to GitHub. Railway deployed the ten-LP release from `main`. Production smoke tests confirmed the shared approved symptom content on **V1–V10**; V7–V10 were retried successfully after transient Railway SSL timeouts. Local route regression passed **180/180** generated LP, city, TY, and TY-BT routes. The reusable production-verification helper scripts are retained under `scripts/` to avoid rebuilding validation logic in future releases.
