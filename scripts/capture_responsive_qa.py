@@ -17,7 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "qa" / "responsive"
 PORT = 8091
 BASE_URL = f"http://127.0.0.1:{PORT}"
-VARIANTS = ["v1", "v2", "v3", "v4", "v5", "v6"]
+# Keep this list aligned with the approved ten-design system in src/data/dr-lay.js.
+VARIANTS = [f"v{number}" for number in range(1, 11)]
 
 MOBILE = {
     "viewport": {"width": 414, "height": 896},
@@ -73,6 +74,12 @@ def capture() -> None:
                         raise AssertionError(f"Removed GHL placeholder found in {variant} {label}")
                     if not page.locator('a[href="/privacy-policy"]').count() or not page.locator('a[href="/terms-and-conditions"]').count():
                         raise AssertionError(f"Shared legal links missing in {variant} {label}")
+                    top_phone = page.locator('.top-phone')
+                    if not top_phone.count():
+                        raise AssertionError(f"Top phone treatment missing in {variant} {label}")
+                    phone_colors = top_phone.evaluate("el => ({ background: getComputedStyle(el).backgroundColor, color: getComputedStyle(el).color })")
+                    if phone_colors['background'] != 'rgb(0, 34, 68)' or phone_colors['color'] != 'rgb(105, 190, 40)':
+                        raise AssertionError(f"Incorrect top-phone colors in {variant} {label}: {phone_colors}")
                     launcher = page.locator('.chat-launcher')
                     if not launcher.count():
                         raise AssertionError(f"Chat launcher missing in {variant} {label}")

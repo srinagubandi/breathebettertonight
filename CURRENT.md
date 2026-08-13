@@ -153,3 +153,32 @@ All required symptom-led LP code, responsive styles, original hero assets, share
 ## Deployment Record — 2026-08-13
 
 Version **`v2.0.0`** was committed on `feature/symptom-led-lps-v2` as `0157f11`, merged to `main` as `b5ca675`, tagged `v2.0.0`, and pushed to GitHub. Railway deployed the new code from `main`; the production response contains `symptom-lp.css`, `chat-launcher.css`, the Partner Impact V6 content, and the shared Terms & Conditions link. A production regression test then passed across **all 108 generated LP, city, TY, and TY-BT routes**. Both `/privacy-policy` and `/terms-and-conditions` returned HTTP 200.
+
+## Design Systems V3 — In Progress
+
+The current feature branch is `feature/unique-lp-design-systems-v3`. Six unique systems are specified in `docs/design-systems-v3.md` and implemented through each variant’s `designSystem` configuration plus the reusable `design-systems-v3.css` layer. The top phone number treatment is now standardized across every variant as Seahawks blue `#002244` with Seahawks green `#69BE28` text, while all other layouts, palettes, section rhythms, and card systems are distinct. The six final responsive comparison boards are stored in `research/symptom_mockups/v3_design_systems/` and must not be regenerated unless the user changes the design direction.
+
+The first V3 visual QA confirms the new systems are materially distinct: V1 renders as a compact navy/teal mobile assessment dashboard with two-column recognition cards, while V2 renders as a warm editorial desktop layout with a full-width centered phone strip and horizontal morning-symptom timeline. Both show the required Seahawks blue / green phone treatment at the top and retain the provider, bio, testimonial, chat, legal, and no-form requirements.
+V5 mobile and V6 desktop visual QA also passed. V5 is visibly differentiated through its premium dark indigo timeline/card system, and V6 is visibly differentiated through its cobalt-and-cream partner-impact story layout with the approved original snoring-couple hero. Both maintain the high-contrast blue/green phone treatment at the top, readable provider placeholders, no survey/form block, chat launcher, and shared legal links.
+
+## Ten-LP V4 Expansion — In Progress
+
+Research is saved in `research/ten_lp_best_practices.md`, and the ten design systems plus the ten-pass visual checklist are documented in `docs/design-systems-v4.md`. V1–V6 retain their existing responsive concept boards; four new responsive concept boards for V7–V10 are stored under `research/symptom_mockups/v4_design_systems/`. The existing original hero assets are intentionally reused for V7–V10 so the code can produce unique layout and visual treatments without redundant image generation. All ten code routes use `sharedContent` from `src/data/dr-lay.js`, ensuring the approved copy and common elements are identical across every design.
+The first V4 visual QA confirms V7 and V10 are materially different implementations while retaining shared approved content. V7 uses a blue-and-cream proof-wall system with alternating fact blocks and a gold CTA band. V10 uses monochrome type-first minimalism, linear symptom rows, and large whitespace. Both render the required top phone number in Seahawks blue/green and retain no-form, chat, legal, provider, testimonial, and non-diagnostic requirements.
+
+## Ten-LP Code and QA Cycles — Completed Locally
+
+| Cycle | Completed Work | Result |
+|---:|---|---|
+| 1 | Researched mobile target-size, health-literacy, and plain-language requirements | Complete |
+| 2 | Defined all ten design systems and shared-content rules | Complete |
+| 3 | Centralized approved shared symptom content in the doctor configuration | Complete |
+| 4 | Added V7–V10 automatic route configuration with reusable hero assets | Complete |
+| 5 | Implemented four new responsive CSS design systems and preserved six prior systems | Complete |
+| 6 | Added the design-system class to layout and LP renderer | Complete |
+| 7 | Extended responsive screenshot QA from six to ten LP variants | Complete |
+| 8 | Extended supporting TY/TY-BT mobile and desktop QA from six to ten variants | Complete |
+| 9 | Passed dynamic route regression: **180/180** generated LP, city, TY, and TY-BT routes returned 200 with no retired survey markers | Complete |
+| 10 | Passed ten-LP structural accessibility/content regression: shared headline, CTA, symptoms, phone treatment, chat, legal links, FAQ semantics, language, viewport, and no-form policy | Complete |
+
+The reusable `qa:basics` package command now executes the ten-LP accessibility/content check when a local server is running. `qa:responsive` and `qa:supporting` include all ten variants.
