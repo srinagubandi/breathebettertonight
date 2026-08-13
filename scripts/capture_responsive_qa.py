@@ -17,8 +17,8 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "qa" / "responsive"
 PORT = 8091
 BASE_URL = f"http://127.0.0.1:{PORT}"
-# Keep this list aligned with the approved ten-design system in src/data/dr-lay.js.
-VARIANTS = [f"v{number}" for number in range(1, 11)]
+# Keep this list aligned with the current data-driven variant inventory in src/data/dr-lay.js.
+VARIANTS = [f"v{number}" for number in range(1, 14)]
 
 MOBILE = {
     "viewport": {"width": 414, "height": 896},

@@ -195,6 +195,24 @@ module.exports = {
       designSystem: 'quiet-minimal',
       hero: '/assets/images/symptom-v2.jpg',
     },
+    v11: {
+      label: 'PDF Dark Navy / Teal — Universal Language',
+      theme: 'v1',
+      designSystem: 'concept-dark-teal',
+      hero: '/assets/images/symptom-v6.jpg',
+    },
+    v12: {
+      label: 'PDF Warm Dark / Amber — Universal Language',
+      theme: 'v2',
+      designSystem: 'concept-warm-amber',
+      hero: '/assets/images/symptom-v2.jpg',
+    },
+    v13: {
+      label: 'PDF Clean Light / Blue — Universal Language',
+      theme: 'v4',
+      designSystem: 'concept-clean-blue',
+      hero: '/assets/images/symptom-v4.jpg',
+    },
   },
 
   adminLabel: 'Dr. Willis Lay — Pantego Dental — Arlington, TX',

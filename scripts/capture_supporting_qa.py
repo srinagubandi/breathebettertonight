@@ -13,8 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "qa" / "supporting"
 PORT = 8093
 BASE = f"http://127.0.0.1:{PORT}"
-# Keep supporting-page captures aligned with all data-driven LP variants.
-VARIANTS = [f"v{number}" for number in range(1, 11)]
+# Keep supporting-page captures aligned with all current data-driven LP variants.
+VARIANTS = [f"v{number}" for number in range(1, 14)]
 DEVICES = {
     "mobile": {
         "viewport": {"width": 414, "height": 896},

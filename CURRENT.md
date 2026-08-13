@@ -186,3 +186,8 @@ The reusable `qa:basics` package command now executes the ten-LP accessibility/c
 ## Deployment Record — Ten-LP Release
 
 Version **`v2.1.0`** was committed on `feature/unique-lp-design-systems-v3`, merged to `main`, tagged, and pushed to GitHub. Railway deployed the ten-LP release from `main`. Production smoke tests confirmed the shared approved symptom content on **V1–V10**; V7–V10 were retried successfully after transient Railway SSL timeouts. Local route regression passed **180/180** generated LP, city, TY, and TY-BT routes. The reusable production-verification helper scripts are retained under `scripts/` to avoid rebuilding validation logic in future releases.
+
+## PDF-Inspired Variant QA — In Progress
+
+V11 and V13 have been visually reviewed after local rendering at the selected mobile and desktop viewports. V11 retains the source PDF’s dark navy/teal, high-contrast nighttime direction while using only universal symptom language and no form area. V13 retains the source PDF’s clean light/blue, educational clinical-trust direction while using only universal symptom language and no treatment/coverage claims. Both retain the top phone, provider/review placeholders, chat launcher, shared legal links, and non-diagnostic disclosure.
+All PDF-inspired release checks now pass locally. Responsive QA captured V1–V13 at both 414×896 mobile and 1440px desktop. Supporting QA captured all V1–V13 thank-you and below-target pages at both viewports, plus the shared legal pages. The structural accessibility/content check passed for all **13** LPs. Dynamic route regression passed for **234/234** generated LP, city, TY, and TY-BT routes with no retired survey marker.
