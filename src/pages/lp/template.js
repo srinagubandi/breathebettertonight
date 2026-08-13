@@ -1,183 +1,130 @@
 /**
- * LP TEMPLATE — v1.1.0
- * Updated to match mockup designs precisely.
+ * Symptom-led landing-page template.
+ *
+ * All content is supplied by a doctor/variant configuration object. This keeps
+ * doctor, city, design-variant, symptom, bio, and review changes out of markup.
  */
-
 const { layout } = require('../../shared/layout');
 const { resolveCityLabel, resolvePhone } = require('../../data/index');
 
-function injectCity(str, cityLabel) {
-  return str.replace(/\{city\}/g, cityLabel);
+const ICONS = {
+  sound: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Zm12.5-3.5a1 1 0 0 1 1.4.1 7.5 7.5 0 0 1 0 10.8 1 1 0 1 1-1.5-1.3 5.5 5.5 0 0 0 0-8 1 1 0 0 1 .1-1.5Zm2.8-2.9a1 1 0 0 1 1.4.1 11.5 11.5 0 0 1 0 16.6 1 1 0 0 1-1.5-1.3 9.5 9.5 0 0 0 0-13.8 1 1 0 0 1 .1-1.5Z"/></svg>',
+  pause: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3v14H7V5Zm7 0h3v14h-3V5ZM3 12a9 9 0 0 1 18 0h-2a7 7 0 0 0-14 0H3Z"/></svg>',
+  air: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h10a3 3 0 1 0-3-3h2a1 1 0 1 1 1 1H3V8Zm0 5h14a3 3 0 1 1-3 3h-2a1 1 0 1 0 1-1H3v-2Zm0 5h7v2H3v-2Z"/></svg>',
+  sun: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V2h2v3h-2Zm0 17v-3h2v3h-2ZM5.6 7 3.5 4.9l1.4-1.4L7 5.6 5.6 7Zm12.8 12-2.1-2.1 1.4-1.4 2.1 2.1-1.4 1.4ZM5 11H2v2h3v-2Zm17 0h-3v2h3v-2ZM5.6 17 3.5 19.1l1.4 1.4L7 18.4 5.6 17Zm12.8-12 2.1-2.1 1.4 1.4-2.1 2.1L18.4 5ZM13 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Z"/></svg>',
+  head: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a8 8 0 0 0-8 8v3l-2 3h4v2a4 4 0 0 0 4 4h5v-5h3v-7a8 8 0 0 0-6-7.8V2Zm0 3a5 5 0 0 1 5 5v4h-4v5h-3a2 2 0 0 1-2-2v-3H5.7L6 13v-3a6 6 0 0 1 6-5Z"/></svg>',
+  drop: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2S5 9.4 5 14a7 7 0 0 0 14 0c0-4.6-7-12-7-12Zm0 17a5 5 0 0 1-5-5c0-2.5 3.1-7 5-9.5 1.9 2.5 5 7 5 9.5a5 5 0 0 1-5 5Z"/></svg>',
+  focus: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6v2H9V3Zm-4 6h14v2H5V9Zm-2 5h18v2H3v-2Zm3 5h12v2H6v-2Z"/></svg>',
+  move: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h11a3 3 0 1 0-3-3h2a1 1 0 1 1 1 1H3V7Zm0 6h14a3 3 0 1 1-3 3h-2a1 1 0 1 0 1-1H3v-2Zm0 5h8v2H3v-2Z"/></svg>',
+  battery: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 7h14v10H5V7Zm-2 2H1v6h2V9Zm4 0v6h8V9H7Zm14 1v4h2v-4h-2Z"/></svg>',
+  spark: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 1.6 6.4L20 10l-6.4 1.6L12 18l-1.6-6.4L4 10l6.4-1.6L12 2Zm7 13 .8 3.2L23 19l-3.2.8L19 23l-.8-3.2L15 19l3.2-.8L19 15Z"/></svg>',
+  moon: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 15.4A8 8 0 0 1 8.6 3.5 9 9 0 1 0 20.5 15.4ZM12 20a7 7 0 0 1-5.5-11.3A10 10 0 0 0 15.3 17c1.6 0 3.1-.4 4.4-1.2A7 7 0 0 1 12 20Z"/></svg>',
+};
+
+function icon(name) {
+  return ICONS[name] || ICONS.sun;
 }
 
-// Stat icons (SVG inline, teal on dark bg)
-const STAT_ICONS = [
-  // People/group icon
-  `<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>`,
-  // Trending down icon
-  `<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6z"/></svg>`,
-  // Shield/check icon
-  `<svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>`,
-];
-
 function renderLP(doctor, variantSlug, citySlug) {
-  const variant   = doctor.variants[variantSlug];
+  const variant = doctor.variants[variantSlug];
   const cityLabel = resolveCityLabel(doctor, citySlug);
-  const phone     = resolvePhone(doctor, citySlug);
-  const phoneRaw  = phone.replace(/\D/g, '');
-  const headline  = injectCity(variant.headline, cityLabel);
-  const subhead   = injectCity(variant.subheadline, cityLabel);
+  const phone = resolvePhone(doctor, citySlug);
+  const phoneRaw = phone.replace(/\D/g, '');
+  const profile = doctor.profile;
 
-  // ── Badges ──────────────────────────────────────────────────
-  const badgesHTML = doctor.badges.map(b =>
-    `<span class="hero-badge">${b.icon} ${b.label}</span>`
-  ).join('');
-
-  // ── Stats — cards with icons ─────────────────────────────────
-  const statsHTML = doctor.stats.map((s, i) => `
-    <div class="stat-item">
-      <div class="stat-icon">${STAT_ICONS[i] || '★'}</div>
-      <div class="stat-value">${s.value}</div>
-      <div class="stat-label">${s.label}</div>
-    </div>`
-  ).join('');
-
-  // ── Symptoms — circular icon containers ──────────────────────
-  const symptomsHTML = doctor.symptoms.map(s => `
-    <div class="symptom-item">
-      <div class="symptom-icon-wrap">${s.icon}</div>
-      <div>
-        <div class="symptom-label">${s.label}</div>
-        <div class="symptom-desc">${s.desc}</div>
+  const symptomCards = variant.symptoms.map((symptom, index) => `
+    <article class="symptom-card" data-symptom-index="${index}">
+      <div class="symptom-icon">${icon(symptom.icon)}</div>
+      <div class="symptom-copy">
+        <h3>${symptom.label}</h3>
+        <p>${symptom.desc}</p>
       </div>
-    </div>`
-  ).join('');
+      <span class="symptom-arrow" aria-hidden="true">→</span>
+    </article>`).join('');
 
-  // ── Steps ────────────────────────────────────────────────────
-  const stepsHTML = doctor.steps.map(s => `
-    <div class="step-item">
-      <div class="step-num">${s.num}</div>
-      <div>
-        <div class="step-title">${s.title}</div>
-        <div class="step-desc">${s.desc}</div>
-      </div>
-    </div>`
-  ).join('');
+  const faqItems = doctor.faqs.map((faq) => `
+    <article class="faq-item">
+      <button class="faq-question" type="button" aria-expanded="false">${faq.q}<span>+</span></button>
+      <div class="faq-answer"><p>${faq.a}</p></div>
+    </article>`).join('');
 
-  // ── Testimonials ─────────────────────────────────────────────
-  const testimonialsHTML = doctor.testimonials.map(t => `
-    <div class="testimonial-card">
-      <div class="testimonial-stars">★★★★★</div>
-      <div class="testimonial-quote">"${t.quote}"</div>
-      <div class="testimonial-name">${t.name}</div>
-      <div class="testimonial-city">${t.city}</div>
-    </div>`
-  ).join('');
+  const doctorPhoto = profile.photo
+    ? `<img src="${profile.photo}" alt="${doctor.name}" />`
+    : `<span class="doctor-photo-placeholder" aria-hidden="true">DR<br>PHOTO</span>`;
 
-  // ── FAQ ──────────────────────────────────────────────────────
-  const faqHTML = doctor.faqs.map(f => `
-    <div class="faq-item">
-      <button class="faq-question">${f.q}</button>
-      <div class="faq-answer">${f.a}</div>
-    </div>`
-  ).join('');
-
-  // ── Doctor photo ─────────────────────────────────────────────
-  const photoHTML = `<div class="doctor-photo">
-    <img src="${doctor.photo}" alt="${doctor.name}" onerror="this.style.display='none';this.parentElement.innerHTML='👨‍⚕️';" />
-  </div>`;
-
-  // ── Body ─────────────────────────────────────────────────────
   const body = `
-
-    <!-- ══ HERO ══════════════════════════════════════════════ -->
-    <section class="hero">
-      <div class="hero-bg" style="background-image:url('${variant.hero}');"></div>
-      <div class="hero-overlay"></div>
-      <div class="hero-content">
-        <div class="hero-eyebrow">BreatheBetterTonight.com</div>
-        <h1 class="hero-headline">${headline}</h1>
-        <p class="hero-sub">${subhead}</p>
-        <div class="hero-badges">${badgesHTML}</div>
-        <a href="#ghl-form" class="btn-full">${variant.cta}</a>
+    <section class="symptom-hero" id="top">
+      <div class="symptom-hero-media" style="background-image:url('${variant.hero}');"></div>
+      <div class="symptom-hero-scrim"></div>
+      <div class="symptom-hero-content container">
+        <p class="eyebrow">${variant.eyebrow}</p>
+        <h1>${variant.headline}</h1>
+        <p class="hero-subtitle">${variant.subheadline}</p>
+        <a href="#symptom-check" class="button button-primary">${variant.cta}<span aria-hidden="true">→</span></a>
+        <p class="hero-microcopy">Private, pressure-free symptom awareness</p>
       </div>
     </section>
 
-    <!-- ══ STATS BAR ═════════════════════════════════════════ -->
-    <div class="stats-bar">${statsHTML}</div>
-
-    <!-- ══ SYMPTOMS ══════════════════════════════════════════ -->
-    <section class="section section-dark">
-      <h2 class="section-title">Sound Familiar?</h2>
-      <p class="section-sub">You're not alone. Millions of people suffer from these symptoms every night.</p>
-      <div class="symptoms-list">${symptomsHTML}</div>
-    </section>
-
-    <!-- ══ SOLUTION ══════════════════════════════════════════ -->
-    <section class="section section-light">
-      <h2 class="section-title">There Is a Better Way</h2>
-      <p class="section-sub">An oral appliance is a small, custom-fitted device you wear while you sleep — no mask, no hose, no noise. Most patients covered by medical insurance or Medicare.</p>
-      <div class="steps-list">${stepsHTML}</div>
-    </section>
-
-    <!-- ══ DOCTOR ════════════════════════════════════════════ -->
-    <section class="section section-white">
-      <h2 class="section-title">Your Doctor</h2>
-      <div class="doctor-card">
-        ${photoHTML}
-        <div class="doctor-info">
-          <div class="doctor-name">${doctor.name}, ${doctor.credentials}</div>
-          <div class="doctor-creds">${doctor.practice}</div>
-          <div class="doctor-location">📍 Serving ${cityLabel}</div>
-          <div class="doctor-badge">★ ${doctor.badges[0].label}</div>
-          <div class="doctor-bio">${doctor.bio}</div>
+    <section class="symptom-section" id="symptom-check">
+      <div class="container section-narrow">
+        <p class="eyebrow eyebrow-accent">Private symptom check</p>
+        <h2>${variant.symptomTitle}</h2>
+        <p class="section-intro">${variant.symptomIntro}</p>
+        <div class="symptom-grid">${symptomCards}</div>
+        <div class="screening-note">
+          <span aria-hidden="true">✓</span>
+          <p>Snoring alone does not diagnose a sleep disorder. Persistent symptoms are worth discussing with a qualified provider.</p>
         </div>
       </div>
     </section>
 
-    <!-- ══ TESTIMONIALS ═══════════════════════════════════════ -->
-    <section class="section section-light">
-      <h2 class="section-title">What Patients Are Saying</h2>
-      <div class="testimonials-list">${testimonialsHTML}</div>
-    </section>
-
-    <!-- ══ GHL FORM ═══════════════════════════════════════════ -->
-    <section class="ghl-form-section" id="ghl-form">
-      <h2 class="ghl-form-title">Claim Your Free Sleep Consultation</h2>
-      <p class="ghl-form-sub">Takes less than 60 seconds. No obligation. Often covered by insurance.</p>
-      <!-- ════════════════════════════════════════════════════
-           GHL EMBED — Replace the div below with your
-           GoHighLevel JavaScript embed code.
-      ════════════════════════════════════════════════════ -->
-      <div id="ghl-form-embed">
-        <div class="ghl-embed-placeholder">
-          <div class="ghl-icon">📋</div>
-          <div class="ghl-label">Consultation Form</div>
-          <div class="ghl-sub">Replace this block with your GHL JavaScript embed code.</div>
+    <section class="provider-section" id="provider-profile">
+      <div class="container">
+        <div class="provider-card">
+          <div class="provider-profile">
+            <div class="doctor-photo">${doctorPhoto}</div>
+            <div class="provider-copy">
+              <p class="eyebrow">Provider placeholder</p>
+              <h2>${doctor.name}, ${doctor.credentials}</h2>
+              <p class="provider-practice">${doctor.practice}</p>
+              <p class="provider-bio">${profile.bioPlaceholder}</p>
+              <p class="provider-location">Serving ${cityLabel}</p>
+            </div>
+          </div>
+          <aside class="review-placeholder" aria-label="Verified review placeholder">
+            <p class="review-label">${profile.reviewLabel}</p>
+            <blockquote>“${profile.reviewQuote}”</blockquote>
+            <p class="review-attribution">${profile.reviewAttribution}</p>
+          </aside>
         </div>
       </div>
     </section>
 
-    <!-- ══ FAQ ════════════════════════════════════════════════ -->
-    <section class="section section-white">
-      <h2 class="section-title">Common Questions</h2>
-      <div class="faq-list">${faqHTML}</div>
+    <section class="next-step-section">
+      <div class="container next-step-inner">
+        <div>
+          <p class="eyebrow">When you are ready</p>
+          <h2>Talk through your sleep concerns privately.</h2>
+          <p>Call ${doctor.practice} to discuss symptoms and the appropriate next step with the office.</p>
+        </div>
+        <a href="tel:${phoneRaw}" class="button button-secondary">Call ${phone}<span aria-hidden="true">→</span></a>
+      </div>
     </section>
 
-    <!-- ══ BOTTOM CTA ═════════════════════════════════════════ -->
-    <section class="section section-dark" style="text-align:center;">
-      <h2 class="section-title" style="color:#fff;margin-bottom:8px;">Ready to Sleep Better?</h2>
-      <p class="section-sub" style="margin-bottom:24px;">Your free consultation with ${doctor.name} is the first step.</p>
-      <a href="#ghl-form" class="btn-full" style="max-width:420px;margin:0 auto 16px;">${variant.cta}</a>
-      <p style="font-size:0.85rem;color:rgba(255,255,255,0.55);">
-        Or call: <a href="tel:${phoneRaw}" style="color:#fff;font-weight:700;">${phone}</a>
-      </p>
+    <section class="faq-section">
+      <div class="container section-narrow">
+        <p class="eyebrow eyebrow-accent">Common questions</p>
+        <h2>Helpful context before you call.</h2>
+        <div class="faq-list">${faqItems}</div>
+      </div>
     </section>
 
-  `;
+    <section class="medical-disclaimer">
+      <div class="container"><p>This symptom screen is not a diagnosis and does not replace medical advice. A qualified healthcare professional can evaluate sleep concerns and recommend appropriate next steps.</p></div>
+    </section>`;
 
   return layout({
-    title: `${headline} — ${doctor.name}, ${cityLabel}`,
+    title: `${variant.headline} — ${doctor.name}, ${cityLabel}`,
     theme: variant.theme,
     body,
     phone,

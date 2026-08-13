@@ -1,0 +1,22 @@
+/* Variant 6 — Partner Impact: midnight navy / teal */
+:root {
+  --accent: #1CC5D1;
+  --accent-dark: #0BA3B4;
+  --header-bg: #06192D;
+  --header-phone-color: #ffffff;
+  --cta-bg: #1CC5D1;
+  --cta-color: #041A2D;
+  --section-light-bg: #F1FBFC;
+  --card-bg: #ffffff;
+  --provider-bg: #ffffff;
+  --provider-card-bg: #ffffff;
+  --review-bg: #EAF9FA;
+  --next-step-bg: #06192D;
+  --button-secondary-bg: #1CC5D1;
+  --button-secondary-color: #041A2D;
+  --page-bg: #ffffff;
+  --heading-color: #0A2944;
+  --text-body: #28485E;
+  --text-muted: #617786;
+}
+body { background: var(--page-bg); color: var(--text-body); }

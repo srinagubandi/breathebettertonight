@@ -1,0 +1,22 @@
+/* Variant 4 — Energy Debt: clean white / powder blue */
+:root {
+  --accent: #319DD5;
+  --accent-dark: #197BB5;
+  --header-bg: #ffffff;
+  --header-phone-color: #123B61;
+  --cta-bg: #319DD5;
+  --cta-color: #ffffff;
+  --section-light-bg: #EDF8FE;
+  --card-bg: #ffffff;
+  --provider-bg: #ffffff;
+  --provider-card-bg: #ffffff;
+  --review-bg: #F0F9FE;
+  --next-step-bg: #103B67;
+  --button-secondary-bg: #319DD5;
+  --button-secondary-color: #ffffff;
+  --page-bg: #ffffff;
+  --heading-color: #103B67;
+  --text-body: #284C6B;
+  --text-muted: #607D93;
+}
+body { background: var(--page-bg); color: var(--text-body); }
