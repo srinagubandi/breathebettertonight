@@ -6,7 +6,33 @@
 
 const { renderChatLauncher } = require('./chat');
 
+function matches(value, pattern) {
+  return pattern.test(String(value || ''));
+}
+
+function renderTrackingHead() {
+  const gtmId = process.env.TRACKING_GTM_ID;
+  const ga4Id = process.env.TRACKING_GA4_ID;
+  const metaPixelId = process.env.TRACKING_META_PIXEL_ID;
+  const mouseflowId = process.env.TRACKING_MOUSEFLOW_ID;
+  const tags = [];
+  if (matches(gtmId, /^GTM-[A-Z0-9]+$/)) tags.push(`<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');</script>`);
+  if (matches(ga4Id, /^G-[A-Z0-9]+$/)) tags.push(`<script async src="https://www.googletagmanager.com/gtag/js?id=${ga4Id}"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ga4Id}');</script>`);
+  if (matches(metaPixelId, /^\d+$/)) tags.push(`<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${metaPixelId}');fbq('track','PageView');</script>`);
+  if (matches(mouseflowId, /^[A-Za-z0-9_-]+$/)) tags.push(`<script>window._mfq=window._mfq||[];(function(){var mf=document.createElement('script');mf.type='text/javascript';mf.defer=true;mf.src='https://cdn.mouseflow.com/projects/${mouseflowId}.js';document.getElementsByTagName('head')[0].appendChild(mf);})();</script>`);
+  return tags.join('\n');
+}
+
+function renderTrackingBody() {
+  const gtmId = process.env.TRACKING_GTM_ID;
+  return matches(gtmId, /^GTM-[A-Z0-9]+$/)
+    ? `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`
+    : '';
+}
+
 function layout({ title, theme = 'v1', designSystem = 'default', body, phone = '', phoneRaw = '' }) {
+  const trackingHead = renderTrackingHead();
+  const trackingBody = renderTrackingBody();
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,56 +58,13 @@ function layout({ title, theme = 'v1', designSystem = 'default', body, phone = '
   <!-- ── Theme styles ── -->
   <link rel="stylesheet" href="/assets/css/theme-${theme}.css" />
 
-  <!-- ════════════════════════════════════════════════
-       TRACKING PLACEHOLDERS
-       Replace the placeholder values below with your
-       real IDs when ready. Do not remove the tags.
-  ════════════════════════════════════════════════ -->
-
-  <!-- Google Tag Manager — replace GTM-XXXXXXX -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-XXXXXXX');</script>
-
-  <!-- Google Analytics GA4 — replace G-XXXXXXXXXX -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-  </script>
-
-  <!-- Facebook Pixel — replace PIXEL_ID_HERE -->
-  <script>
-    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-    document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', 'PIXEL_ID_HERE');
-    fbq('track', 'PageView');
-  </script>
-
-  <!-- Mouseflow — replace MOUSEFLOW_ID_HERE -->
-  <script type="text/javascript">
-    window._mfq = window._mfq || [];
-    (function() {
-      var mf = document.createElement("script");
-      mf.type = "text/javascript"; mf.defer = true;
-      mf.src = "//cdn.mouseflow.com/projects/MOUSEFLOW_ID_HERE.js";
-      document.getElementsByTagName("head")[0].appendChild(mf);
-    })();
-  </script>
+  <!-- Optional tracking is rendered only when valid environment IDs are configured. -->
+  ${trackingHead}
 
 </head>
 <body class="theme-${theme} design-${designSystem}">
 
-  <!-- Google Tag Manager (noscript) -->
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-XXXXXXX"
-  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  ${trackingBody}
 
   <!-- ── Sticky tap-to-call header ── -->
   <header class="sticky-header design-header" data-design-system="${designSystem}">

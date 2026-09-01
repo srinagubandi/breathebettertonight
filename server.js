@@ -17,44 +17,120 @@ const { renderLP }    = require('./src/pages/lp/template');
 const { renderTY }    = require('./src/pages/ty/template');
 const { renderTYBT }  = require('./src/pages/ty-bt/template');
 const { renderAdmin } = require('./src/pages/admin/template');
+const {
+  aboutPage,
+  contactPage,
+  faqPage,
+  homePage,
+  privacyPage: sitePrivacyPage,
+  symptomPage,
+  thankYouPage,
+  termsPage: siteTermsPage,
+} = require('./src/pages/site/template');
+const {
+  createLead,
+  getLeadSummary,
+  getStorageState,
+  listLeads,
+  updateLeadStatus,
+} = require('./src/lib/leads');
+const crypto = require('crypto');
 
 const app  = express();
 const PORT = process.env.PORT || 8080;
 
-// ── Static assets ────────────────────────────────────────────
-app.use(express.static(path.join(__dirname, 'public')));
+app.disable('x-powered-by');
+app.use((req, res, next) => {
+  res.set('X-Content-Type-Options', 'nosniff');
+  res.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  res.set('X-Frame-Options', 'SAMEORIGIN');
+  return next();
+});
+app.use(express.urlencoded({ extended: false, limit: '10kb' }));
+// Preserve static assets while allowing Express to render the new homepage.
+app.use(express.static(path.join(__dirname, 'public'), { index: false }));
 
 // ── Static pages ─────────────────────────────────────────────
 app.get('/privacy-policy', (req, res) => {
-  res.send(privacyPage());
+  res.send(sitePrivacyPage());
 });
 app.get('/terms-and-conditions', (req, res) => {
-  res.send(termsPage());
+  res.send(siteTermsPage());
 });
 // Keep the legacy URL valid while all shared footers use the canonical path.
 app.get('/terms', (req, res) => {
   res.redirect(301, '/terms-and-conditions');
 });
 
-// ── Admin route (Basic Auth protected) ───────────────────────
-app.get('/admin', (req, res) => {
-  const adminUser = process.env.ADMIN_USER || 'bbt-admin';
-  const adminPass = process.env.ADMIN_PASS || 'changeme';
+// ── Admin area (Basic Auth protected) ────────────────────────
+function secureEquals(received, expected) {
+  const receivedBuffer = Buffer.from(String(received || ''));
+  const expectedBuffer = Buffer.from(String(expected || ''));
+  return receivedBuffer.length === expectedBuffer.length
+    && crypto.timingSafeEqual(receivedBuffer, expectedBuffer);
+}
 
-  const auth = req.headers['authorization'];
-  if (!auth || !auth.startsWith('Basic ')) {
+function requireAdmin(req, res, next) {
+  const adminUser = process.env.ADMIN_USER || '';
+  const adminPass = process.env.ADMIN_PASS || '';
+  if (!adminUser || !adminPass || adminPass === 'changeme') {
+    return res.status(503).send('Admin access has not been securely configured.');
+  }
+  const auth = req.headers.authorization || '';
+  if (!auth.startsWith('Basic ')) {
     res.set('WWW-Authenticate', 'Basic realm="BBT Admin"');
     return res.status(401).send('Authentication required.');
   }
-
-  const [user, pass] = Buffer.from(auth.slice(6), 'base64').toString().split(':');
-  if (user !== adminUser || pass !== adminPass) {
+  const [user, ...passwordParts] = Buffer.from(auth.slice(6), 'base64').toString().split(':');
+  const pass = passwordParts.join(':');
+  if (!secureEquals(user, adminUser) || !secureEquals(pass, adminPass)) {
     res.set('WWW-Authenticate', 'Basic realm="BBT Admin"');
     return res.status(401).send('Invalid credentials.');
   }
+  res.set('Cache-Control', 'no-store');
+  return next();
+}
 
-  res.send(renderAdmin());
+app.get('/admin', requireAdmin, (req, res) => {
+  try {
+    const leads = listLeads();
+    res.send(renderAdmin({ leads, summary: getLeadSummary(leads), storage: getStorageState() }));
+  } catch (error) {
+    console.error('Admin lead-store error:', error.message);
+    res.status(503).send('The lead dashboard is temporarily unavailable.');
+  }
 });
+
+app.post('/admin/leads/:id/status', requireAdmin, (req, res) => {
+  const origin = req.get('origin');
+  const expectedOrigin = `${req.protocol}://${req.get('host')}`;
+  if (origin && origin !== expectedOrigin) return res.status(403).send('Invalid request origin.');
+  const updated = updateLeadStatus(req.params.id, req.body.status);
+  if (!updated) return res.status(400).send('Unable to update that lead.');
+  return res.redirect(303, '/admin');
+});
+
+// ── New national public website ──────────────────────────────
+app.get('/', (req, res) => res.send(homePage()));
+app.get('/symptom-check', (req, res) => res.send(symptomPage()));
+app.get('/about', (req, res) => res.send(aboutPage()));
+app.get('/faq', (req, res) => res.send(faqPage()));
+app.get('/contact', (req, res) => res.send(contactPage()));
+app.post('/contact', (req, res) => {
+  if (String(req.body.company || '').trim()) return res.status(400).send('Unable to submit this request.');
+  try {
+    const result = createLead(req.body);
+    if (!result.created) return res.status(422).send(contactPage({ values: result.lead, errors: result.errors }));
+    return res.redirect(303, '/thank-you');
+  } catch (error) {
+    console.error('Lead submission error:', error.message);
+    return res.status(503).send(contactPage({
+      values: req.body,
+      errors: { form: 'We could not save your request. Please try again shortly.' },
+    }));
+  }
+});
+app.get('/thank-you', (req, res) => res.send(thankYouPage()));
 
 // ── Auto-generate all LP / TY / TY-BT routes ─────────────────
 // Reads from src/data/index.js — zero manual route registration needed.
