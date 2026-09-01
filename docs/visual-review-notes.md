@@ -33,3 +33,7 @@ Both approved credential updates—`ADMIN_USER` and `ADMIN_PASS`—are now stage
 The staged `ADMIN_USER` and `ADMIN_PASS` updates were reviewed as the only two credential changes and were deployed to `breathebettertonight-web`. The Railway interface confirmed that there are no remaining staged changes. The password itself is intentionally not stored in this project documentation.
 
 Railway’s in-dashboard assistant verified that the latest production deployment succeeded. `ADMIN_USER`, `ADMIN_PASS`, and `LEADS_FILE` are configured with their values hidden, and the persistent volume is active at `/data` on `breathebettertonight-web`.
+
+After the website commit was pushed, a direct Railway deployments URL did not resolve. The production service overview URL was opened as a fallback and is loading; no deployment settings were changed during this navigation.
+
+The newly pushed commit `5b4c370` (`feat: add national site and lead dashboard`) is deploying from GitHub to `breathebettertonight-web`. Railway shows the newly attached `leads-storage` resource beside the service while the deployment proceeds.
