@@ -172,7 +172,7 @@ The protected practice configuration store now persists `showPracticeName`, `sho
 | 2 | Playback and reduced-motion fallback | Verified the muted fourth MP4 becomes playable with a JPG poster fallback; all video heroes use metadata preload and reduced-motion static rendering. |
 | 3 | Practice-name, Call, and Text states | Verified fully visible, fully hidden, and mixed display states, including representative legacy and outcome routes. |
 
-The completed local regression set covers generated legacy URLs, all doctor-owned concept/legacy route families, the three active practice survey assignments, four video families with qualified/non-qualified outcomes, the optimized video/poster assets, and retired consultation-wording cleanup. The final Git/Railway deployment remains the next release step.
+The completed local regression set covers generated legacy URLs, all doctor-owned concept/legacy route families, the three active practice survey assignments, four video families with qualified/non-qualified outcomes, the optimized video/poster assets, and retired consultation-wording cleanup. The release was committed as `b950b84`, pushed to `main`, and deployed successfully by the existing Railway web service. Live verification confirms the Nighttime Breathing Sounds route for Pantego Dental, PerioDDS, and Dental World, plus live muted video playback and poster metadata on the Pantego route.
 
 ## Responsive QA Findings — 2026-08-13
 

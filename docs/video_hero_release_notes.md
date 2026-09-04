@@ -27,3 +27,7 @@ The fourth source was preserved as a square composition, repeated to a ten-secon
 ## Fourth concept — improvement loop 3: identity and contact states
 
 The fourth concept was tested with all display controls enabled, all three disabled, and a mixed Call-only state. With the practice name hidden, the landing and outcome copy uses “your selected local practice” and “a local conversation, when you are ready,” without exposing the practice or provider name. With Call and Text disabled, the action groups are omitted rather than left empty; the consultation survey and practice policy links remain intact. The fully contact-hidden sticky header now aligns its remaining `Request a consultation` action intentionally at the end of the bar, rather than leaving an unbalanced empty area.
+
+## Production validation
+
+Commit `b950b84` deployed successfully to the designated Railway web service. Live checks confirmed the Nighttime Breathing Sounds landing route for Pantego Dental, PerioDDS, and Dental World, each with its correct practice presentation. Browser inspection of the deployed Pantego route confirmed the hero’s MP4 source, poster, muted loop, inline playback, metadata preload, ready state, and active playback state.
