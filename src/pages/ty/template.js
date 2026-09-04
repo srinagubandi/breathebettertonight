@@ -5,9 +5,11 @@
  */
 const { layout } = require('../../shared/layout');
 const { resolveCityLabel, resolvePhone } = require('../../data/index');
+const { getPracticeByLegacyDoctor } = require('../../data/practices');
 
 function renderTY(doctor, variantSlug, citySlug) {
   const variant = doctor.variants[variantSlug];
+  const practice = getPracticeByLegacyDoctor(doctor.slug);
   const cityLabel = resolveCityLabel(doctor, citySlug);
   const phone = resolvePhone(doctor, citySlug);
   const phoneRaw = phone.replace(/\D/g, '');
@@ -17,7 +19,7 @@ function renderTY(doctor, variantSlug, citySlug) {
     ? `<img src="${profile.photo}" alt="${doctor.name}" />`
     : '<span class="doctor-photo-placeholder" aria-hidden="true">DR<br>PHOTO</span>';
 
-  const body = `
+  const body = `<div class="legacy-outcome" style="--outcome-image:url('${variant.hero}')">
     <section class="ty-hero">
       <div class="ty-check">✓</div>
       <p class="ty-eyebrow">Thank you</p>
@@ -56,9 +58,19 @@ function renderTY(doctor, variantSlug, citySlug) {
         </div>
         <a href="tel:${phoneRaw}" class="button button-secondary">Call ${phone}<span aria-hidden="true">→</span></a>
       </div>
-    </section>`;
+    </section></div>`;
 
-  return layout({ title: `Thank You — ${doctor.name}`, theme: variant.theme, body, phone, phoneRaw });
+  return layout({
+    title: `Thank You — ${doctor.name}`,
+    theme: variant.theme,
+    designSystem: variant.designSystem,
+    body,
+    phone,
+    phoneRaw,
+    practice,
+    headerTarget: practice ? `/care/${practice.key}` : '#top',
+    policyBase: practice ? `/care/${practice.key}` : '',
+  });
 }
 
 module.exports = { renderTY };

@@ -7,9 +7,11 @@
  * across every visual treatment.
  */
 const { getAllDoctors } = require('../src/data');
+const { getPracticeByLegacyDoctor, surveyUrl } = require('../src/data/practices');
 
 const baseUrl = process.argv[2] || 'http://127.0.0.1:8094';
 const doctor = getAllDoctors().find((item) => item.slug === 'dr-lay');
+const practice = getPracticeByLegacyDoctor(doctor.slug);
 const expected = doctor.sharedContent;
 const variants = Object.keys(doctor.variants);
 
@@ -18,10 +20,12 @@ const requiredFragments = [
   'name="viewport"',
   '<h1>',
   expected.headline,
-  expected.cta,
+  'Request a free consultation',
   'class="header-phone top-phone"',
-  'href="/privacy-policy"',
-  'href="/terms-and-conditions"',
+  `href="/care/${practice.key}/privacy"`,
+  `href="/care/${practice.key}/terms"`,
+  `href="/care/${practice.key}/accessibility"`,
+  surveyUrl(practice),
   'class="chat-launcher"',
   'aria-expanded="false"',
 ];
@@ -41,9 +45,7 @@ async function verify() {
     for (const symptom of expected.symptoms) {
       if (!html.includes(symptom.label)) failures.push(`${variant}: missing shared symptom '${symptom.label}'`);
     }
-    if (lower.includes('ghl-form') || lower.includes('gohighlevel') || lower.includes('consultation form')) {
-      failures.push(`${variant}: retired survey/form marker found`);
-    }
+    if (!html.includes(practice.surveyId)) failures.push(`${variant}: missing assigned GoHighLevel survey ID`);
   }
 
   if (failures.length) {

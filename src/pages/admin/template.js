@@ -1,84 +1,96 @@
-const { getAllDoctors } = require('../../data/index');
+const { getAllDoctors, getAllRoutes } = require('../../data/index');
+const { CAMPAIGN_KEYS, DESIGN_SYSTEMS } = require('../../lib/practice-config');
+const { escapeHtml } = require('../../shared/escape');
 
 const statuses = ['New', 'Contacted', 'Scheduled', 'Closed'];
-
-function escapeHtml(value = '') {
-  return String(value)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
-}
 
 function statusOptions(current) {
   return statuses.map((status) => `<option value="${status}"${current === status ? ' selected' : ''}>${status}</option>`).join('');
 }
 
 function leadRows(leads) {
-  if (!leads.length) return '<tr><td colspan="5" class="empty">No inquiries have been received yet. New requests will appear here.</td></tr>';
+  if (!leads.length) return '<tr><td colspan="5" class="empty">No general inquiries have been received yet. Practice survey submissions stay with the assigned GoHighLevel destination.</td></tr>';
   return leads.map((lead) => {
     const date = new Date(lead.createdAt).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
-    const statusClass = escapeHtml(lead.status).toLowerCase();
     const safeId = escapeHtml(lead.id);
-    return `<tr>
-      <td><strong>${escapeHtml(lead.name)}</strong><span class="muted">${escapeHtml(date)}</span></td>
-      <td><a href="tel:${escapeHtml(lead.phone.replace(/\D/g, ''))}">${escapeHtml(lead.phone)}</a><a class="muted" href="mailto:${escapeHtml(lead.email)}">${escapeHtml(lead.email)}</a></td>
-      <td>${escapeHtml(lead.inquiryType)}<span class="muted">Prefers ${escapeHtml(lead.contactMethod)}</span></td>
-      <td><span class="status ${statusClass}">${escapeHtml(lead.status)}</span></td>
-      <td><form class="update-form" action="/admin/leads/${encodeURIComponent(lead.id)}/status" method="post"><label class="sr-only" for="status-${safeId}">Update status for ${escapeHtml(lead.name)}</label><select id="status-${safeId}" name="status">${statusOptions(lead.status)}</select><button type="submit">Save</button></form></td>
-    </tr>`;
+    return `<tr><td><strong>${escapeHtml(lead.name)}</strong><span class="muted">${escapeHtml(date)}</span></td><td><a href="tel:${escapeHtml(lead.phone.replace(/\D/g, ''))}">${escapeHtml(lead.phone)}</a><a class="muted" href="mailto:${escapeHtml(lead.email)}">${escapeHtml(lead.email)}</a></td><td>${escapeHtml(lead.inquiryType)}<span class="muted">Prefers ${escapeHtml(lead.contactMethod)}</span></td><td><span class="status ${escapeHtml(lead.status).toLowerCase()}">${escapeHtml(lead.status)}</span></td><td><form class="inline-form" action="/admin/leads/${encodeURIComponent(lead.id)}/status" method="post"><label class="sr-only" for="status-${safeId}">Update status</label><select id="status-${safeId}" name="status">${statusOptions(lead.status)}</select><button type="submit">Save</button></form></td></tr>`;
   }).join('');
 }
 
-function doctorSections() {
-  return getAllDoctors().map((doctor) => {
-    const rows = Object.entries(doctor.variants).map(([slug, variant]) => {
-      const lp = `/${doctor.slug}/${slug}`;
-      const ty = `${lp}/thank-you`;
-      const bt = `${lp}/thank-you-bt`;
-      const cities = (doctor.cities || []).map((city) => {
-        const cityLp = `${lp}/${city.slug}`;
-        return `<tr class="city"><td>↳ ${escapeHtml(city.label)}</td><td><a href="${cityLp}" target="_blank" rel="noreferrer">Landing page</a></td><td><a href="${cityLp}/thank-you" target="_blank" rel="noreferrer">Thank you</a></td><td><a href="${cityLp}/thank-you-bt" target="_blank" rel="noreferrer">Helpful step</a></td></tr>`;
-      }).join('');
-      return `<tr><td><strong>${escapeHtml(slug.toUpperCase())}</strong> ${escapeHtml(variant.label)}</td><td><a href="${lp}" target="_blank" rel="noreferrer">Landing page</a></td><td><a href="${ty}" target="_blank" rel="noreferrer">Thank you</a></td><td><a href="${bt}" target="_blank" rel="noreferrer">Helpful step</a></td></tr>${cities}`;
-    }).join('');
-    return `<section class="card legacy"><div class="card-heading"><div><p class="kicker">Existing assets</p><h2>${escapeHtml(doctor.adminLabel || doctor.name)}</h2></div><a href="${escapeHtml(doctor.website)}" target="_blank" rel="noreferrer">Practice website</a></div><div class="table-wrap"><table><thead><tr><th>Variant</th><th>Landing Page</th><th>Thank You</th><th>Below Target</th></tr></thead><tbody>${rows}</tbody></table></div></section>`;
-  }).join('');
+function designOptions(current) {
+  return DESIGN_SYSTEMS.map((design) => `<option value="${design}"${current === design ? ' selected' : ''}>${escapeHtml(design.replace(/-/g, ' '))}</option>`).join('');
 }
 
-function renderAdmin({ leads = [], summary = {}, storage = { persistent: false } } = {}) {
-  const storageNotice = storage.persistent
-    ? '<p class="storage good">Lead storage is configured for a persistent location.</p>'
-    : '<p class="storage warning">Lead storage is using the application filesystem. Configure <code>LEADS_FILE</code> to a mounted persistent volume before relying on it for production lead capture.</p>';
+function campaignTitle(key) {
+  return key.replace(/-/g, ' ').replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function configErrors(errors = {}) {
+  const entries = Object.values(errors).filter(Boolean);
+  return entries.length ? `<div class="config-errors" role="alert"><strong>Configuration needs attention.</strong><p>${entries.map(escapeHtml).join(' ')}</p></div>` : '';
+}
+
+function routeLinks(practice) {
+  const campaigns = CAMPAIGN_KEYS.map((campaign) => `<li><strong>${escapeHtml(campaignTitle(campaign))}</strong><a href="/go/${escapeHtml(practice.key)}/${campaign}" target="_blank" rel="noreferrer">Landing page</a><a href="/go/${escapeHtml(practice.key)}/${campaign}/thank-you" target="_blank" rel="noreferrer">Qualified TY</a><a href="/go/${escapeHtml(practice.key)}/${campaign}/not-qualified" target="_blank" rel="noreferrer">NQ TY</a></li>`).join('');
+  return `<div class="route-links"><p class="card-kicker">Published route map</p><a href="/care/${escapeHtml(practice.key)}" target="_blank" rel="noreferrer">Practice overview ↗</a><span>·</span><a href="/care/${escapeHtml(practice.key)}/privacy" target="_blank" rel="noreferrer">Privacy ↗</a><span>·</span><a href="/care/${escapeHtml(practice.key)}/terms" target="_blank" rel="noreferrer">Terms ↗</a><span>·</span><a href="/care/${escapeHtml(practice.key)}/accessibility" target="_blank" rel="noreferrer">Accessibility ↗</a><ul>${campaigns}</ul></div>`;
+}
+
+function practiceForm(practice, errors) {
+  const policy = practice.policyOverrides || {};
+  return `<article class="practice-card"><div class="practice-heading"><div><p class="card-kicker">Practice configuration</p><h2>${escapeHtml(practice.campaignDestination)}</h2><p>${escapeHtml(practice.publicName)} · ${escapeHtml(practice.serviceLabel)}</p></div><span class="survey-badge">Survey ready</span></div>${configErrors(errors)}<form action="/admin/practices/${encodeURIComponent(practice.key)}" method="post" class="practice-form"><div class="config-grid"><label>Public practice name<input name="publicName" value="${escapeHtml(practice.publicName)}" required /></label><label>Campaign destination name<input name="campaignDestination" value="${escapeHtml(practice.campaignDestination)}" required /></label><label>Call number display<input name="phoneDisplay" value="${escapeHtml(practice.phoneDisplay)}" required /></label><label>Call route number<input name="phoneRaw" inputmode="tel" value="${escapeHtml(practice.phoneRaw)}" required /></label><label>Text route number<input name="textRaw" inputmode="tel" value="${escapeHtml(practice.textRaw)}" required /></label><label>GoHighLevel survey ID<input name="surveyId" value="${escapeHtml(practice.surveyId)}" required /></label></div><fieldset><legend>Design concept assignment</legend><div class="design-grid">${CAMPAIGN_KEYS.map((campaign) => `<label>${escapeHtml(campaignTitle(campaign))}<select name="design_${campaign}">${designOptions(practice.designAssignments?.[campaign] || 'night-to-clarity')}</select></label>`).join('')}</div></fieldset><fieldset><legend>Practice-specific policy overrides</legend><p class="fieldset-note">Leave a field blank to retain the shared practice-policy copy. Entries appear on this practice’s privacy, terms, or accessibility route everywhere the practice is referenced.</p><div class="policy-grid"><label>Privacy policy override<textarea name="privacyPolicy" rows="6">${escapeHtml(policy.privacy || '')}</textarea></label><label>Terms &amp; conditions override<textarea name="termsPolicy" rows="6">${escapeHtml(policy.terms || '')}</textarea></label><label>Accessibility statement override<textarea name="accessibilityPolicy" rows="6">${escapeHtml(policy.accessibility || '')}</textarea></label></div></fieldset><div class="form-footer"><p>Changes are saved to the protected practice configuration store. Legacy routes keep their original paths and use the assigned Pantego survey.</p><button type="submit">Save ${escapeHtml(practice.campaignDestination)} configuration</button></div></form>${routeLinks(practice)}</article>`;
+}
+
+function indexRow({ category, practice, page, path, status = 'Published', system = '' }) {
+  return `<tr data-index-row data-category="${escapeHtml(category)}" data-practice="${escapeHtml(practice)}"><td><span class="index-category ${escapeHtml(category)}">${escapeHtml(category.replace(/-/g, ' '))}</span></td><td>${escapeHtml(practice)}</td><td><strong>${escapeHtml(page)}</strong>${system ? `<span class="muted">${escapeHtml(system)}</span>` : ''}</td><td><code>${escapeHtml(path)}</code></td><td><span class="route-status">${escapeHtml(status)}</span></td><td><a href="${escapeHtml(path)}" target="_blank" rel="noreferrer">Preview ↗</a></td></tr>`;
+}
+
+function completePageIndex(practices) {
+  const rows = [];
+  const publicPages = [
+    ['Public site', 'Breathe Better Tonight', 'Night-to-Clarity homepage', '/'],
+    ['Public site', 'Breathe Better Tonight', 'Sleep Check', '/sleep-check'],
+    ['Public site', 'Breathe Better Tonight', 'Find a Provider', '/find-a-provider'],
+    ['Public site', 'Breathe Better Tonight', 'About Sleep Apnea', '/sleep-apnea'],
+    ['Public site', 'Breathe Better Tonight', 'About', '/about'],
+    ['Public site', 'Breathe Better Tonight', 'Frequently Asked Questions', '/faq'],
+    ['Public site', 'Breathe Better Tonight', 'General contact', '/contact'],
+    ['Public site', 'Breathe Better Tonight', 'General thank-you', '/thank-you'],
+    ['Policy', 'Breathe Better Tonight', 'Privacy Policy', '/privacy-policy'],
+    ['Policy', 'Breathe Better Tonight', 'Terms & Conditions', '/terms-and-conditions'],
+    ['Policy', 'Breathe Better Tonight', 'Accessibility Statement', '/accessibility'],
+    ['HCP handoff', 'Propel Dental', 'Healthcare professional microsite handoff', '/for-professionals'],
+  ];
+  publicPages.forEach(([category, practice, page, path]) => rows.push(indexRow({ category, practice, page, path })));
+
+  practices.forEach((practice) => {
+    rows.push(indexRow({ category: 'Practice', practice: practice.campaignDestination, page: 'Local practice overview', path: `/care/${practice.key}`, system: 'Night-to-Clarity local handoff' }));
+    ['privacy', 'terms', 'accessibility'].forEach((kind) => rows.push(indexRow({ category: 'Policy', practice: practice.campaignDestination, page: `${kind[0].toUpperCase()}${kind.slice(1)} profile`, path: `/care/${practice.key}/${kind}`, system: 'Practice-scoped policy profile' })));
+    CAMPAIGN_KEYS.forEach((campaign) => {
+      const campaignLabel = campaignTitle(campaign);
+      const design = practice.designAssignments?.[campaign] || 'night-to-clarity';
+      rows.push(indexRow({ category: 'Campaign', practice: practice.campaignDestination, page: `${campaignLabel} landing page`, path: `/go/${practice.key}/${campaign}`, system: design }));
+      rows.push(indexRow({ category: 'Qualified TY', practice: practice.campaignDestination, page: `${campaignLabel} qualified thank-you`, path: `/go/${practice.key}/${campaign}/thank-you`, system: `${design} matched outcome` }));
+      rows.push(indexRow({ category: 'NQ TY', practice: practice.campaignDestination, page: `${campaignLabel} non-qualified thank-you`, path: `/go/${practice.key}/${campaign}/not-qualified`, system: `${design} matched outcome` }));
+    });
+  });
+
+  getAllRoutes().forEach((route) => {
+    const doctor = getAllDoctors().find((entry) => entry.slug === route.doctorSlug);
+    const category = route.type === 'lp' ? 'Legacy LP' : route.type === 'ty' ? 'Legacy TY' : 'Legacy NQ TY';
+    const variant = route.variantSlug ? route.variantSlug.toUpperCase() : 'Legacy route';
+    const city = route.citySlug ? ` · ${route.citySlug.replace(/-/g, ' ')}` : '';
+    rows.push(indexRow({ category, practice: doctor?.practice || route.doctorSlug, page: `${variant}${city}`, path: route.path, system: 'Preserved compatibility route' }));
+  });
+
+  return `<section class="card page-index" id="page-index"><div class="card-heading"><div><p class="card-kicker">Complete navigation registry</p><h2>Page Index</h2><p>Every public, practice, campaign, matched outcome, policy, and preserved legacy URL is listed below with a direct preview.</p></div><span class="route-count">${rows.length} routes</span></div><div class="index-controls"><label class="index-search-label" for="page-index-search">Search routes, pages, or practices<input id="page-index-search" type="search" placeholder="Search all ${rows.length} pages" autocomplete="off" /></label><div class="index-filters" role="group" aria-label="Filter page index"><button type="button" class="index-filter is-active" data-index-filter="all">All</button><button type="button" class="index-filter" data-index-filter="public-site">Public</button><button type="button" class="index-filter" data-index-filter="practice">Practice</button><button type="button" class="index-filter" data-index-filter="campaign">Campaigns</button><button type="button" class="index-filter" data-index-filter="qualified-ty">Qualified TY</button><button type="button" class="index-filter" data-index-filter="nq-ty">NQ TY</button><button type="button" class="index-filter" data-index-filter="policy">Policies</button><button type="button" class="index-filter" data-index-filter="legacy-lp">Legacy LPs</button></div><p class="index-results" id="page-index-results">Showing all ${rows.length} routes.</p></div><div class="table-wrap index-table-wrap"><table><thead><tr><th>Category</th><th>Practice / owner</th><th>Page</th><th>Route</th><th>Status</th><th>Preview</th></tr></thead><tbody>${rows.join('')}</tbody></table></div></section><script>document.addEventListener('DOMContentLoaded',function(){var search=document.getElementById('page-index-search'),buttons=[].slice.call(document.querySelectorAll('[data-index-filter]')),rows=[].slice.call(document.querySelectorAll('[data-index-row]')),result=document.getElementById('page-index-results'),active='all';function normalize(value){return String(value||'').toLowerCase()}function update(){var term=normalize(search.value),visible=0;rows.forEach(function(row){var category=row.dataset.category||'',haystack=normalize(row.innerText),matchCategory=active==='all'||category===active,matchTerm=!term||haystack.indexOf(term)>-1,rowVisible=matchCategory&&matchTerm;row.hidden=!rowVisible;if(rowVisible)visible+=1});result.textContent='Showing '+visible+' of '+rows.length+' routes.'}search.addEventListener('input',update);buttons.forEach(function(button){button.addEventListener('click',function(){active=button.dataset.indexFilter;buttons.forEach(function(item){item.classList.toggle('is-active',item===button)});update()})});update()});</script>`;
+}
+
+function renderAdmin({ leads = [], summary = {}, storage = { persistent: false }, practices = [], configStorage = { persistent: false }, configErrors: errors = {} } = {}) {
+  const storageNotice = storage.persistent && configStorage.persistent
+    ? '<p class="storage good">Lead and practice configuration stores are backed by the Railway persistent volume.</p>'
+    : '<p class="storage warning">A persistent configuration path is not fully configured. Set <code>LEADS_FILE</code> and <code>PRACTICE_CONFIG_FILE</code> to the Railway volume before relying on live administration changes.</p>';
   const metric = (value, label) => `<article class="metric"><strong>${value || 0}</strong><span>${label}</span></article>`;
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex,nofollow" />
-  <meta name="referrer" content="no-referrer" />
-  <title>Admin Dashboard | Breathe Better Tonight</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
-  <style>
-    :root{--navy:#0d1b2a;--navy2:#17364b;--teal:#008fa0;--mist:#eaf7f7;--ink:#173044;--muted:#637984;--line:#d9e6e8;--white:#fff}*{box-sizing:border-box}body{margin:0;background:#f4f8f9;color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.45}a{color:#007e8e;font-weight:700}.admin-header{background:var(--navy);color:#fff}.header-inner,.admin-body{width:min(1240px,calc(100% - 40px));margin:0 auto}.header-inner{display:flex;align-items:center;justify-content:space-between;gap:22px;padding:18px 0}.identity{display:flex;align-items:center;gap:13px}.identity img{width:40px;height:40px;object-fit:contain}.identity strong{display:block;font-family:Fraunces,serif;font-size:1.18rem}.identity span{color:#a6c5ce;font-size:.78rem}.badge{border:1px solid rgba(124,227,233,.4);border-radius:999px;padding:7px 11px;color:#b8f0f1;font-size:.7rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase}.admin-body{padding:40px 0 60px}h1,h2{margin:0;color:var(--navy);font-family:Fraunces,serif;line-height:1.1;letter-spacing:-.03em}h1{font-size:clamp(2rem,4vw,3rem)}h2{font-size:1.35rem}.intro{margin-bottom:27px}.intro p{max-width:720px;margin:11px 0 0;color:var(--muted)}.kicker{margin:0 0 6px;color:var(--teal);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-bottom:25px}.metric{padding:18px;border:1px solid var(--line);border-radius:12px;background:var(--white)}.metric strong{display:block;color:var(--navy);font-size:1.9rem;line-height:1}.metric span{color:var(--muted);font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase}.card{overflow:hidden;margin-bottom:28px;border:1px solid var(--line);border-radius:14px;background:var(--white);box-shadow:0 8px 24px rgba(15,56,69,.05)}.card-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:23px 25px;border-bottom:1px solid var(--line)}.storage{margin:0;padding:13px 16px;font-size:.86rem}.good{color:#146044;background:#e8f8ef}.warning{color:#765000;background:#fff6df}.warning code{font-weight:700}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.87rem}th{padding:12px 16px;background:#f8fbfc;color:var(--muted);font-size:.71rem;letter-spacing:.07em;text-align:left;text-transform:uppercase}td{padding:16px;border-top:1px solid var(--line);vertical-align:top}td strong{display:block;color:var(--navy)}.muted{display:block;margin-top:3px;color:var(--muted);font-size:.78rem;font-weight:400}.status{display:inline-block;border-radius:999px;padding:5px 9px;font-size:.74rem;font-weight:700}.new{color:#006974;background:#dff8fa}.contacted{color:#425786;background:#eaf0ff}.scheduled{color:#0b6b4d;background:#def9ed}.closed{color:#5d6266;background:#eceff1}.update-form{display:flex;gap:7px}select,button{height:35px;border-radius:6px;font:inherit;font-size:.8rem}select{border:1px solid #bdced4;padding:0 7px;color:var(--ink);background:#fff}button{border:0;padding:0 11px;color:#fff;background:var(--teal);font-weight:700;cursor:pointer}.empty{padding:28px;color:var(--muted);text-align:center}.city td{color:#536c79;background:#f8fbfc;font-size:.82rem}.admin-footer{padding:24px 0;color:#7795a0;background:var(--navy);font-size:.78rem;text-align:center}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:780px){.header-inner,.admin-body{width:min(100% - 28px,1240px)}.admin-body{padding-top:28px}.metrics{grid-template-columns:repeat(2,1fr)}.metrics .metric:first-child{grid-column:1/-1}.card-heading{align-items:flex-start;flex-direction:column;padding:20px}td,th{padding:13px}.update-form{min-width:175px}}
-  </style>
-</head>
-<body>
-  <header class="admin-header"><div class="header-inner"><div class="identity"><img src="/assets/images/logo.png" alt="" /><div><strong>Breathe Better Tonight</strong><span>National website administration</span></div></div><span class="badge">Protected area</span></div></header>
-  <main class="admin-body">
-    <div class="intro"><p class="kicker">Lead management</p><h1>New requests, all in one place.</h1><p>Review general inquiries, follow up through the visitor’s preferred method, and update each request as it progresses.</p></div>
-    <section class="metrics" aria-label="Lead status summary">${metric(summary.total, 'Total inquiries')}${metric(summary.New, 'New')}${metric(summary.Contacted, 'Contacted')}${metric(summary.Scheduled, 'Scheduled')}${metric(summary.Closed, 'Closed')}</section>
-    <section class="card"><div class="card-heading"><div><p class="kicker">Inquiry dashboard</p><h2>Form submissions</h2></div></div>${storageNotice}<div class="table-wrap"><table><thead><tr><th>Visitor / submitted</th><th>Contact details</th><th>Request</th><th>Status</th><th>Update</th></tr></thead><tbody>${leadRows(leads)}</tbody></table></div></section>
-    ${doctorSections()}
-  </main>
-  <footer class="admin-footer">Breathe Better Tonight · Protected administration · ${new Date().getFullYear()}</footer>
-</body>
-</html>`;
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="robots" content="noindex,nofollow"/><meta name="referrer" content="no-referrer"/><title>Admin Workspace | Breathe Better Tonight</title><link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet"/><style>:root{--night:#071a2d;--ink:#132b3a;--muted:#62737c;--teal:#0b776c;--paper:#f5f3ed;--line:#d6e1dd}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:"DM Sans",system-ui,sans-serif;line-height:1.5}a{color:var(--teal);font-weight:800}.admin-header{background:var(--night);color:#fff}.header-inner,.admin-body{width:min(1320px,calc(100% - 40px));margin:auto}.header-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0}.identity{display:flex;align-items:center;gap:12px}.identity img{width:40px;height:40px;object-fit:contain}.identity strong{display:block;font-family:Fraunces,Georgia,serif;font-size:1.18rem}.identity span{display:block;color:#b4d3cf;font-size:.78rem}.badge{border:1px solid rgba(103,214,190,.45);border-radius:999px;padding:7px 10px;color:#a8ecdc;font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.admin-body{padding:40px 0 66px}h1,h2{margin:0;font-family:Fraunces,Georgia,serif;line-height:1.05;letter-spacing:-.035em}h1{font-size:clamp(2.1rem,4vw,3.4rem)}h2{font-size:1.7rem}.intro{margin-bottom:26px}.intro p{max-width:760px;margin:12px 0 0;color:var(--muted)}.kicker,.card-kicker{margin:0 0 6px;color:var(--teal);font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.metrics{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:25px}.metric{padding:18px;border:1px solid var(--line);background:#fff}.metric strong{display:block;font-size:1.75rem}.metric span{color:var(--muted);font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.storage{margin:0 0 25px;padding:14px 17px}.good{color:#135d48;background:#e2f5eb}.warning{color:#735200;background:#fff4d9}.workspace-nav{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px}.workspace-nav a{padding:9px 12px;border:1px solid var(--line);background:#fff;text-decoration:none;font-size:.8rem}.card,.practice-card{margin-bottom:27px;border:1px solid var(--line);background:#fff;box-shadow:0 14px 36px rgba(10,39,54,.06)}.card-heading,.practice-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding:25px;border-bottom:1px solid var(--line)}.card-heading p:not(.card-kicker),.practice-heading p:not(.card-kicker){max-width:700px;margin:8px 0 0;color:var(--muted)}.survey-badge,.route-count{padding:7px 10px;background:#def3e9;color:#17614f;font-size:.7rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.86rem}th{padding:12px 16px;background:#fafcfa;color:var(--muted);font-size:.7rem;letter-spacing:.08em;text-align:left;text-transform:uppercase}td{padding:16px;border-top:1px solid var(--line);vertical-align:top}td strong{display:block}.muted{display:block;margin-top:3px;color:var(--muted);font-size:.77rem;font-weight:400}.status,.route-status{display:inline-block;padding:5px 9px;border-radius:999px;background:#e4f2ef;color:#155f50;font-size:.72rem;font-weight:800}.inline-form{display:flex;gap:7px}select,input,textarea,button{font:inherit}select,input,textarea{width:100%;border:1px solid #b9cdc5;background:#fff;color:var(--ink);padding:10px;border-radius:5px}select,input{min-height:42px}textarea{resize:vertical;line-height:1.5}.inline-form select{min-width:115px}.inline-form button,button{border:0;border-radius:5px;padding:0 12px;min-height:40px;background:var(--teal);color:#fff;font-weight:800;cursor:pointer}.practice-form{padding:25px}.config-grid,.design-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.practice-form label{display:grid;gap:7px;color:var(--ink);font-size:.82rem;font-weight:800}.practice-form fieldset{margin:22px 0 0;padding:20px;border:1px solid var(--line)}.practice-form legend{padding:0 7px;font-family:Fraunces,Georgia,serif;font-weight:700}.fieldset-note{margin:0 0 17px;color:var(--muted);font-size:.82rem}.policy-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.form-footer{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:24px}.form-footer p{max-width:650px;margin:0;color:var(--muted);font-size:.8rem}.form-footer button{padding:0 16px}.route-links{padding:22px 25px;background:#f9fbf9}.route-links>a,.route-links>span{font-size:.82rem}.route-links ul{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0 0;padding:0;list-style:none}.route-links li{display:grid;gap:5px;padding:14px;border-top:2px solid #9fdacd;background:#fff;font-size:.82rem}.route-links strong{font-family:Fraunces,Georgia,serif;font-size:1rem}.config-errors{margin:20px 25px 0;padding:13px;border-left:3px solid #a7393e;background:#fff0f1;color:#7c242d}.config-errors p{margin:5px 0 0;font-size:.83rem}.empty{padding:30px;color:var(--muted);text-align:center}.index-controls{padding:22px 25px;border-bottom:1px solid var(--line);background:#fbfcfb}.index-search-label{display:grid;gap:7px;max-width:520px;color:var(--ink);font-size:.82rem;font-weight:800}.index-filters{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}.index-filter{min-height:32px;padding:0 10px;border:1px solid var(--line);background:#fff;color:var(--ink);font-size:.72rem}.index-filter.is-active{border-color:var(--teal);background:var(--teal);color:#fff}.index-results{margin:15px 0 0;color:var(--muted);font-size:.8rem}.index-category{display:inline-block;border-radius:999px;padding:4px 8px;background:#eef2f0;color:#4b5e59;font-size:.67rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.index-category.campaign{background:#def3e9;color:#155f50}.index-category.qualified-ty{background:#e6eff9;color:#345777}.index-category.nq-ty{background:#fff0df;color:#7a542a}.index-category.legacy-lp,.index-category.legacy-ty,.index-category.legacy-nq-ty{background:#eee8fb;color:#594d7d}.index-table-wrap{max-height:780px;overflow:auto}.index-table-wrap thead th{position:sticky;top:0;z-index:1}.index-table-wrap code{font-size:.77rem;white-space:nowrap}.admin-footer{padding:25px;background:var(--night);color:#9cbab6;font-size:.78rem;text-align:center}.sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}@media(max-width:920px){.metrics{grid-template-columns:repeat(3,1fr)}.config-grid,.design-grid,.policy-grid,.route-links ul{grid-template-columns:1fr 1fr}.form-footer{align-items:flex-start;flex-direction:column}}@media(max-width:640px){.header-inner,.admin-body{width:min(100% - 28px,1320px)}.header-inner{align-items:flex-start}.metrics{grid-template-columns:repeat(2,1fr)}.metrics .metric:first-child{grid-column:1/-1}.card-heading,.practice-heading{padding:20px;flex-direction:column}.practice-form{padding:20px}.config-grid,.design-grid,.policy-grid,.route-links ul{grid-template-columns:1fr}.form-footer button{width:100%}.route-links,.index-controls{padding:20px}.workspace-nav a{flex:1 1 auto;text-align:center}}</style></head><body><header class="admin-header"><div class="header-inner"><div class="identity"><img src="/assets/images/logo.png" alt=""/><div><strong>Breathe Better Tonight</strong><span>Practice publishing workspace</span></div></div><span class="badge">Protected area</span></div></header><main class="admin-body"><div class="intro"><p class="kicker">Configuration control room</p><h1>Practices, landing pages, and care-path handoffs.</h1><p>Assign the GoHighLevel survey, visible Call and Text routes, design concepts, local policies, and matched outcome pages from one place. Survey responses remain in the assigned GoHighLevel destination.</p></div><nav class="workspace-nav" aria-label="Admin sections"><a href="#page-index">Page Index</a><a href="#practice-config">Practice configuration</a><a href="#lead-dashboard">General inquiries</a></nav>${storageNotice}<section class="metrics" aria-label="Lead summary">${metric(summary.total, 'General inquiries')}${metric(summary.New, 'New')}${metric(summary.Contacted, 'Contacted')}${metric(summary.Scheduled, 'Scheduled')}${metric(summary.Closed, 'Closed')}</section>${completePageIndex(practices)}<section id="practice-config"><div class="intro"><p class="kicker">Publishing destinations</p><h2>Practice configuration</h2><p>Each practice is independent: its survey, policy profile, local phone/text routes, design assignments, and thank-you pages are not shared with the other practices.</p></div>${practices.map((practice) => practiceForm(practice, errors[practice.key])).join('')}</section><section class="card" id="lead-dashboard"><div class="card-heading"><div><p class="card-kicker">Legacy national intake</p><h2>General form submissions</h2></div></div><div class="table-wrap"><table><thead><tr><th>Visitor / submitted</th><th>Contact details</th><th>Request</th><th>Status</th><th>Update</th></tr></thead><tbody>${leadRows(leads)}</tbody></table></div></section></main><footer class="admin-footer">Breathe Better Tonight · Protected configuration workspace · ${new Date().getFullYear()}</footer></body></html>`;
 }
 
 module.exports = { renderAdmin };

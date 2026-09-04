@@ -1,0 +1,27 @@
+/* Outcome continuity layer: legacy routes keep their existing theme and gain their own hero image. */
+.legacy-outcome .ty-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #0c2336;
+}
+
+.legacy-outcome .ty-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: var(--outcome-image) center / cover no-repeat;
+}
+
+.legacy-outcome .ty-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(5, 19, 33, .92), rgba(5, 19, 33, .58));
+}
+
+.legacy-outcome-helpful .ty-hero::after {
+  background: linear-gradient(90deg, rgba(13, 32, 44, .92), rgba(13, 32, 44, .52));
+}
