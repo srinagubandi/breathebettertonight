@@ -1,6 +1,6 @@
 # Consultation Wording Update
 
-- [x] Inventory all production and source occurrences of “free consultation” and related free-consultation language.
+- [x] Inventory all production and source occurrences of retired no-cost consultation language.
 - [x] Replace patient-facing consultation CTAs with “Request a consultation.”
 - [x] Update administrative labels and regression checks without changing GoHighLevel survey routing.
 - [x] Validate the preserved routes and deploy the wording update to Railway.
@@ -23,3 +23,17 @@
 - [x] Complete improvement loop two for mobile responsiveness, protected access, and route verification.
 - [x] Complete improvement loop three for concept descriptions, review labels, and action-language refinement.
 - [x] Deploy and validate the protected concept-library sections on Railway.
+- [ ] Inventory visible practice-name, Call, and Text rendering points across doctor landing and outcome pages.
+- [ ] Add per-practice admin toggles for landing-page practice-name, Call, and Text visibility.
+- [ ] Preserve assigned GoHighLevel survey routing and policy behavior when display controls are changed.
+- [ ] Validate enabled and disabled states for all three practices and deploy the toggle controls to Railway.
+- [ ] Review all doctor landing and matched outcome copy with practice identity both visible and hidden before deployment.
+- [ ] Define three new symptom-led concepts for partner-disrupted sleep, waking unrefreshed, and daytime brain fog.
+- [ ] Inspect and prepare the three supplied video assets as muted looping hero treatments with static fallbacks usable in Railway production.
+- [ ] Build all three new symptom page families for Pantego Dental, PerioDDS, and Dental World with assigned surveys and matched outcomes.
+- [ ] Validate video playback, reduced-motion fallback, survey routing, and responsive layout before deployment.
+- [ ] Complete video-hero improvement loop one for visual continuity and symptom-message clarity.
+- [ ] Complete video-hero improvement loop two for playback efficiency and reduced-motion/static fallback behavior.
+- [ ] Complete video-hero improvement loop three for practice-name, Call, and Text toggle copy states.
+- [ ] Inspect, optimize, and add a fourth distinct symptom-focused video-hero landing-page family from the newly supplied footage for every active practice.
+- [ ] Complete and record three improvement loops for the fourth video concept: symptom-message continuity, playback and reduced-motion fallback, and practice visibility-toggle copy.

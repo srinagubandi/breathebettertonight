@@ -132,6 +132,38 @@ const patientConcepts = [
     recognitionTitle: 'What a partner may notice.',
     recognition: ['Loud or frequent snoring', 'Pauses in breathing', 'Gasping or choking sounds', 'Restless movement through the night'],
   },
+  {
+    key: 'partner-disrupted-sleep', navLabel: 'Partner-disrupted sleep', eyebrow: 'A shared night',
+    headline: 'When one person’s sleep keeps the other awake.',
+    subheadline: 'Snoring that interrupts a partner’s rest can be a meaningful pattern to discuss together, without blame or assumptions.',
+    hero: '/assets/images/video-posters/partner-disrupted-sleep.jpg', heroPoster: '/assets/images/video-posters/partner-disrupted-sleep.jpg', heroVideo: '/assets/video/partner-disrupted-sleep.mp4', designSystem: 'shared-sleep-signal', featured: true,
+    recognitionTitle: 'What a disrupted night can feel like.',
+    recognition: ['Snoring that repeatedly interrupts a partner’s rest', 'Changes in breathing sounds that a partner notices', 'A restless night for one or both people', 'Waking without feeling restored'],
+  },
+  {
+    key: 'waking-unrefreshed-video', navLabel: 'Waking unrefreshed', eyebrow: 'Morning after a restless night',
+    headline: 'Still waking unrefreshed?',
+    subheadline: 'A night that does not feel restorative can be worth bringing to a thoughtful conversation with a local practice.',
+    hero: '/assets/images/video-posters/unrefreshed-morning.jpg', heroPoster: '/assets/images/video-posters/unrefreshed-morning.jpg', heroVideo: '/assets/video/unrefreshed-morning.mp4', designSystem: 'morning-signal', featured: true,
+    recognitionTitle: 'Details to notice in the morning.',
+    recognition: ['Feeling tired despite time in bed', 'Remembering frequent wake-ups or restless sleep', 'Waking with dry mouth or a headache', 'Starting the day with low energy'],
+  },
+  {
+    key: 'daytime-brain-fog-video', navLabel: 'Daytime brain fog', eyebrow: 'Daytime signal',
+    headline: 'When the day feels foggy, consider the night before.',
+    subheadline: 'Difficulty focusing and low daytime energy can have more than one cause. If the pattern persists, it may be worth discussing.',
+    hero: '/assets/images/video-posters/restless-night.jpg', heroPoster: '/assets/images/video-posters/restless-night.jpg', heroVideo: '/assets/video/restless-night.mp4', designSystem: 'clarity-signal', featured: true,
+    recognitionTitle: 'A pattern to bring into the conversation.',
+    recognition: ['Trouble focusing through the day', 'A dip in energy or alertness', 'Mental fatigue or irritability', 'Feeling unrefreshed after a restless night'],
+  },
+  {
+    key: 'nighttime-breathing-sounds', navLabel: 'Nighttime breathing sounds', eyebrow: 'A nighttime pattern',
+    headline: 'A partner may notice breathing sounds before you do.',
+    subheadline: 'Regularly loud snoring or changes in breathing sounds can interrupt a shared night. They can be useful details to discuss, without assuming a diagnosis.',
+    hero: '/assets/images/video-posters/nighttime-breathing-sounds.jpg', heroPoster: '/assets/images/video-posters/nighttime-breathing-sounds.jpg', heroVideo: '/assets/video/nighttime-breathing-sounds.mp4', designSystem: 'night-breathing-signal', featured: true,
+    recognitionTitle: 'Nighttime details worth noting.',
+    recognition: ['Snoring that is loud or regularly interrupts rest', 'Breathing sounds that change through the night', 'Pauses or gasping that a partner notices', 'Feeling less rested the next day'],
+  },
 ];
 
 function getPatientConcepts() {

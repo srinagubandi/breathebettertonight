@@ -139,7 +139,7 @@ Every patient-facing lookbook study now has a reusable production record in `src
 | Improvement loop | Completed change | Validation result |
 |---:|---|---|
 | 1 | Made the selected doctor/practice and local consultation destination explicit in every canonical concept page and matched outcome. | Canonical, legacy, and outcome routes load with the assigned practice identity. |
-| 2 | Strengthened the GoHighLevel consultation handoff, direct Call/Text labels, and concept-specific outcome copy; removed all retired “free consultation” wording. | Every landing route retains only its assigned survey and matched practice policy profile. |
+| 2 | Strengthened the GoHighLevel consultation handoff, direct Call/Text labels, and concept-specific outcome copy; removed retired no-cost consultation wording. | Every landing route retains only its assigned survey and matched practice policy profile. |
 | 3 | Expanded mobile/desktop QA from the legacy catalog to representative Pantego, PerioDDS, and Dental World concept and legacy routes; added overflow checks. | 38 responsive captures completed without assertion failures. |
 
 The protected Page Index lists the complete doctor-owned concept and legacy page families, in addition to public, policy, canonical campaign, outcome, and preserved compatibility routes. Local validation confirmed Pantego Dental has 96 concept-route previews and 468 legacy-route previews; PerioDDS and Dental World each have 96 concept-route previews and 312 legacy-route previews.
@@ -157,6 +157,22 @@ The authenticated `/admin` workspace now has separate **Homepage Concepts** and 
 Local validation confirms both libraries render after authentication, anonymous requests to `/admin` and `/admin/concepts/:asset` return 401, and retired public concept-asset URLs return 404.
 
 The protected concept-library release was committed to `main` as `e707b52` and deployed successfully to Railway. Production-boundary verification confirmed anonymous requests to `/admin` and `/admin/concepts/bbt_patient_home_video_hero_concept.png` receive HTTP 401, the former public static asset path returns HTTP 404, and the public homepage contains no protected concept-asset link.
+
+## Supplied Video-Hero Concepts and Display Controls — 2026-09-04
+
+Four patient-safe, symptom-led video hero concepts are now staged for all three active practices: Partner-Disrupted Sleep, Waking Unrefreshed, Daytime Brain Fog, and Nighttime Breathing Sounds. Each concept receives canonical `/go/{practice}/{campaign}` landing and outcome routes plus doctor-owned `/lp/{practice}/concepts/{concept}` counterparts. All use the assigned practice-specific GoHighLevel survey on the landing route and paired qualified/non-qualified outcomes.
+
+Each supplied video is a muted, decorative H.264 asset with a paired static JPG poster. The landing renderer uses a metadata-preload, inline, looping video treatment with a contrast scrim and hides motion under `prefers-reduced-motion: reduce` while retaining the still poster. The new fourth Nighttime Breathing Sounds concept uses the most recently supplied square-format footage and remains distinct from the broader Partner-Disrupted Sleep concept by focusing on observable breathing sounds.
+
+The protected practice configuration store now persists `showPracticeName`, `showPhone`, and `showText` for every practice. The admin form exposes independent controls. Canonical landing/outcome pages, doctor-owned concept pages, legacy LPs, legacy outcome pages, the shared header, the survey context, and the chat fallback all render coherent generic copy when selected details are hidden; GHL routing and practice policy URLs remain unchanged.
+
+| Loop | Focus | Result |
+|---:|---|---|
+| 1 | Symptom message and visual continuity | Refined the fourth video concept to describe observable nighttime breathing sounds and repeated snoring in a shared, non-blaming frame. |
+| 2 | Playback and reduced-motion fallback | Verified the muted fourth MP4 becomes playable with a JPG poster fallback; all video heroes use metadata preload and reduced-motion static rendering. |
+| 3 | Practice-name, Call, and Text states | Verified fully visible, fully hidden, and mixed display states, including representative legacy and outcome routes. |
+
+The completed local regression set covers generated legacy URLs, all doctor-owned concept/legacy route families, the three active practice survey assignments, four video families with qualified/non-qualified outcomes, the optimized video/poster assets, and retired consultation-wording cleanup. The final Git/Railway deployment remains the next release step.
 
 ## Responsive QA Findings — 2026-08-13
 

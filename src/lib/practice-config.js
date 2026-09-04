@@ -3,8 +3,8 @@ const path = require('path');
 
 const MAX_TEXT = 6000;
 const MAX_LABEL = 160;
-const DESIGN_SYSTEMS = ['morning-signal', 'clarity-signal', 'shared-sleep-signal', 'night-to-clarity', 'clinical-confidence', 'family-comfort', 'local-care-calm-direction', 'soft-utility', 'humanist-morning', 'quiet-signal', 'sleep-check', 'provider-match', 'consultation-handoff', 'partner-path', 'treatment-questions', 'request-received'];
-const CAMPAIGN_KEYS = ['night-to-clarity', 'clinical-confidence', 'family-comfort', 'local-care-calm-direction', 'soft-utility', 'humanist-morning', 'quiet-signal', 'sleep-check', 'provider-match', 'consultation-handoff', 'partner-path', 'treatment-questions', 'request-received', 'tired-mornings', 'focus-and-brain-fog', 'partner-noticed-snoring'];
+const DESIGN_SYSTEMS = ['morning-signal', 'clarity-signal', 'shared-sleep-signal', 'night-breathing-signal', 'night-to-clarity', 'clinical-confidence', 'family-comfort', 'local-care-calm-direction', 'soft-utility', 'humanist-morning', 'quiet-signal', 'sleep-check', 'provider-match', 'consultation-handoff', 'partner-path', 'treatment-questions', 'request-received'];
+const CAMPAIGN_KEYS = ['night-to-clarity', 'clinical-confidence', 'family-comfort', 'local-care-calm-direction', 'soft-utility', 'humanist-morning', 'quiet-signal', 'sleep-check', 'provider-match', 'consultation-handoff', 'partner-path', 'treatment-questions', 'request-received', 'tired-mornings', 'focus-and-brain-fog', 'partner-noticed-snoring', 'partner-disrupted-sleep', 'waking-unrefreshed-video', 'daytime-brain-fog-video', 'nighttime-breathing-sounds'];
 
 function storePath() {
   return path.resolve(process.env.PRACTICE_CONFIG_FILE || path.join(__dirname, '../../data/practice-config.json'));
@@ -53,6 +53,12 @@ function formatPhone(raw, fallback) {
   return fallback || raw;
 }
 
+function normalizeBoolean(value, fallback = true) {
+  const normalized = Array.isArray(value) ? value[value.length - 1] : value;
+  if (normalized === undefined || normalized === null || normalized === '') return Boolean(fallback);
+  return ['1', 'true', 'on', 'yes'].includes(String(normalized).toLowerCase());
+}
+
 function getPracticeOverrides() {
   return readStore().practices;
 }
@@ -85,6 +91,9 @@ function updatePracticeOverride(key, input, defaults) {
   current.practices[key] = {
     publicName: cleanText(input.publicName || defaults.publicName),
     campaignDestination: cleanText(input.campaignDestination || defaults.campaignDestination),
+    showPracticeName: normalizeBoolean(input.showPracticeName, defaults.showPracticeName),
+    showPhone: normalizeBoolean(input.showPhone, defaults.showPhone),
+    showText: normalizeBoolean(input.showText, defaults.showText),
     phoneDisplay: formatPhone(phoneRaw, cleanText(input.phoneDisplay || defaults.phoneDisplay)),
     phoneRaw,
     textRaw,

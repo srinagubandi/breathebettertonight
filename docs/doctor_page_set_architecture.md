@@ -6,13 +6,14 @@ Every patient-facing design becomes a complete, doctor-owned landing-page family
 
 ## Patient-Facing Concept Inventory
 
-The approved patient-facing inventory contains sixteen reusable concepts. The nine patient-system concepts, three local sleep-apnea directions, three paid-traffic concepts, and the Night-to-Clarity patient-home direction become configurable landing-page records. Propel Dental HCP-only concepts are excluded.
+The approved patient-facing inventory contains twenty reusable concepts. The nine patient-system concepts, three local sleep-apnea directions, three paid-traffic concepts, four supplied-video symptom concepts, and the Night-to-Clarity patient-home direction become configurable landing-page records. Propel Dental HCP-only concepts are excluded.
 
 | Group | Included concepts |
 |---|---|
 | Public and local concepts | Night to Clarity; Clinical Confidence; Family Comfort; Local Care, Calm Direction |
 | Patient-system concepts | Soft Utility; Humanist Morning; Quiet Signal; Sleep Check; Provider Match; Consultation Handoff; Partner Path; Treatment Questions; Request Received |
 | Ad-matched concepts | Tired Mornings; Focus and Brain Fog; Partner-Noticed Snoring |
+| Supplied-video symptom concepts | Partner-Disrupted Sleep; Waking Unrefreshed; Daytime Brain Fog; Nighttime Breathing Sounds |
 
 ## New Doctor-Owned Route Families
 
@@ -24,7 +25,7 @@ The approved patient-facing inventory contains sixteen reusable concepts. The ni
 | Current paid route | `/go/{practice}/{campaign}` | Existing `/thank-you` and `/not-qualified` paths remain valid |
 | Practice care and policies | `/care/{practice}` | `/privacy`, `/terms`, and `/accessibility` |
 
-Every doctor-specific landing page uses the assigned survey, Call and Text actions, policy profile, and the selected design system. Qualified and non-qualified outcome routes retain the originating concept or legacy visual identity.
+Every doctor-specific landing page uses the assigned survey, policy profile, and selected design system. Practice configuration independently controls whether the public practice name, Call action, and Text action are visible; these display settings never alter the assigned survey or policy URLs. Qualified and non-qualified outcome routes retain the originating concept or legacy visual identity.
 
 ## Legacy Compatibility
 
@@ -32,4 +33,4 @@ The complete `/dr-lay/{v1-v13}` family remains unchanged as an active Pantego De
 
 ## Administration
 
-The protected Page Index lists canonical campaigns, doctor-owned concept pages, doctor-owned legacy pages, localized legacy pages, qualified outcomes, non-qualified outcomes, practice policies, and the preserved `/dr-lay/...` compatibility family. Practice configuration controls survey IDs, Call/Text routes, policy profiles, and design-system assignments without changing source files.
+The protected Page Index lists canonical campaigns, doctor-owned concept pages, doctor-owned legacy pages, localized legacy pages, qualified outcomes, non-qualified outcomes, practice policies, and the preserved `/dr-lay/...` compatibility family. Practice configuration controls survey IDs, Call/Text routes, independent public-name/Call/Text visibility settings, policy profiles, and design-system assignments without changing source files.

@@ -8,17 +8,38 @@ function renderRecognition(items) {
 }
 
 function renderLandingPage({ practice, campaign, locality = '', legacy = false }) {
-  const localityLine = locality ? `Serving ${escapeHtml(locality)} with ${escapeHtml(practice.publicName)}.` : `Serving ${escapeHtml(practice.serviceLabel)}.`;
-  const destination = `${escapeHtml(practice.campaignDestination)} · ${escapeHtml(practice.publicName)}`;
+  const showPracticeName = practice.showPracticeName !== false;
+  const showPhone = practice.showPhone !== false;
+  const showText = practice.showText !== false;
+  const localityLine = locality ? `Serving ${escapeHtml(locality)}${showPracticeName ? ` with ${escapeHtml(practice.publicName)}` : ''}.` : `Serving ${escapeHtml(practice.serviceLabel)}.`;
+  const consultationLabel = 'Request a consultation';
+  const microcopy = showPracticeName ? `Your request is sent to ${escapeHtml(practice.campaignDestination)}. No diagnosis. No pressure.` : 'Your request is sent to your selected local practice. No diagnosis. No pressure.';
+  const heroActions = [
+    `<a class="landing-button landing-button-primary" href="#consultation">${consultationLabel} <span aria-hidden="true">→</span></a>`,
+    showPhone ? `<a class="landing-button landing-button-secondary" href="tel:${escapeHtml(practice.phoneRaw)}">Call ${escapeHtml(practice.phoneDisplay)}</a>` : '',
+    showText ? `<a class="landing-button landing-button-secondary" href="sms:${escapeHtml(practice.textRaw)}">Text the office</a>` : '',
+  ].filter(Boolean).join('');
+  const contextTitle = showPracticeName ? escapeHtml(practice.publicName) : 'A local conversation, when you are ready.';
+  const contextDetails = showPracticeName
+    ? `${escapeHtml(practice.doctorName)}, ${escapeHtml(practice.credentials)} · ${escapeHtml(practice.address)}`
+    : 'The consultation request below is routed directly to the selected local practice.';
+  const contactActions = [
+    showPhone ? `<a href="tel:${escapeHtml(practice.phoneRaw)}">Call ${escapeHtml(practice.phoneDisplay)}</a>` : '',
+    showText ? `<a href="sms:${escapeHtml(practice.textRaw)}">Text the office</a>` : '',
+  ].filter(Boolean).join('');
+  const contactCard = contactActions ? `<div class="practice-contact-card"><strong>Request a consultation</strong><p>Choose the secure request below, or contact the office directly.</p>${contactActions}</div>` : '';
+  const videoHero = campaign.heroVideo ? `<div class="landing-hero-visual" aria-hidden="true"><img class="landing-hero-poster" src="${escapeHtml(campaign.heroPoster || campaign.hero)}" alt=""/><video class="landing-hero-video" autoplay muted loop playsinline preload="metadata" poster="${escapeHtml(campaign.heroPoster || campaign.hero)}"><source src="${escapeHtml(campaign.heroVideo)}" type="video/mp4"/></video></div>` : '';
+  const heroClass = campaign.heroVideo ? 'landing-hero landing-hero-video-enabled' : 'landing-hero';
   const body = `<div class="landing-v3 landing-${escapeHtml(campaign.designSystem || 'night-to-clarity')}">
-    <section class="landing-hero" style="--hero-image:url('${escapeHtml(campaign.hero)}')">
+    <section class="${heroClass}" style="--hero-image:url('${escapeHtml(campaign.hero)}')">
+      ${videoHero}
       <div class="landing-hero-scrim"></div>
       <div class="landing-container landing-hero-content">
-        <p class="landing-eyebrow">${escapeHtml(campaign.eyebrow || 'Night-to-Clarity')} · ${escapeHtml(practice.campaignDestination)}</p>
+        <p class="landing-eyebrow">${escapeHtml(campaign.eyebrow || 'Night-to-Clarity')}${showPracticeName ? ` · ${escapeHtml(practice.campaignDestination)}` : ''}</p>
         <h1>${escapeHtml(campaign.headline)}</h1>
         <p class="landing-lede">${escapeHtml(campaign.subheadline)}</p>
-        <div class="landing-actions"><a class="landing-button landing-button-primary" href="#consultation">Request a consultation with ${escapeHtml(practice.campaignDestination)} <span aria-hidden="true">→</span></a><a class="landing-button landing-button-secondary" href="tel:${escapeHtml(practice.phoneRaw)}">Call ${escapeHtml(practice.phoneDisplay)}</a><a class="landing-button landing-button-secondary" href="sms:${escapeHtml(practice.textRaw)}">Text the office</a></div>
-        <p class="landing-microcopy">Your request is sent to ${destination}. No diagnosis. No pressure.</p>
+        <div class="landing-actions">${heroActions}</div>
+        <p class="landing-microcopy">${microcopy}</p>
       </div>
     </section>
     <section class="recognition-section" id="signals">
@@ -28,14 +49,14 @@ function renderLandingPage({ practice, campaign, locality = '', legacy = false }
       </div>
     </section>
     <section class="practice-context">
-      <div class="landing-container practice-context-grid"><div><p class="landing-eyebrow">Your selected local destination</p><h2>${escapeHtml(practice.publicName)}</h2><p>${escapeHtml(practice.doctorName)}, ${escapeHtml(practice.credentials)} · ${escapeHtml(practice.address)}</p><p>${localityLine}</p></div><div class="practice-contact-card"><strong>Request a consultation</strong><p>Choose the secure request below, or contact the office directly.</p><a href="tel:${escapeHtml(practice.phoneRaw)}">Call ${escapeHtml(practice.phoneDisplay)}</a><a href="sms:${escapeHtml(practice.textRaw)}">Text the office</a></div></div>
+      <div class="landing-container practice-context-grid"><div><p class="landing-eyebrow">${showPracticeName ? 'Your selected local destination' : 'A local next step'}</p><h2>${contextTitle}</h2><p>${contextDetails}</p><p>${localityLine}</p></div>${contactCard}</div>
     </section>
     ${renderSurvey(practice)}
     <section class="landing-disclaimer"><div class="landing-container">This page provides general symptom-awareness information. It does not provide medical advice, a diagnosis, treatment recommendations, or emergency services. If you are experiencing an emergency, call 911 or seek immediate local care.</div></section>
   </div>`;
 
   return layout({
-    title: `${campaign.headline} — ${practice.publicName}`,
+    title: showPracticeName ? `${campaign.headline} — ${practice.publicName}` : `${campaign.headline} — Local consultation request`,
     theme: legacy ? campaign.theme || 'v1' : 'v1',
     designSystem: campaign.designSystem || 'night-to-clarity',
     body,

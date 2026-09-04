@@ -14,13 +14,17 @@
 - Added complete doctor-owned concept and legacy entries to the protected admin **Page Index**.
 - Added separate protected **Homepage Concepts** and **HCP Concepts** libraries to the `/admin` workspace, containing four Breathe Better Tonight patient-homepage directions and five Propel Dental HCP directions.
 - Added authenticated concept-image delivery through `/admin/concepts/:asset`; concept assets are not served from the public static directory.
+- Added four patient-safe supplied-video symptom concepts—**Partner-Disrupted Sleep**, **Waking Unrefreshed**, **Daytime Brain Fog**, and **Nighttime Breathing Sounds**—for every active practice, each with canonical and doctor-owned landing, qualified, and non-qualified page families.
+- Added optimized muted H.264 hero-video assets and matching JPG poster fallbacks, including reduced-motion static behavior.
+- Added independently persisted per-practice visibility controls for public practice name, Call action, and Text action in the protected admin workspace.
 
 ### Changed
 
 - Preserved all existing generated Dr. Lay landing-page URLs while replacing their conversion placeholders with the assigned Pantego Dental GoHighLevel survey.
-- Updated legacy and canonical LP CTAs to use a consultation handoff, removed all retired “free consultation” language, and removed testimonial-style placeholder content.
+- Updated legacy and canonical LP CTAs to use a consultation handoff, removed retired no-cost consultation wording, and removed testimonial-style placeholder content.
 - Converted the GoHighLevel enhancer to an asynchronous load so it does not hold up page rendering or visual QA.
 - Updated responsive QA to use the available Chromium executable and assert the assigned survey, Call/Text header actions, practice policy links, no retired consultation wording, and no horizontal overflow across representative three-practice routes.
+- Updated canonical and legacy landing/outcome renderers, the shared header, survey context, and chat fallback so hidden practice/contact settings do not leave empty action containers or ambiguous visible copy.
 
 ### Validation
 

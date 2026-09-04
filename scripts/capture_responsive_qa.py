@@ -28,6 +28,10 @@ DOCTOR_SAMPLES = [
     ("periodds-legacy", "/lp/periodds/legacy/v6/rockwall-tx", "pvHcEcGNjxhXI3L8lSrE", "periodds"),
     ("dental-world-concept", "/lp/dental-world/concepts/family-comfort", "Rx0LnsI0XLu8JfhiDnYc", "dental-world"),
     ("dental-world-legacy", "/lp/dental-world/legacy/v8/longwood-fl", "Rx0LnsI0XLu8JfhiDnYc", "dental-world"),
+    ("pantego-video-partner", "/go/pantego-dental/partner-disrupted-sleep", "75op3Tl4LTjPkaXI1zhb", "pantego-dental"),
+    ("periodds-video-morning", "/go/periodds/waking-unrefreshed-video", "pvHcEcGNjxhXI3L8lSrE", "periodds"),
+    ("dental-world-video-focus", "/go/dental-world/daytime-brain-fog-video", "Rx0LnsI0XLu8JfhiDnYc", "dental-world"),
+    ("pantego-video-breathing", "/go/pantego-dental/nighttime-breathing-sounds", "75op3Tl4LTjPkaXI1zhb", "pantego-dental"),
 ]
 
 MOBILE = {
@@ -105,9 +109,32 @@ def capture() -> None:
                     page.locator('.chat-close').click()
                     if page.evaluate("document.documentElement.scrollWidth > window.innerWidth + 1"):
                         raise AssertionError(f"Horizontal overflow found in {name} {label}")
+                    if "-video-" in name:
+                        video = page.locator(".landing-hero-video")
+                        poster = page.locator(".landing-hero-poster")
+                        if video.count() != 1 or poster.count() != 1:
+                            raise AssertionError(f"Video hero and poster fallback must both render in {name} {label}")
+                        if not video.evaluate("node => node.autoplay && node.muted && node.loop && node.playsInline && node.preload === 'metadata'"):
+                            raise AssertionError(f"Decorative video settings are incomplete in {name} {label}")
+                        if not video.evaluate("node => node.querySelector('source[type=\"video/mp4\"]')?.getAttribute('src')?.startsWith('/assets/video/')"):
+                            raise AssertionError(f"Optimized MP4 source missing in {name} {label}")
+                        if not video.evaluate("node => node.readyState >= 1 && !node.paused"):
+                            raise AssertionError(f"Muted hero video did not become playable in {name} {label}")
                     page.screenshot(path=str(OUT / f"{name}-{label}.png"), full_page=True)
                     page.close()
                     print(f"captured {name} {label}")
+                if "-video-" in name:
+                    reduced_page = browser.new_page(**MOBILE)
+                    reduced_page.emulate_media(reduced_motion="reduce")
+                    reduced_page.goto(url, wait_until="domcontentloaded", timeout=30000)
+                    reduced_page.locator("h1").first.wait_for(timeout=8000)
+                    if reduced_page.locator(".landing-hero-video").evaluate("node => getComputedStyle(node).display") != "none":
+                        raise AssertionError(f"Reduced-motion video is not hidden in {name}")
+                    if reduced_page.locator(".landing-hero-poster").evaluate("node => getComputedStyle(node).display") == "none":
+                        raise AssertionError(f"Reduced-motion poster fallback is not visible in {name}")
+                    reduced_page.screenshot(path=str(OUT / f"{name}-reduced-motion.png"), full_page=True)
+                    reduced_page.close()
+                    print(f"captured {name} reduced-motion")
             browser.close()
     finally:
         server.terminate()

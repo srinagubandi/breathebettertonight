@@ -36,4 +36,4 @@ Pantego Dental publicly lists `(817) 274-1825`. Dental World publicly lists `(40
 
 ## Local implementation browser verification — 2026-09-04
 
-The Night-to-Clarity public homepage rendered with its provider-selection and Propel Dental professional handoff. The Pantego `tired-mornings` paid landing page rendered the approved ad-matched hero, visible Call and Text actions, a Free Consultation CTA, practice-scoped policy links, and the assigned live GoHighLevel survey `75op3Tl4LTjPkaXI1zhb`. No survey fields were completed or submitted during verification.
+The Night-to-Clarity public homepage rendered with its provider-selection and Propel Dental professional handoff. The Pantego `tired-mornings` paid landing page rendered the approved ad-matched hero, visible Call and Text actions, a Request a consultation CTA, practice-scoped policy links, and the assigned live GoHighLevel survey `75op3Tl4LTjPkaXI1zhb`. No survey fields were completed or submitted during verification.

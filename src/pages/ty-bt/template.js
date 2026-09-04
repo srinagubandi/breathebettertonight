@@ -13,12 +13,21 @@ function renderTYBT(doctor, variantSlug, citySlug, practiceOverride = null) {
   const cityLabel = resolveCityLabel(doctor, citySlug);
   const phone = resolvePhone(doctor, citySlug);
   const phoneRaw = phone.replace(/\D/g, '');
+  const callDisplay = practice?.phoneDisplay || phone;
+  const callRaw = practice?.phoneRaw || phoneRaw;
+  const showPracticeName = !practice || practice.showPracticeName !== false;
+  const showPhone = !practice || practice.showPhone !== false;
+  const practiceLabel = showPracticeName ? (practice?.publicName || doctor.practice) : 'a selected local practice';
+  const providerName = showPracticeName ? `${doctor.name}, ${doctor.credentials}` : 'A local conversation, when you are ready';
+  const providerDetail = showPracticeName ? (practice?.publicName || doctor.practice) : 'A selected local practice can receive a consultation request.';
+  const callCopy = showPracticeName ? `Call ${practiceLabel} to discuss symptoms and next steps with the office.` : 'Use the consultation request to discuss symptoms and next steps with the office.';
+  const callAction = showPhone ? `<a href="tel:${callRaw}" class="button button-secondary">Call ${callDisplay}<span aria-hidden="true">→</span></a>` : '';
   const body = `<div class="legacy-outcome legacy-outcome-helpful" style="--outcome-image:url('${variant.hero}')">
     <section class="ty-hero">
       <div class="ty-check">i</div>
       <p class="ty-eyebrow">Helpful next step</p>
       <h1 class="ty-headline">Sleep concerns deserve the right evaluation.</h1>
-      <p class="ty-sub">A symptom screen is not a diagnosis. If symptoms continue, ${doctor.practice} can help you discuss the most appropriate path forward.</p>
+      <p class="ty-sub">A symptom screen is not a diagnosis. If symptoms continue, ${practiceLabel} can help you discuss an appropriate path forward.</p>
     </section>
 
     <section class="symptom-section">
@@ -31,7 +40,7 @@ function renderTYBT(doctor, variantSlug, citySlug, practiceOverride = null) {
 
     <section class="provider-section">
       <div class="container">
-        <div class="provider-card provider-card-local"><div class="provider-copy"><p class="eyebrow">Your selected local practice</p><h2>${doctor.name}, ${doctor.credentials}</h2><p class="provider-practice">${doctor.practice}</p><p class="provider-bio">${doctor.profile.bioPlaceholder}</p><p class="provider-location">Serving ${cityLabel}</p></div></div>
+        <div class="provider-card provider-card-local"><div class="provider-copy"><p class="eyebrow">${showPracticeName ? 'Your selected local practice' : 'Your local consultation route'}</p><h2>${providerName}</h2><p class="provider-practice">${providerDetail}</p><p class="provider-bio">${doctor.profile.bioPlaceholder}</p><p class="provider-location">Serving ${cityLabel}</p></div></div>
       </div>
     </section>
 
@@ -40,19 +49,19 @@ function renderTYBT(doctor, variantSlug, citySlug, practiceOverride = null) {
         <div>
           <p class="eyebrow">Questions?</p>
           <h2>Talk through your concerns without pressure.</h2>
-          <p>Call ${doctor.practice} to discuss symptoms and next steps with the office.</p>
+          <p>${callCopy}</p>
         </div>
-        <a href="tel:${phoneRaw}" class="button button-secondary">Call ${phone}<span aria-hidden="true">→</span></a>
+        ${callAction}
       </div>
     </section></div>`;
 
   return layout({
-    title: `Helpful Next Step — ${doctor.name}`,
+    title: `Helpful Next Step${showPracticeName ? ` — ${doctor.name}` : ''}`,
     theme: variant.theme,
     designSystem: variant.designSystem,
     body,
-    phone,
-    phoneRaw,
+    phone: callDisplay,
+    phoneRaw: callRaw,
     practice,
     headerTarget: practice ? `/care/${practice.key}` : '#top',
     policyBase: practice ? `/care/${practice.key}` : '',

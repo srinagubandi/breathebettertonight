@@ -47,6 +47,13 @@ function layout({
   const resolvedPhone = practice ? practice.phoneDisplay : phone;
   const resolvedPhoneRaw = practice ? practice.phoneRaw : phoneRaw;
   const resolvedTextRaw = practice ? practice.textRaw : phoneRaw;
+  const showPhone = !practice || practice.showPhone !== false;
+  const showText = !practice || practice.showText !== false;
+  const headerClass = `sticky-header design-header${!showPhone && !showText ? ' sticky-header-solo-cta' : ''}`;
+  const headerPhone = showPhone && resolvedPhoneRaw
+    ? `<a href="tel:${resolvedPhoneRaw}" class="header-phone top-phone"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>Call ${resolvedPhone}</a>`
+    : '';
+  const headerText = showText && resolvedTextRaw ? `<a href="sms:${resolvedTextRaw}" class="header-text top-text">Text</a>` : '';
   const privacyHref = policyBase ? `${policyBase}/privacy` : '/privacy-policy';
   const termsHref = policyBase ? `${policyBase}/terms` : '/terms-and-conditions';
   const accessibilityHref = policyBase ? `${policyBase}/accessibility` : '/accessibility';
@@ -86,12 +93,9 @@ function layout({
   ${trackingBody}
 
   <!-- ── Sticky tap-to-call header ── -->
-  <header class="sticky-header design-header" data-design-system="${designSystem}">
-    <a href="tel:${resolvedPhoneRaw}" class="header-phone top-phone">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-      Call ${resolvedPhone}
-    </a>
-    <a href="sms:${resolvedTextRaw}" class="header-text top-text">Text</a>
+  <header class="${headerClass}" data-design-system="${designSystem}">
+    ${headerPhone}
+    ${headerText}
     <a href="${headerTarget}" class="header-cta btn-primary">REQUEST A CONSULTATION</a>
   </header>
 
@@ -120,7 +124,7 @@ function layout({
     </div>
   </footer>
 
-  ${renderChatLauncher({ phone: resolvedPhone, phoneRaw: resolvedPhoneRaw })}
+  ${renderChatLauncher({ phone: resolvedPhone, phoneRaw: resolvedPhoneRaw, showPhone })}
 
   <!-- ── Base JS ── -->
   <script src="/assets/js/main.js"></script>

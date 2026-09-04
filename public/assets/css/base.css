@@ -25,6 +25,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
   box-shadow: 0 2px 12px rgba(0,0,0,0.4);
   min-height: 52px;
 }
+.sticky-header-solo-cta { justify-content: flex-end; }
 .header-phone {
   display: flex;
   align-items: center;

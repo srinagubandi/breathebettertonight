@@ -33,6 +33,12 @@ function renderLP(doctor, variantSlug, citySlug, practiceOverride = null) {
   const cityLabel = resolveCityLabel(doctor, citySlug);
   const phone = resolvePhone(doctor, citySlug);
   const phoneRaw = phone.replace(/\D/g, '');
+  const callDisplay = practice?.phoneDisplay || phone;
+  const callRaw = practice?.phoneRaw || phoneRaw;
+  const textRaw = practice?.textRaw || callRaw;
+  const showPracticeName = !practice || practice.showPracticeName !== false;
+  const showPhone = !practice || practice.showPhone !== false;
+  const showText = !practice || practice.showText !== false;
   const designSystem = variant.designSystem || 'default';
   // All designs deliberately share this approved content; only structure and styling vary.
   const content = doctor.sharedContent || variant;
@@ -52,6 +58,19 @@ function renderLP(doctor, variantSlug, citySlug, practiceOverride = null) {
       <button class="faq-question" type="button" aria-expanded="false">${faq.q}<span>+</span></button>
       <div class="faq-answer"><p>${faq.a}</p></div>
     </article>`).join('');
+
+  const providerName = showPracticeName ? (practice?.publicName || doctor.practice) : 'A local consultation route';
+  const providerDetail = showPracticeName
+    ? `${doctor.name}, ${doctor.credentials}`
+    : 'Use the secure request below to ask the selected local practice for a consultation.';
+  const providerActions = [
+    showPhone ? `<a href="tel:${callRaw}">Call ${callDisplay}</a>` : '',
+    showText ? `<a href="sms:${textRaw}">Text the office</a>` : '',
+  ].filter(Boolean).join('');
+  const nextStepCopy = providerActions
+    ? 'Request a consultation below or contact the office directly to discuss a practical next step.'
+    : 'Request a consultation below to begin a private conversation about a practical next step.';
+  const nextStepAction = showPhone ? `<a href="tel:${callRaw}" class="button button-secondary">Call ${callDisplay}<span aria-hidden="true">→</span></a>` : '';
 
   const body = `
     <div class="lp-shell ds-${designSystem}">
@@ -85,12 +104,12 @@ function renderLP(doctor, variantSlug, citySlug, practiceOverride = null) {
         <div class="provider-card provider-card-local">
           <div class="provider-copy">
             <p class="eyebrow">Your local consultation route</p>
-            <h2>${doctor.practice}</h2>
-            <p class="provider-practice">${doctor.name}, ${doctor.credentials}</p>
+            <h2>${providerName}</h2>
+            <p class="provider-practice">${providerDetail}</p>
             <p class="provider-bio">Use the secure request below to ask the office for a consultation about persistent sleep concerns.</p>
             <p class="provider-location">Serving ${cityLabel}</p>
           </div>
-          <div class="provider-actions"><a href="tel:${phoneRaw}">Call ${phone}</a><a href="sms:${phoneRaw}">Text the office</a></div>
+          ${providerActions ? `<div class="provider-actions">${providerActions}</div>` : ''}
         </div>
       </div>
     </section>
@@ -100,9 +119,9 @@ function renderLP(doctor, variantSlug, citySlug, practiceOverride = null) {
         <div>
           <p class="eyebrow">When you are ready</p>
           <h2>Talk through your sleep concerns privately.</h2>
-          <p>Request a consultation below or contact the office directly to discuss a practical next step.</p>
+          <p>${nextStepCopy}</p>
         </div>
-        <a href="tel:${phoneRaw}" class="button button-secondary">Call ${phone}<span aria-hidden="true">→</span></a>
+        ${nextStepAction}
       </div>
     </section>
 
@@ -122,12 +141,12 @@ function renderLP(doctor, variantSlug, citySlug, practiceOverride = null) {
     </div>`;
 
   return layout({
-    title: `${content.headline} — ${doctor.name}, ${cityLabel}`,
+    title: `${content.headline}${showPracticeName ? ` — ${doctor.name}, ${cityLabel}` : ''}`,
     theme: variant.theme,
     designSystem,
     body,
-    phone,
-    phoneRaw,
+    phone: callDisplay,
+    phoneRaw: callRaw,
     practice,
     headerTarget: practice ? '#consultation' : '#symptom-check',
     policyBase: practice ? `/care/${practice.key}` : '',
