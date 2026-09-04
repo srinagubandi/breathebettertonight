@@ -2,7 +2,8 @@
 
 This script is intentionally reusable. It starts the local Express server, captures
 both the selected US mobile viewport (414×896) and a 1440px desktop browser view,
-then asserts that no current LP contains the removed GHL placeholder marker.
+then asserts that every preserved LP uses the assigned Pantego survey handoff and
+the new practice-specific legal/accessibility route profile.
 """
 from __future__ import annotations
 
@@ -60,7 +61,7 @@ def capture() -> None:
     try:
         wait_for_server()
         with sync_playwright() as playwright:
-            browser = playwright.chromium.launch()
+            browser = playwright.chromium.launch(executable_path=os.environ.get("CHROMIUM_EXECUTABLE", "/usr/bin/chromium"))
             for variant in VARIANTS:
                 url = f"{BASE_URL}/dr-lay/{variant}"
                 for label, context_options in (("mobile", MOBILE), ("desktop", DESKTOP)):
@@ -68,18 +69,20 @@ def capture() -> None:
                     # External analytics placeholders can keep network requests open;
                     # DOM readiness plus a short visual settle is the stable QA gate.
                     page.goto(url, wait_until="domcontentloaded", timeout=30000)
+                    page.locator("h1").first.wait_for(timeout=8000)
                     page.wait_for_timeout(700)
                     html = page.content().lower()
-                    if "ghl-form" in html or "gohighlevel" in html:
-                        raise AssertionError(f"Removed GHL placeholder found in {variant} {label}")
-                    if not page.locator('a[href="/privacy-policy"]').count() or not page.locator('a[href="/terms-and-conditions"]').count():
-                        raise AssertionError(f"Shared legal links missing in {variant} {label}")
+                    if "ghl-form" in html:
+                        raise AssertionError(f"Retired form placeholder found in {variant} {label}")
+                    if not page.locator('iframe[src*="survey/75op3Tl4LTjPkaXI1zhb"]').count():
+                        raise AssertionError(f"Assigned Pantego survey missing in {variant} {label}")
+                    if not page.locator('a[href="/care/pantego-dental/privacy"]').count() or not page.locator('a[href="/care/pantego-dental/terms"]').count() or not page.locator('a[href="/care/pantego-dental/accessibility"]').count():
+                        raise AssertionError(f"Practice policy links missing in {variant} {label}")
                     top_phone = page.locator('.top-phone')
                     if not top_phone.count():
                         raise AssertionError(f"Top phone treatment missing in {variant} {label}")
-                    phone_colors = top_phone.evaluate("el => ({ background: getComputedStyle(el).backgroundColor, color: getComputedStyle(el).color })")
-                    if phone_colors['background'] != 'rgb(0, 34, 68)' or phone_colors['color'] != 'rgb(105, 190, 40)':
-                        raise AssertionError(f"Incorrect top-phone colors in {variant} {label}: {phone_colors}")
+                    if not page.locator('.top-text').count():
+                        raise AssertionError(f"Top Text action missing in {variant} {label}")
                     launcher = page.locator('.chat-launcher')
                     if not launcher.count():
                         raise AssertionError(f"Chat launcher missing in {variant} {label}")

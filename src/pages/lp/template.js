@@ -6,6 +6,8 @@
  */
 const { layout } = require('../../shared/layout');
 const { resolveCityLabel, resolvePhone } = require('../../data/index');
+const { getPracticeByLegacyDoctor } = require('../../data/practices');
+const { renderSurvey } = require('../../shared/survey');
 
 const ICONS = {
   sound: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Zm12.5-3.5a1 1 0 0 1 1.4.1 7.5 7.5 0 0 1 0 10.8 1 1 0 1 1-1.5-1.3 5.5 5.5 0 0 0 0-8 1 1 0 0 1 .1-1.5Zm2.8-2.9a1 1 0 0 1 1.4.1 11.5 11.5 0 0 1 0 16.6 1 1 0 0 1-1.5-1.3 9.5 9.5 0 0 0 0-13.8 1 1 0 0 1 .1-1.5Z"/></svg>',
@@ -27,10 +29,10 @@ function icon(name) {
 
 function renderLP(doctor, variantSlug, citySlug) {
   const variant = doctor.variants[variantSlug];
+  const practice = getPracticeByLegacyDoctor(doctor.slug);
   const cityLabel = resolveCityLabel(doctor, citySlug);
   const phone = resolvePhone(doctor, citySlug);
   const phoneRaw = phone.replace(/\D/g, '');
-  const profile = doctor.profile;
   const designSystem = variant.designSystem || 'default';
   // All designs deliberately share this approved content; only structure and styling vary.
   const content = doctor.sharedContent || variant;
@@ -51,10 +53,6 @@ function renderLP(doctor, variantSlug, citySlug) {
       <div class="faq-answer"><p>${faq.a}</p></div>
     </article>`).join('');
 
-  const doctorPhoto = profile.photo
-    ? `<img src="${profile.photo}" alt="${doctor.name}" />`
-    : `<span class="doctor-photo-placeholder" aria-hidden="true">DR<br>PHOTO</span>`;
-
   const body = `
     <div class="lp-shell ds-${designSystem}">
     <section class="symptom-hero" id="top">
@@ -64,8 +62,8 @@ function renderLP(doctor, variantSlug, citySlug) {
         <p class="eyebrow">${content.eyebrow}</p>
         <h1>${content.headline}</h1>
         <p class="hero-subtitle">${content.subheadline}</p>
-        <a href="#symptom-check" class="button button-primary">${content.cta}<span aria-hidden="true">→</span></a>
-        <p class="hero-microcopy">Private, pressure-free symptom awareness</p>
+        <a href="#free-consultation" class="button button-primary">Request a free consultation<span aria-hidden="true">→</span></a>
+        <p class="hero-microcopy">Private, pressure-free symptom awareness. No diagnosis through this page.</p>
       </div>
     </section>
 
@@ -84,22 +82,15 @@ function renderLP(doctor, variantSlug, citySlug) {
 
     <section class="provider-section" id="provider-profile">
       <div class="container">
-        <div class="provider-card">
-          <div class="provider-profile">
-            <div class="doctor-photo">${doctorPhoto}</div>
-            <div class="provider-copy">
-              <p class="eyebrow">Provider placeholder</p>
-              <h2>${doctor.name}, ${doctor.credentials}</h2>
-              <p class="provider-practice">${doctor.practice}</p>
-              <p class="provider-bio">${profile.bioPlaceholder}</p>
-              <p class="provider-location">Serving ${cityLabel}</p>
-            </div>
+        <div class="provider-card provider-card-local">
+          <div class="provider-copy">
+            <p class="eyebrow">Your local consultation route</p>
+            <h2>${doctor.practice}</h2>
+            <p class="provider-practice">${doctor.name}, ${doctor.credentials}</p>
+            <p class="provider-bio">Use the secure request below to ask the office for a free consultation about persistent sleep concerns.</p>
+            <p class="provider-location">Serving ${cityLabel}</p>
           </div>
-          <aside class="review-placeholder" aria-label="Verified review placeholder">
-            <p class="review-label">${profile.reviewLabel}</p>
-            <blockquote>“${profile.reviewQuote}”</blockquote>
-            <p class="review-attribution">${profile.reviewAttribution}</p>
-          </aside>
+          <div class="provider-actions"><a href="tel:${phoneRaw}">Call ${phone}</a><a href="sms:${phoneRaw}">Text the office</a></div>
         </div>
       </div>
     </section>
@@ -109,11 +100,13 @@ function renderLP(doctor, variantSlug, citySlug) {
         <div>
           <p class="eyebrow">When you are ready</p>
           <h2>Talk through your sleep concerns privately.</h2>
-          <p>Call ${doctor.practice} to discuss symptoms and the appropriate next step with the office.</p>
+          <p>Request a free consultation below or contact the office directly to discuss a practical next step.</p>
         </div>
         <a href="tel:${phoneRaw}" class="button button-secondary">Call ${phone}<span aria-hidden="true">→</span></a>
       </div>
     </section>
+
+    ${practice ? renderSurvey(practice) : ''}
 
     <section class="faq-section">
       <div class="container section-narrow">
@@ -135,6 +128,9 @@ function renderLP(doctor, variantSlug, citySlug) {
     body,
     phone,
     phoneRaw,
+    practice,
+    headerTarget: practice ? '#free-consultation' : '#symptom-check',
+    policyBase: practice ? `/care/${practice.key}` : '',
   });
 }
 

@@ -30,15 +30,32 @@ function renderTrackingBody() {
     : '';
 }
 
-function layout({ title, theme = 'v1', designSystem = 'default', body, phone = '', phoneRaw = '' }) {
+function layout({
+  title,
+  theme = 'v1',
+  designSystem = 'default',
+  body,
+  phone = '',
+  phoneRaw = '',
+  practice = null,
+  headerTarget = '#free-consultation',
+  policyBase = '',
+  robots = 'noindex, nofollow',
+}) {
   const trackingHead = renderTrackingHead();
   const trackingBody = renderTrackingBody();
+  const resolvedPhone = practice ? practice.phoneDisplay : phone;
+  const resolvedPhoneRaw = practice ? practice.phoneRaw : phoneRaw;
+  const resolvedTextRaw = practice ? practice.textRaw : phoneRaw;
+  const privacyHref = policyBase ? `${policyBase}/privacy` : '/privacy-policy';
+  const termsHref = policyBase ? `${policyBase}/terms` : '/terms-and-conditions';
+  const accessibilityHref = policyBase ? `${policyBase}/accessibility` : '/accessibility';
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex, nofollow" />
+  <meta name="robots" content="${robots}" />
   <title>${title} | BreatheBetterTonight.com</title>
 
   <!-- ── Favicon ── -->
@@ -53,6 +70,8 @@ function layout({ title, theme = 'v1', designSystem = 'default', body, phone = '
   <link rel="stylesheet" href="/assets/css/base.css" />
   <link rel="stylesheet" href="/assets/css/symptom-lp.css" />
   <link rel="stylesheet" href="/assets/css/design-systems-v3.css" />
+  <link rel="stylesheet" href="/assets/css/lp-v3.css" />
+  <link rel="stylesheet" href="/assets/css/legacy-outcome-v3.css" />
   <link rel="stylesheet" href="/assets/css/chat-launcher.css" />
 
   <!-- ── Theme styles ── -->
@@ -68,11 +87,12 @@ function layout({ title, theme = 'v1', designSystem = 'default', body, phone = '
 
   <!-- ── Sticky tap-to-call header ── -->
   <header class="sticky-header design-header" data-design-system="${designSystem}">
-    <a href="tel:${phoneRaw}" class="header-phone top-phone">
+    <a href="tel:${resolvedPhoneRaw}" class="header-phone top-phone">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
-      ${phone}
+      Call ${resolvedPhone}
     </a>
-    <a href="#symptom-check" class="header-cta btn-primary">SYMPTOM CHECK</a>
+    <a href="sms:${resolvedTextRaw}" class="header-text top-text">Text</a>
+    <a href="${headerTarget}" class="header-cta btn-primary">FREE CONSULTATION</a>
   </header>
 
   <!-- ── Page content ── -->
@@ -87,9 +107,11 @@ function layout({ title, theme = 'v1', designSystem = 'default', body, phone = '
       <p class="footer-brand">BreatheBetterTonight.com</p>
       <p class="footer-tagline">Better Sleep. Better Health. Better You.</p>
       <div class="footer-links">
-        <a href="/privacy-policy">Privacy Policy</a>
+        <a href="${privacyHref}">Privacy Policy</a>
         <span>·</span>
-        <a href="/terms-and-conditions">Terms &amp; Conditions</a>
+        <a href="${termsHref}">Terms &amp; Conditions</a>
+        <span>·</span>
+        <a href="${accessibilityHref}">Accessibility</a>
       </div>
       <p class="footer-disclaimer">
         This website provides general symptom-awareness information and does not provide medical advice or a diagnosis. Consult a qualified healthcare professional about persistent sleep concerns.
@@ -98,7 +120,7 @@ function layout({ title, theme = 'v1', designSystem = 'default', body, phone = '
     </div>
   </footer>
 
-  ${renderChatLauncher({ phone, phoneRaw })}
+  ${renderChatLauncher({ phone: resolvedPhone, phoneRaw: resolvedPhoneRaw })}
 
   <!-- ── Base JS ── -->
   <script src="/assets/js/main.js"></script>

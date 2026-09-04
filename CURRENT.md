@@ -4,18 +4,18 @@
 
 ## Active Objective
 
-Build and deploy six responsive, symptom-led lead-generation landing pages for **Dr. Willis Lay / Pantego Dental**. Every page must support a desktop experience and a mobile-first experience. The current work is focused on symptom awareness, not treatment-first messaging.
+Migrate the public patient site and preserved landing-page system into the shared landing-page directory structure. The work adds Breathe Better Tonight’s Night-to-Clarity public site, the active practice set for Pantego Dental, PerioDDS, and Dental World, current-ad-matched paid landing-page sets, assigned GoHighLevel survey handoffs, matched qualified and non-qualified outcomes, and a protected configuration workspace.
 
 ## Deployment and Version Control
 
 | Item | Current Value |
 |---|---|
 | Git repository | `github.com/srinagubandi/breathebettertonight` |
-| Active feature branch | `feature/symptom-led-lps-v2` |
+| Active feature branch | `feature/night-to-clarity-lp-system-2026` |
 | Production branch | `main` |
 | Hosting target | Railway project `breathebettertonight` |
 | Live base URL | `https://breathebettertonight-web-production.up.railway.app` |
-| Route system | Auto-generated from `src/data/dr-lay.js` |
+| Route system | Preserve current generated URLs while moving canonical records to the documented V3 practice, campaign, outcome, and policy model. |
 
 ## Non-Negotiable Decisions
 
@@ -28,12 +28,12 @@ Build and deploy six responsive, symptom-led lead-generation landing pages for *
 | LP approach | Symptom-led and non-diagnostic; do not lead with CPAP alternatives, appliance claims, coverage, or guaranteed outcomes |
 | Highest-priority symptom stack | Loud/frequent snoring; witnessed breathing pauses; gasping/choking; waking unrefreshed or daytime sleepiness |
 | Supporting symptoms | Morning headaches; dry mouth/sore throat; focus/irritability; nighttime urination |
-| Form status | **No GoHighLevel survey or form placeholder** in concepts or production pages until explicitly supplied |
+| Form status | Every doctor-specific landing page must embed only the assigned GoHighLevel survey. Generic patient routes must use provider selection before a survey handoff. |
 | Provider content | Use clearly labeled doctor-photo, bio, and verified-review placeholders until approved content is supplied |
 | Partner Impact hero | Use an **original, watermark-free** bright-bedroom image: sleeping/snoring adult on the left; awake partner with a pillow over one ear on the right. Do not copy stock photos. |
 | Deployment discipline | Work on a feature branch, review local routes at mobile and desktop, then commit/tag/push and deploy to Railway |
 
-## Approved LP Route Structure
+## Preserved Legacy LP Route Structure
 
 Each route also has automatic `thank-you`, `thank-you-bt`, and optional city routes.
 
@@ -106,15 +106,30 @@ Sources retained locally in `research/oral_appliance_symptom_priorities.md`:
 
 ## Immediate Next Steps
 
-1. Verify and finalize theme CSS for V3–V6, then normalize V1/V2 variables as needed.
-2. Remove any remaining `#ghl-form`, `ghl-form`, survey/form placeholder markup or CTA targets from template, layout, TY/TY-BT pages, CSS, and JS.
-3. Run all six base LP routes, city variants, TY, and TY-BT locally.
-4. Use 414 × 896 mobile and 1440px desktop screenshots for final visual QA.
-5. Commit the feature branch, tag the release, merge/push to the Railway-connected branch, and verify all Railway routes.
+1. Create the V3 canonical practice and campaign configuration while retaining all current generated routes as compatibility routes.
+2. Replace doctor-specific placeholder conversion elements with the assigned GoHighLevel survey handoff and validate that each route loads only its own survey.
+3. Build matched qualified and non-qualified outcomes for every design concept and landing-page set.
+4. Implement the protected configuration workspace for practice, survey, design, policy, and outcome assignments.
+5. Complete three improvement rounds, verify all routes at mobile and desktop viewports, and deploy to the existing Railway project.
 
 ## Update Rule
 
 Before any new asset generation, research, route changes, or deployment, update the relevant table above and add one row to the iteration log. Do not regenerate an item listed as available unless the user explicitly requests a new direction or the existing asset fails a specific acceptance criterion.
+
+## Night-to-Clarity Migration Status — 2026-09-04
+
+The preserved Dr. Lay route family remains available at every existing URL. Its retired conversion placeholders now resolve to the assigned Pantego Dental GoHighLevel survey, while the original legacy qualified and non-qualified outcome URLs retain their matching visual systems and practice policy profile. The V3 canonical directory model is active through `src/data/practices/`, `src/data/campaigns/`, `src/pages/landing-pages/`, `src/pages/outcomes/`, and `src/pages/policies/`.
+
+The public patient site now follows the Night-to-Clarity experience at `/`, with awareness, provider selection, local care handoff, practice-specific policy routes, and an external `/for-professionals` handoff to Propel Dental. The active practice configuration is Pantego Dental, PerioDDS, and Dental World. Their paid campaign routes use the approved tired-mornings, brain-fog, and partner-snoring ad creative, with a matching qualified and non-qualified result page for each route.
+
+The protected `/admin` workspace includes a full Page Index, searchable by route, page, owner, or category. It reports **285 direct-preview routes** across public, practice, campaign, qualified thank-you, non-qualified thank-you, policy, and preserved legacy landing-page categories. It also persists practice-level survey IDs, Call/Text routes, campaign design assignments, and policy overrides to `PRACTICE_CONFIG_FILE`; Railway must mount this file and `LEADS_FILE` to its existing persistent volume before the admin is used in production.
+
+| Date | Loop | Change | Status |
+|---|---:|---|---|
+| 2026-09-04 | V3 migration | Added canonical practice, campaign, matched outcome, policy, and Night-to-Clarity public-site modules | Complete |
+| 2026-09-04 | Conversion | Replaced legacy LP form placeholders with the assigned Pantego GoHighLevel survey and added three-practice campaign surveys | Complete |
+| 2026-09-04 | Admin | Added persistent practice configuration, policy overrides, and the complete Page Index | Complete locally |
+| 2026-09-04 | QA | Passed 234 legacy route checks, 13 structural LP checks, 27 campaign/outcome checks, and 13 mobile/desktop visual captures | Complete locally |
 
 ## Responsive QA Findings — 2026-08-13
 

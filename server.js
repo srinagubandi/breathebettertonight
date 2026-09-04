@@ -17,6 +17,23 @@ const { renderLP }    = require('./src/pages/lp/template');
 const { renderTY }    = require('./src/pages/ty/template');
 const { renderTYBT }  = require('./src/pages/ty-bt/template');
 const { renderAdmin } = require('./src/pages/admin/template');
+const { getCampaign } = require('./src/data/campaigns');
+const { getPractice, getPractices, setPracticeOverrideProvider } = require('./src/data/practices');
+const { renderLandingPage } = require('./src/pages/landing-pages/template');
+const { renderOutcome } = require('./src/pages/outcomes/template');
+const { renderPracticePolicy } = require('./src/pages/policies/template');
+const {
+  getPracticeConfigStorage,
+  getPracticeOverrides,
+  updatePracticeOverride,
+} = require('./src/lib/practice-config');
+const {
+  findProviderPage,
+  homePage: nightToClarityHomePage,
+  practicePage,
+  sleepApneaPage,
+  sleepCheckPage,
+} = require('./src/pages/site/night-to-clarity');
 const {
   aboutPage,
   contactPage,
@@ -35,6 +52,8 @@ const {
   updateLeadStatus,
 } = require('./src/lib/leads');
 const crypto = require('crypto');
+
+setPracticeOverrideProvider(getPracticeOverrides);
 
 const app  = express();
 const PORT = process.env.PORT || 8080;
@@ -60,6 +79,9 @@ app.get('/terms-and-conditions', (req, res) => {
 // Keep the legacy URL valid while all shared footers use the canonical path.
 app.get('/terms', (req, res) => {
   res.redirect(301, '/terms-and-conditions');
+});
+app.get('/accessibility', (req, res) => {
+  res.send(legalShell('Accessibility Statement', '<h1>Accessibility Statement</h1><p>Breathe Better Tonight aims to provide readable, keyboard-accessible patient information and clear routes to participating practices. If you have difficulty using this site, contact the selected practice by phone for assistance with a consultation request.</p><h2>Embedded consultation forms</h2><p>Practice consultation forms are provided by a third-party intake platform. If you need an alternative way to request a conversation, use the visible office phone number on the selected practice page.</p>'));
 });
 
 // ── Admin area (Basic Auth protected) ────────────────────────
@@ -94,7 +116,13 @@ function requireAdmin(req, res, next) {
 app.get('/admin', requireAdmin, (req, res) => {
   try {
     const leads = listLeads();
-    res.send(renderAdmin({ leads, summary: getLeadSummary(leads), storage: getStorageState() }));
+    res.send(renderAdmin({
+      leads,
+      summary: getLeadSummary(leads),
+      storage: getStorageState(),
+      practices: getPractices(),
+      configStorage: getPracticeConfigStorage(),
+    }));
   } catch (error) {
     console.error('Admin lead-store error:', error.message);
     res.status(503).send('The lead dashboard is temporarily unavailable.');
@@ -110,9 +138,36 @@ app.post('/admin/leads/:id/status', requireAdmin, (req, res) => {
   return res.redirect(303, '/admin');
 });
 
-// ── New national public website ──────────────────────────────
-app.get('/', (req, res) => res.send(homePage()));
-app.get('/symptom-check', (req, res) => res.send(symptomPage()));
+app.post('/admin/practices/:key', requireAdmin, (req, res) => {
+  const origin = req.get('origin');
+  const expectedOrigin = `${req.protocol}://${req.get('host')}`;
+  if (origin && origin !== expectedOrigin) return res.status(403).send('Invalid request origin.');
+  const practice = getPractice(req.params.key);
+  if (!practice) return res.status(404).send('Practice not found.');
+  try {
+    const result = updatePracticeOverride(practice.key, req.body, practice);
+    if (!result.updated) return res.status(422).send(renderAdmin({
+      leads: listLeads(),
+      summary: getLeadSummary(listLeads()),
+      storage: getStorageState(),
+      practices: getPractices(),
+      configStorage: getPracticeConfigStorage(),
+      configErrors: { [practice.key]: result.errors },
+    }));
+    return res.redirect(303, '/admin#practice-config');
+  } catch (error) {
+    console.error('Practice configuration error:', error.message);
+    return res.status(503).send('The practice configuration could not be saved.');
+  }
+});
+
+// ── Night-to-Clarity public patient website ──────────────────
+app.get('/', (req, res) => res.send(nightToClarityHomePage()));
+app.get('/sleep-check', (req, res) => res.send(sleepCheckPage()));
+app.get('/symptom-check', (req, res) => res.send(sleepCheckPage()));
+app.get('/find-a-provider', (req, res) => res.send(findProviderPage()));
+app.get('/sleep-apnea', (req, res) => res.send(sleepApneaPage()));
+app.get('/for-professionals', (req, res) => res.redirect(302, 'https://www.propel.dental/'));
 app.get('/about', (req, res) => res.send(aboutPage()));
 app.get('/faq', (req, res) => res.send(faqPage()));
 app.get('/contact', (req, res) => res.send(contactPage()));
@@ -131,6 +186,45 @@ app.post('/contact', (req, res) => {
   }
 });
 app.get('/thank-you', (req, res) => res.send(thankYouPage()));
+
+// ── Canonical practice, campaign, outcome, and policy routes ─
+app.get('/care/:practice/privacy', (req, res) => {
+  const practice = getPractice(req.params.practice);
+  return practice ? res.send(renderPracticePolicy(practice, 'privacy')) : res.status(404).send('Practice not found.');
+});
+app.get('/care/:practice/terms', (req, res) => {
+  const practice = getPractice(req.params.practice);
+  return practice ? res.send(renderPracticePolicy(practice, 'terms')) : res.status(404).send('Practice not found.');
+});
+app.get('/care/:practice/accessibility', (req, res) => {
+  const practice = getPractice(req.params.practice);
+  return practice ? res.send(renderPracticePolicy(practice, 'accessibility')) : res.status(404).send('Practice not found.');
+});
+app.get('/care/:practice', (req, res) => {
+  const practice = getPractice(req.params.practice);
+  return practice ? res.send(practicePage(practice)) : res.status(404).send('Practice not found.');
+});
+function campaignForPractice(practice, campaign) {
+  return {
+    ...campaign,
+    designSystem: practice.designAssignments?.[campaign.key] || campaign.designSystem,
+  };
+}
+app.get('/go/:practice/:campaign/thank-you', (req, res) => {
+  const practice = getPractice(req.params.practice);
+  const campaign = getCampaign(req.params.campaign);
+  return practice && campaign ? res.send(renderOutcome({ practice, campaign: campaignForPractice(practice, campaign), type: 'qualified' })) : res.status(404).send('Landing page not found.');
+});
+app.get('/go/:practice/:campaign/not-qualified', (req, res) => {
+  const practice = getPractice(req.params.practice);
+  const campaign = getCampaign(req.params.campaign);
+  return practice && campaign ? res.send(renderOutcome({ practice, campaign: campaignForPractice(practice, campaign), type: 'non-qualified' })) : res.status(404).send('Landing page not found.');
+});
+app.get('/go/:practice/:campaign', (req, res) => {
+  const practice = getPractice(req.params.practice);
+  const campaign = getCampaign(req.params.campaign);
+  return practice && campaign ? res.send(renderLandingPage({ practice, campaign: campaignForPractice(practice, campaign) })) : res.status(404).send('Landing page not found.');
+});
 
 // ── Auto-generate all LP / TY / TY-BT routes ─────────────────
 // Reads from src/data/index.js — zero manual route registration needed.
@@ -156,17 +250,6 @@ allRoutes.forEach(route => {
       return res.status(500).send('Page error. Please try again.');
     }
   });
-});
-
-// ── Root redirect to admin ────────────────────────────────────
-app.get('/', (req, res) => {
-  res.send(`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
-  <title>BreatheBetterTonight.com</title>
-  <style>body{font-family:sans-serif;background:#0D1B2A;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;}
-  a{color:#00B4C8;}</style></head><body>
-  <div><img src="/assets/images/logo.png" style="width:80px;margin:0 auto 20px;" /><br/>
-  <strong>BreatheBetterTonight.com</strong><br/><br/>
-  <a href="/admin">Admin Panel</a></div></body></html>`);
 });
 
 // ── 404 ───────────────────────────────────────────────────────

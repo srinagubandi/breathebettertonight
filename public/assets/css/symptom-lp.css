@@ -7,6 +7,10 @@ html { scroll-behavior: smooth; }
 body { background: var(--page-bg, #fff); color: var(--text-body, #1d2c3a); }
 body .sticky-header { background: color-mix(in srgb, var(--header-bg) 92%, #000 8%); z-index: 50; }
 body .header-cta { border-radius: 999px; font-size: .69rem; letter-spacing: .05em; }
+body .sticky-header { display: flex; gap: 8px; align-items: center; justify-content: flex-end; padding-inline: 12px; min-height: 48px; }
+body .sticky-header .header-phone { margin-right: auto; }
+body .header-text { display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 0 11px; border: 1px solid color-mix(in srgb, var(--accent) 60%, #fff); border-radius: 999px; color: var(--accent); font-size: .72rem; font-weight: 900; text-decoration: none; }
+body .sticky-header .header-cta { display: inline-flex; align-items: center; justify-content: center; min-height: 32px; padding: 0 11px; }
 .container { width: min(100% - 40px, 1160px); margin-inline: auto; }
 .section-narrow { max-width: 760px; }
 
@@ -52,6 +56,9 @@ body .header-cta { border-radius: 999px; font-size: .69rem; letter-spacing: .05e
 .provider-practice { color: var(--accent); font-size: .77rem; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; margin: 6px 0; }
 .provider-bio, .provider-location { color: var(--text-muted, #5d6c79); font-size: .78rem; line-height: 1.5; margin: 0; }
 .provider-location { margin-top: 7px; font-weight: 700; }
+.provider-card-local { align-items: center; }
+.provider-actions { display: grid; gap: 10px; align-content: center; }
+.provider-actions a { display: flex; min-height: 46px; align-items: center; justify-content: center; border: 1px solid color-mix(in srgb, var(--accent) 35%, #dce5ea); border-radius: 12px; color: var(--heading-color, #102b45); background: var(--review-bg, color-mix(in srgb, var(--accent) 7%, #fff)); font-size: .84rem; font-weight: 900; text-decoration: none; }
 .review-placeholder { padding: 18px; border-radius: 16px; background: var(--review-bg, color-mix(in srgb, var(--accent) 7%, #fff)); border: 1px solid color-mix(in srgb, var(--accent) 18%, #dce5ea); }
 .review-label { color: var(--accent); margin: 0 0 8px; text-transform: uppercase; letter-spacing: .08em; font-size: .62rem; font-weight: 900; }
 .review-placeholder blockquote { color: var(--heading-color, #102b45); margin: 0; font-size: 1rem; line-height: 1.38; font-weight: 700; }
@@ -89,6 +96,7 @@ body .header-cta { border-radius: 999px; font-size: .69rem; letter-spacing: .05e
   .provider-profile { grid-template-columns: 104px minmax(0,1fr); gap: 22px; }
   .doctor-photo { height: 104px; width: 104px; }
   .provider-copy h2 { font-size: 1.65rem; }
+  .provider-card-local { grid-template-columns: minmax(0, 1.35fr) minmax(200px, .65fr); }
   .review-placeholder { display: flex; flex-direction: column; justify-content: center; }
   .next-step-inner { grid-template-columns: minmax(0,1fr) auto; gap: 40px; }
   .next-step-section { padding: 76px 0; }
@@ -98,6 +106,9 @@ body .header-cta { border-radius: 999px; font-size: .69rem; letter-spacing: .05e
   .container { width: min(100% - 28px, 1160px); }
   .symptom-hero h1 { font-size: 2.28rem; }
   .button { width: 100%; padding-inline: 14px; }
+  body .sticky-header { gap: 5px; padding-inline: 8px; }
+  body .sticky-header .header-phone { font-size: .65rem; }
+  body .header-text, body .sticky-header .header-cta { padding-inline: 8px; font-size: .62rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
