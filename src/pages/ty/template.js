@@ -19,15 +19,15 @@ function renderTY(doctor, variantSlug, citySlug, practiceOverride = null) {
   const showPhone = !practice || practice.showPhone !== false;
   const practiceLabel = showPracticeName ? (practice?.publicName || doctor.practice) : 'your selected local practice';
   const providerName = showPracticeName ? `${doctor.name}, ${doctor.credentials}` : 'A local conversation, when you are ready';
-  const providerDetail = showPracticeName ? (practice?.publicName || doctor.practice) : 'A selected local practice will receive your consultation request.';
-  const callCopy = showPracticeName ? `Call ${practiceLabel} to discuss symptoms and the appropriate next step with the office.` : 'Use the consultation request to discuss symptoms and an appropriate next step with the office.';
+  const providerDetail = showPracticeName ? (practice?.publicName || doctor.practice) : 'Your consultation request goes to the selected local practice.';
+  const callCopy = showPracticeName ? `Call ${practiceLabel} to discuss symptoms and next steps.` : 'Use the consultation request to discuss symptoms and next steps.';
   const callAction = showPhone ? `<a href="tel:${callRaw}" class="button button-secondary">Call ${callDisplay}<span aria-hidden="true">→</span></a>` : '';
   const body = `<div class="legacy-outcome" style="--outcome-image:url('${variant.hero}')">
     <section class="ty-hero">
       <div class="ty-check">✓</div>
       <p class="ty-eyebrow">Thank you</p>
       <h1 class="ty-headline">Your next step can be a private conversation.</h1>
-      <p class="ty-sub">If you are ready to discuss persistent sleep symptoms, ${practiceLabel} can help you understand an appropriate evaluation path.</p>
+      <p class="ty-sub">For persistent sleep concerns, ${practiceLabel} can discuss next steps.</p>
     </section>
 
     <section class="provider-section">
@@ -40,7 +40,7 @@ function renderTY(doctor, variantSlug, citySlug, practiceOverride = null) {
       <div class="container next-step-inner">
         <div>
           <p class="eyebrow">When you are ready</p>
-          <h2>Talk through your sleep concerns privately.</h2>
+          <h2>Discuss your sleep concerns privately.</h2>
           <p>${callCopy}</p>
         </div>
         ${callAction}

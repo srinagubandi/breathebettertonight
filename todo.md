@@ -40,3 +40,11 @@
 - [x] Group the four video-background LP concepts in the relevant navigation and protected Page Index summaries.
 - [x] Add a prominent video shortcut to the top summary and a clear video indicator to every video-background LP.
 - [x] Validate grouped navigation, responsive icon visibility, route preservation, assigned surveys, and deploy the update to Railway.
+- [x] Inventory recurring hero, symptom, consultation, and matched-outcome copy across canonical and preserved landing-page renderers.
+- [x] Complete three copy-refinement loops: concise symptom language; clear consultation and outcome handoffs; concise hidden-identity and mobile reading states.
+- [x] Validate all routes, assigned surveys, practice policies, and approved consultation wording before deploying the copy update to Railway.
+- [x] Add concise evidence-led reasons-and-symptoms guidance to the reusable patient landing-page flow.
+- [x] Add conditional oral-appliance context that requires appropriate diagnosis and clinical assessment, then complete two further copy-and-design refinement loops.
+- [x] Remove every hero eyebrow, campaign-label, and video-background metadata row from canonical, doctor-owned, and preserved legacy landing-page variants while retaining hero media and primary actions.
+- [x] Improve subject visibility and text contrast across every video-background LP, and verify every deployed video remains muted with no audio controls or audible track.
+- [x] Make the reusable symptom guidance explicitly lead to an appropriate oral-appliance treatment conversation across every landing-page family.

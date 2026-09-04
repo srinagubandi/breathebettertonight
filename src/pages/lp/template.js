@@ -8,6 +8,7 @@ const { layout } = require('../../shared/layout');
 const { resolveCityLabel, resolvePhone } = require('../../data/index');
 const { getPracticeByLegacyDoctor } = require('../../data/practices');
 const { renderSurvey } = require('../../shared/survey');
+const { renderReasonsAndSymptoms, renderOralApplianceContext } = require('../../shared/sleep-guidance');
 
 const ICONS = {
   sound: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Zm12.5-3.5a1 1 0 0 1 1.4.1 7.5 7.5 0 0 1 0 10.8 1 1 0 1 1-1.5-1.3 5.5 5.5 0 0 0 0-8 1 1 0 0 1 .1-1.5Zm2.8-2.9a1 1 0 0 1 1.4.1 11.5 11.5 0 0 1 0 16.6 1 1 0 0 1-1.5-1.3 9.5 9.5 0 0 0 0-13.8 1 1 0 0 1 .1-1.5Z"/></svg>',
@@ -62,14 +63,14 @@ function renderLP(doctor, variantSlug, citySlug, practiceOverride = null) {
   const providerName = showPracticeName ? (practice?.publicName || doctor.practice) : 'A local consultation route';
   const providerDetail = showPracticeName
     ? `${doctor.name}, ${doctor.credentials}`
-    : 'Use the secure request below to ask the selected local practice for a consultation.';
+    : 'Your request goes to the selected local practice.';
   const providerActions = [
     showPhone ? `<a href="tel:${callRaw}">Call ${callDisplay}</a>` : '',
     showText ? `<a href="sms:${textRaw}">Text the office</a>` : '',
   ].filter(Boolean).join('');
   const nextStepCopy = providerActions
-    ? 'Request a consultation below or contact the office directly to discuss a practical next step.'
-    : 'Request a consultation below to begin a private conversation about a practical next step.';
+    ? 'Request a consultation below or contact the office directly.'
+    : 'Request a consultation below for a private conversation.';
   const nextStepAction = showPhone ? `<a href="tel:${callRaw}" class="button button-secondary">Call ${callDisplay}<span aria-hidden="true">→</span></a>` : '';
 
   const body = `
@@ -78,11 +79,10 @@ function renderLP(doctor, variantSlug, citySlug, practiceOverride = null) {
       <div class="symptom-hero-media" style="background-image:url('${variant.hero}');"></div>
       <div class="symptom-hero-scrim"></div>
       <div class="symptom-hero-content container">
-        <p class="eyebrow">${content.eyebrow}</p>
         <h1>${content.headline}</h1>
         <p class="hero-subtitle">${content.subheadline}</p>
         <a href="#consultation" class="button button-primary">Request a consultation<span aria-hidden="true">→</span></a>
-        <p class="hero-microcopy">Private, pressure-free symptom awareness. No diagnosis through this page.</p>
+        <p class="hero-microcopy">Private symptom awareness. Not a diagnosis.</p>
       </div>
     </section>
 
@@ -94,10 +94,13 @@ function renderLP(doctor, variantSlug, citySlug, practiceOverride = null) {
         <div class="symptom-grid">${symptomCards}</div>
         <div class="screening-note">
           <span aria-hidden="true">✓</span>
-          <p>Snoring alone does not diagnose a sleep disorder. Persistent symptoms are worth discussing with a qualified provider.</p>
+          <p>Snoring alone does not diagnose a sleep disorder. Discuss persistent symptoms with a qualified clinician.</p>
         </div>
       </div>
     </section>
+
+    ${renderReasonsAndSymptoms()}
+    ${renderOralApplianceContext()}
 
     <section class="provider-section" id="provider-profile">
       <div class="container">
@@ -106,7 +109,7 @@ function renderLP(doctor, variantSlug, citySlug, practiceOverride = null) {
             <p class="eyebrow">Your local consultation route</p>
             <h2>${providerName}</h2>
             <p class="provider-practice">${providerDetail}</p>
-            <p class="provider-bio">Use the secure request below to ask the office for a consultation about persistent sleep concerns.</p>
+            <p class="provider-bio">Use the secure request to discuss persistent sleep concerns.</p>
             <p class="provider-location">Serving ${cityLabel}</p>
           </div>
           ${providerActions ? `<div class="provider-actions">${providerActions}</div>` : ''}
@@ -118,7 +121,7 @@ function renderLP(doctor, variantSlug, citySlug, practiceOverride = null) {
       <div class="container next-step-inner">
         <div>
           <p class="eyebrow">When you are ready</p>
-          <h2>Talk through your sleep concerns privately.</h2>
+          <h2>Discuss sleep concerns privately.</h2>
           <p>${nextStepCopy}</p>
         </div>
         ${nextStepAction}
@@ -130,13 +133,13 @@ function renderLP(doctor, variantSlug, citySlug, practiceOverride = null) {
     <section class="faq-section">
       <div class="container section-narrow">
         <p class="eyebrow eyebrow-accent">Common questions</p>
-        <h2>Helpful context before you call.</h2>
+        <h2>Helpful context before you connect.</h2>
         <div class="faq-list">${faqItems}</div>
       </div>
     </section>
 
     <section class="medical-disclaimer">
-      <div class="container"><p>This symptom screen is not a diagnosis and does not replace medical advice. A qualified healthcare professional can evaluate sleep concerns and recommend appropriate next steps.</p></div>
+      <div class="container"><p>This symptom screen is not medical advice or a diagnosis. A qualified clinician can evaluate sleep concerns.</p></div>
     </section>
     </div>`;
 

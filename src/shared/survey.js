@@ -8,8 +8,8 @@ function renderSurvey(practice) {
   const showText = practice.showText !== false;
   const heading = showPracticeName ? `Request a consultation with ${escapeHtml(practice.publicName)}.` : 'Request a consultation.';
   const context = showPracticeName
-    ? `Your information is sent directly to ${escapeHtml(practice.campaignDestination)} through its secure request form.`
-    : 'Your information is sent directly to your selected local practice through its secure request form.';
+    ? `Your request goes directly to ${escapeHtml(practice.campaignDestination)}.`
+    : 'Your request goes directly to your selected local practice.';
   const contactActions = [
     showPhone ? `<a href="tel:${escapeHtml(practice.phoneRaw)}" aria-label="Call the office at ${escapeHtml(practice.phoneDisplay)}">Call ${escapeHtml(practice.phoneDisplay)}</a>` : '',
     showText ? `<a href="sms:${escapeHtml(practice.textRaw)}" aria-label="Text the office">Text the office</a>` : '',
@@ -21,7 +21,7 @@ function renderSurvey(practice) {
       <div class="consultation-intro">
         <p class="landing-eyebrow">${eyebrow}</p>
         <h2 id="consultation-title">${heading}</h2>
-        <p>${context} This page is not a diagnosis and should not be used for emergencies.</p>
+        <p>${context} Not a diagnosis or emergency service.</p>
         ${contact}
       </div>
       <div class="survey-frame-wrap">

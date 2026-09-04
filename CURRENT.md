@@ -178,7 +178,23 @@ The completed local regression set covers generated legacy URLs, all doctor-owne
 
 The protected admin workspace now puts the four video-background concepts together in a dedicated **Video Hero LPs** summary directly below the protected concept libraries. The summary contains a grouped set of twelve canonical campaign landing-page links—four per active practice—and states that each uses a muted decorative video treatment, static reduced-motion fallback, practice-specific survey, and matched outcomes. A prominent **Video LPs** icon button is available in the top workspace navigation to jump directly to that section.
 
-Every canonical landing page with a background video now renders an adjacent visible video-camera label in the hero eyebrow row. Static-image landing pages do not render the label. Local checks confirmed all twelve video LPs preserve their assigned survey IDs and qualified/non-qualified outcome URLs, and production validation confirms the new marker on the live Pantego Nighttime Breathing Sounds route. The update was committed to `main` as `51c45f0` and deployed successfully to the designated Railway web service.
+The protected Video Hero LPs summary and top navigation shortcut remain available to group the twelve video pages for internal review. Hero metadata rows are no longer rendered on any public canonical, doctor-owned, or preserved legacy landing page, so each public hero begins directly with its headline. Local checks confirmed all twelve video LPs preserve their assigned survey IDs and qualified/non-qualified outcome URLs. The grouping update was committed to `main` as `51c45f0` and deployed successfully to the designated Railway web service.
+
+## Concise Copy, Symptom-to-Treatment, and Silent Video Refinement — 2026-09-04
+
+All canonical, doctor-owned, and preserved legacy landing-page families now use shorter reusable hero, symptom, consultation, and next-step copy. Every LP contains the same concise patient-safe sequence: the observed symptom pattern, reasons it may be worth discussing, and an evaluation-led oral-appliance treatment conversation. The appliance content explains that, after appropriate evaluation, a custom appliance may help support an open airway during sleep for some adults; it is not determined by symptoms alone, does not replace evaluation, and is not right for everyone.
+
+All four video-hero treatments now use a brighter media treatment and adjusted scrims to show the people in the supplied footage more clearly while keeping the headline and call to action readable. Every production video asset was checked to confirm it contains no audio stream, and the renderer uses muted, default-muted, inline, looping video with no controls. The shared static poster remains available under reduced-motion preferences.
+
+| Loop | Focus | Result |
+|---:|---|---|
+| 1 | Concise recognition and hero copy | Shortened reusable hero and symptom text and removed public hero metadata rows. |
+| 2 | Consultation and outcomes | Shortened handoff and matched-outcome copy without changing practice routing or display-toggle behavior. |
+| 3 | Mobile, hidden identity, and hero focus | Verified generic fallback copy and a headline-first public hero across canonical and legacy families. |
+| 4 | Reasons and symptoms | Added compact during-sleep, morning, and daytime symptom guidance. |
+| 5 | Symptoms to treatment and silent video | Connected the symptom pattern to a clinician-led appliance conversation and verified brighter, audio-free video behavior. |
+
+Local validation passed for all 234 generated routes, 13 structural legacy LP variants, every doctor page set, six representative canonical/legacy LP routes with symptom-to-treatment assertions, and 50 mobile, desktop, and reduced-motion browser captures.
 
 ## Responsive QA Findings — 2026-08-13
 

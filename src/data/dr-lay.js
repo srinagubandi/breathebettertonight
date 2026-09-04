@@ -38,26 +38,26 @@ module.exports = {
   sharedContent: {
     eyebrow: 'Private symptom check',
     headline: 'Do these sleep symptoms sound familiar?',
-    subheadline: 'Loud snoring, gasping, and waking exhausted deserve a closer look.',
+    subheadline: 'Loud snoring, gasping, or waking tired may be worth discussing.',
     cta: 'Start a private symptom check',
-    symptomTitle: 'Start with the signs you can recognize.',
-    symptomIntro: 'Select what sounds familiar. This screen is for awareness only.',
+    symptomTitle: 'Notice the signs.',
+    symptomIntro: 'Select what sounds familiar. This is awareness, not a diagnosis.',
     symptoms: [
-      { icon: 'sound', label: 'Loud or frequent snoring', desc: 'Especially when it disturbs a partner.' },
-      { icon: 'pause', label: 'Pauses in breathing', desc: 'Often noticed by someone else.' },
-      { icon: 'air', label: 'Waking gasping or choking', desc: 'A nighttime sign worth discussing.' },
-      { icon: 'sun', label: 'Tired after a full night', desc: 'Low energy can carry into the day.' },
+      { icon: 'sound', label: 'Loud or frequent snoring', desc: 'Especially when it disrupts rest.' },
+      { icon: 'pause', label: 'Pauses in breathing', desc: 'Often noticed by a partner.' },
+      { icon: 'air', label: 'Gasping or choking', desc: 'A nighttime pattern to mention.' },
+      { icon: 'sun', label: 'Tired after sleeping', desc: 'Low energy can follow.' },
     ],
   },
 
   faqs: [
     {
       q: 'Is this symptom screen a diagnosis?',
-      a: 'No. It is a private way to recognize common sleep-related symptoms. A qualified healthcare professional can evaluate sleep concerns and determine next steps.',
+      a: 'No. It helps you notice common sleep concerns. A qualified clinician can evaluate them.',
     },
     {
       q: 'What happens after I recognize these symptoms?',
-      a: 'You can contact the practice to discuss your concerns and the appropriate evaluation pathway. A sleep study or home sleep test may be needed to diagnose sleep apnea.',
+      a: 'Request a consultation to discuss your concerns and possible evaluation. A sleep study or home test may be part of diagnosis.',
     },
   ],
 

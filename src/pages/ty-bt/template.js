@@ -19,22 +19,22 @@ function renderTYBT(doctor, variantSlug, citySlug, practiceOverride = null) {
   const showPhone = !practice || practice.showPhone !== false;
   const practiceLabel = showPracticeName ? (practice?.publicName || doctor.practice) : 'a selected local practice';
   const providerName = showPracticeName ? `${doctor.name}, ${doctor.credentials}` : 'A local conversation, when you are ready';
-  const providerDetail = showPracticeName ? (practice?.publicName || doctor.practice) : 'A selected local practice can receive a consultation request.';
-  const callCopy = showPracticeName ? `Call ${practiceLabel} to discuss symptoms and next steps with the office.` : 'Use the consultation request to discuss symptoms and next steps with the office.';
+  const providerDetail = showPracticeName ? (practice?.publicName || doctor.practice) : 'Your consultation request can go to the selected local practice.';
+  const callCopy = showPracticeName ? `Call ${practiceLabel} to discuss symptoms and next steps.` : 'Use the consultation request to discuss symptoms and next steps.';
   const callAction = showPhone ? `<a href="tel:${callRaw}" class="button button-secondary">Call ${callDisplay}<span aria-hidden="true">→</span></a>` : '';
   const body = `<div class="legacy-outcome legacy-outcome-helpful" style="--outcome-image:url('${variant.hero}')">
     <section class="ty-hero">
       <div class="ty-check">i</div>
       <p class="ty-eyebrow">Helpful next step</p>
       <h1 class="ty-headline">Sleep concerns deserve the right evaluation.</h1>
-      <p class="ty-sub">A symptom screen is not a diagnosis. If symptoms continue, ${practiceLabel} can help you discuss an appropriate path forward.</p>
+      <p class="ty-sub">This symptom screen is not a diagnosis. If symptoms continue, ${practiceLabel} can discuss next steps.</p>
     </section>
 
     <section class="symptom-section">
       <div class="container section-narrow">
         <p class="eyebrow eyebrow-accent">What to remember</p>
         <h2>Start with a calm, private conversation.</h2>
-        <p class="section-intro">Loud snoring, breathing pauses, gasping, and excessive daytime tiredness can have more than one cause. A qualified healthcare professional can evaluate your concerns.</p>
+        <p class="section-intro">Snoring, breathing pauses, gasping, and daytime tiredness can have many causes. A qualified clinician can evaluate your concerns.</p>
       </div>
     </section>
 
@@ -48,7 +48,7 @@ function renderTYBT(doctor, variantSlug, citySlug, practiceOverride = null) {
       <div class="container next-step-inner">
         <div>
           <p class="eyebrow">Questions?</p>
-          <h2>Talk through your concerns without pressure.</h2>
+          <h2>Discuss your concerns without pressure.</h2>
           <p>${callCopy}</p>
         </div>
         ${callAction}

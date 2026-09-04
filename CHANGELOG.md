@@ -18,6 +18,7 @@
 - Added optimized muted H.264 hero-video assets and matching JPG poster fallbacks, including reduced-motion static behavior.
 - Added independently persisted per-practice visibility controls for public practice name, Call action, and Text action in the protected admin workspace.
 - Added a dedicated **Video Hero LPs** admin summary that groups all twelve canonical video-background landing pages by practice, with direct previews for every video concept.
+- Added shared reasons-and-symptoms guidance and a clinician-gated oral-appliance discussion path to canonical, doctor-owned, and preserved legacy LPs.
 
 ### Changed
 
@@ -27,6 +28,10 @@
 - Updated responsive QA to use the available Chromium executable and assert the assigned survey, Call/Text header actions, practice policy links, no retired consultation wording, and no horizontal overflow across representative three-practice routes.
 - Updated canonical and legacy landing/outcome renderers, the shared header, survey context, and chat fallback so hidden practice/contact settings do not leave empty action containers or ambiguous visible copy.
 - Updated every canonical video-background landing page with a visible, non-interactive video-camera indicator and added a prominent Video LPs shortcut to the top protected-workspace navigation.
+- Shortened reusable hero, symptom, consultation, and outcome copy across all patient LP families and matched outcome pages.
+- Removed public hero campaign-label, practice-name, and video-background metadata rows from canonical, doctor-owned, and preserved legacy LPs.
+- Brightened all supplied video-hero media and refined their scrims for clearer subject visibility while retaining readable text and actions.
+- Updated every video hero to use muted and default-muted inline playback without controls; the optimized MP4 assets contain no audio track.
 
 ### Validation
 
@@ -40,6 +45,7 @@
 - Local release validation passed for 234 preserved generated legacy routes, all doctor-owned concept and legacy page sets, four video concepts and their matched outcomes across three practices, all video/poster asset URLs, and repository wording cleanup.
 - Local authenticated-admin validation passed for the Page Index’s new Nighttime Breathing Sounds entries and all three visibility controls.
 - Grouped-video navigation validation passed locally: twelve video LPs showed the marker, retained their assigned surveys, and retained their matched outcome routes; static LPs did not show the marker.
+- Copy-and-guidance validation passed locally: all 234 generated routes, all doctor page sets, six representative canonical/legacy LPs with symptom-to-treatment assertions, and 50 mobile, desktop, and reduced-motion browser captures completed successfully.
 
 ### Deployment
 

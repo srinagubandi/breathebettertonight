@@ -107,6 +107,8 @@ def capture() -> None:
                     if not page.locator('.chat-panel:not([hidden])').count():
                         raise AssertionError(f"Chat panel did not open in {name} {label}")
                     page.locator('.chat-close').click()
+                    if not page.locator('.reasons-section').count() or not page.locator('.oral-appliance-section').count():
+                        raise AssertionError(f"Shared symptom-to-treatment guidance missing in {name} {label}")
                     if page.evaluate("document.documentElement.scrollWidth > window.innerWidth + 1"):
                         raise AssertionError(f"Horizontal overflow found in {name} {label}")
                     if "-video-" in name:
@@ -114,7 +116,7 @@ def capture() -> None:
                         poster = page.locator(".landing-hero-poster")
                         if video.count() != 1 or poster.count() != 1:
                             raise AssertionError(f"Video hero and poster fallback must both render in {name} {label}")
-                        if not video.evaluate("node => node.autoplay && node.muted && node.loop && node.playsInline && node.preload === 'metadata'"):
+                        if not video.evaluate("node => node.autoplay && node.muted && node.defaultMuted && !node.controls && node.loop && node.playsInline && node.preload === 'metadata'"):
                             raise AssertionError(f"Decorative video settings are incomplete in {name} {label}")
                         if not video.evaluate("node => node.querySelector('source[type=\"video/mp4\"]')?.getAttribute('src')?.startsWith('/assets/video/')"):
                             raise AssertionError(f"Optimized MP4 source missing in {name} {label}")
