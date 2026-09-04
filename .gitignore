@@ -13,6 +13,7 @@ qa/
 __pycache__/
 data/leads.json
 data/practice-config.json
+handoff/
 
 # Generated concept boards are retained locally for review but are not release source assets.
 /research/**/*.png

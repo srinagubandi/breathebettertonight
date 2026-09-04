@@ -23,3 +23,8 @@
 - Structural landing-page regression passed for **13 legacy LP variants**.
 - Canonical campaign and matched outcome smoke test passed for **27 practice-campaign routes**.
 - Responsive QA captured all **13 legacy LP variants** at both mobile and desktop viewports.
+
+### Deployment
+
+- Merged the migration into `main` as commit `542b2ae` and deployed it successfully to the existing Railway production service and `www.breathebettertonight.com`.
+- Configured a dedicated protected admin account through Railway environment variables and validated the live `/admin` Page Index with authenticated access.

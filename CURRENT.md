@@ -130,6 +130,7 @@ The protected `/admin` workspace includes a full Page Index, searchable by route
 | 2026-09-04 | Conversion | Replaced legacy LP form placeholders with the assigned Pantego GoHighLevel survey and added three-practice campaign surveys | Complete |
 | 2026-09-04 | Admin | Added persistent practice configuration, policy overrides, and the complete Page Index | Complete locally |
 | 2026-09-04 | QA | Passed 234 legacy route checks, 13 structural LP checks, 27 campaign/outcome checks, and 13 mobile/desktop visual captures | Complete locally |
+| 2026-09-04 | Deploy | Merged the migration to `main`, deployed successfully to Railway, and verified the live public routes plus authenticated `/admin` Page Index | Complete |
 
 ## Responsive QA Findings — 2026-08-13
 
