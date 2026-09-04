@@ -29,13 +29,14 @@ function renderLandingPage({ practice, campaign, locality = '', legacy = false }
   ].filter(Boolean).join('');
   const contactCard = contactActions ? `<div class="practice-contact-card"><strong>Request a consultation</strong><p>Choose the secure request below, or contact the office directly.</p>${contactActions}</div>` : '';
   const videoHero = campaign.heroVideo ? `<div class="landing-hero-visual" aria-hidden="true"><img class="landing-hero-poster" src="${escapeHtml(campaign.heroPoster || campaign.hero)}" alt=""/><video class="landing-hero-video" autoplay muted loop playsinline preload="metadata" poster="${escapeHtml(campaign.heroPoster || campaign.hero)}"><source src="${escapeHtml(campaign.heroVideo)}" type="video/mp4"/></video></div>` : '';
+  const videoBadge = campaign.heroVideo ? '<span class="landing-video-badge"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4.5 6.8A2.3 2.3 0 0 1 6.8 4.5h7.4a2.3 2.3 0 0 1 2.3 2.3v1.1l2.5-1.55a1 1 0 0 1 1.5.85v9.6a1 1 0 0 1-1.5.85l-2.5-1.55v1.1a2.3 2.3 0 0 1-2.3 2.3H6.8a2.3 2.3 0 0 1-2.3-2.3V6.8Z" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linejoin="round"/></svg>Video background</span>' : '';
   const heroClass = campaign.heroVideo ? 'landing-hero landing-hero-video-enabled' : 'landing-hero';
   const body = `<div class="landing-v3 landing-${escapeHtml(campaign.designSystem || 'night-to-clarity')}">
     <section class="${heroClass}" style="--hero-image:url('${escapeHtml(campaign.hero)}')">
       ${videoHero}
       <div class="landing-hero-scrim"></div>
       <div class="landing-container landing-hero-content">
-        <p class="landing-eyebrow">${escapeHtml(campaign.eyebrow || 'Night-to-Clarity')}${showPracticeName ? ` · ${escapeHtml(practice.campaignDestination)}` : ''}</p>
+        <div class="landing-hero-meta"><p class="landing-eyebrow">${escapeHtml(campaign.eyebrow || 'Night-to-Clarity')}${showPracticeName ? ` · ${escapeHtml(practice.campaignDestination)}` : ''}</p>${videoBadge}</div>
         <h1>${escapeHtml(campaign.headline)}</h1>
         <p class="landing-lede">${escapeHtml(campaign.subheadline)}</p>
         <div class="landing-actions">${heroActions}</div>

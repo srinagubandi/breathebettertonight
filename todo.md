@@ -37,3 +37,6 @@
 - [x] Complete video-hero improvement loop three for practice-name, Call, and Text toggle copy states.
 - [x] Inspect, optimize, and add a fourth distinct symptom-focused video-hero landing-page family from the newly supplied footage for every active practice.
 - [x] Complete and record three improvement loops for the fourth video concept: symptom-message continuity, playback and reduced-motion fallback, and practice visibility-toggle copy.
+- [ ] Group the four video-background LP concepts in the relevant navigation and protected Page Index summaries.
+- [ ] Add a prominent video shortcut to the top summary and a clear video indicator to every video-background LP.
+- [ ] Validate grouped navigation, responsive icon visibility, route preservation, assigned surveys, and deploy the update to Railway.
