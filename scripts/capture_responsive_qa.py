@@ -111,6 +111,8 @@ def capture() -> None:
                         raise AssertionError(f"Shared symptom-to-treatment guidance missing in {name} {label}")
                     if not page.locator('.dentist-profile-section').count() or not page.locator('.dentist-credential-icon').count():
                         raise AssertionError(f"Dentist profile or credential icons missing in {name} {label}")
+                    if not page.locator('.dentist-photo-placeholder').count():
+                        raise AssertionError(f"Doctor photo placeholder missing in {name} {label}")
                     if page.locator('.landing-v3').count() and not page.locator('.signal-list .signal-icon').count():
                         raise AssertionError(f"Medical symptom icons missing from canonical recognition list in {name} {label}")
                     if page.evaluate("document.documentElement.scrollWidth > window.innerWidth + 1"):

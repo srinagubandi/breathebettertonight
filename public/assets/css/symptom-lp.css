@@ -83,6 +83,13 @@ body .sticky-header .header-cta { display: inline-flex; align-items: center; jus
 .medical-disclaimer p { border-top: 1px solid color-mix(in srgb, var(--accent) 13%, #dce5ea); margin: 0; padding-top: 18px; font-size: .72rem; line-height: 1.5; }
 .dentist-profile-section { padding: 64px 0; background: color-mix(in srgb, var(--section-light-bg, #f6fbfc) 78%, #fff); }
 .dentist-profile-layout { display: grid; gap: 30px; }
+.dentist-profile-intro-with-photo { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; align-items: center; }
+.dentist-photo-placeholder { display: grid; gap: 8px; margin: 0; padding: 10px; border: 1px dashed color-mix(in srgb, var(--accent) 48%, #a8b5bd); background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 17%, #fff), color-mix(in srgb, var(--accent) 6%, #f5f7f8)); color: var(--accent); text-align: center; }
+.dentist-photo-illustration { display: grid; min-height: 72px; place-items: center; background: rgba(255,255,255,.45); }
+.dentist-photo-illustration svg { width: 39px; height: 39px; }
+.dentist-photo-placeholder figcaption { display: grid; gap: 2px; }
+.dentist-photo-placeholder strong { color: var(--heading-color, #102b45); font-size: .57rem; font-weight: 900; letter-spacing: .07em; text-transform: uppercase; }
+.dentist-photo-placeholder small { color: var(--text-muted, #5d6c79); font-size: .54rem; font-weight: 800; }
 .dentist-profile-intro h2 { max-width: 15ch; margin: 0; color: var(--heading-color, #102b45); font-size: clamp(1.85rem, 5vw, 2.95rem); line-height: 1.04; letter-spacing: -.04em; }
 .dentist-profile-intro > p:not(.landing-eyebrow) { max-width: 610px; margin: 15px 0 0; color: var(--text-muted, #5d6c79); line-height: 1.62; }
 .dentist-credential-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
@@ -109,6 +116,12 @@ body .sticky-header .header-cta { display: inline-flex; align-items: center; jus
   .provider-card-local { grid-template-columns: minmax(0, 1.35fr) minmax(200px, .65fr); }
   .dentist-profile-section { padding: 92px 0; }
   .dentist-profile-layout { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 56px; align-items: center; }
+  .dentist-profile-intro-with-photo { grid-template-columns: 128px minmax(0, 1fr); gap: 24px; }
+  .dentist-photo-placeholder { padding: 13px; }
+  .dentist-photo-illustration { min-height: 105px; }
+  .dentist-photo-illustration svg { width: 52px; height: 52px; }
+  .dentist-photo-placeholder strong { font-size: .68rem; }
+  .dentist-photo-placeholder small { font-size: .62rem; }
   .dentist-credential-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .dentist-credential-list li { display: grid; grid-template-columns: 1fr; align-content: start; min-height: 158px; padding: 20px; }
   .review-placeholder { display: flex; flex-direction: column; justify-content: center; }

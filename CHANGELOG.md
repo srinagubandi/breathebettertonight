@@ -20,6 +20,7 @@
 - Added a dedicated **Video Hero LPs** admin summary that groups all twelve canonical video-background landing pages by practice, with direct previews for every video concept.
 - Added shared reasons-and-symptoms guidance and a clinician-gated oral-appliance discussion path to canonical, doctor-owned, and preserved legacy LPs.
 - Added a credential-led **About the Dentist** LP section for all canonical, doctor-owned, and preserved legacy landing-page families, with a persistent per-practice Show About the Dentist control in the protected admin workspace.
+- Added a neutral, replaceable doctor-photo placeholder to every About the Dentist section, plus an independent per-practice Show doctor photo placeholder control in the protected admin workspace.
 
 ### Changed
 
@@ -49,6 +50,7 @@
 - Grouped-video navigation validation passed locally: twelve video LPs showed the marker, retained their assigned surveys, and retained their matched outcome routes; static LPs did not show the marker.
 - Copy-and-guidance validation passed locally: all 234 generated routes, all doctor page sets, six representative canonical/legacy LPs with symptom-to-treatment assertions, and 50 mobile, desktop, and reduced-motion browser captures completed successfully.
 - Icon-and-profile validation passed locally: semantic canonical symptom icons, legacy symptom icons, credential-icon profile markup, admin display control persistence, profile-on/profile-off/identity-hidden states, 50 responsive captures, 234 generated routes, complete doctor page sets, policy links, surveys, and approved consultation wording.
+- Doctor-photo validation passed locally: photo-enabled, photo-disabled, dentist-profile-disabled, and practice-identity-hidden states; profile layout without horizontal overflow; 50 responsive captures; and the 234-route generated legacy regression with assigned survey preservation.
 
 ### Deployment
 
