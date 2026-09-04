@@ -120,15 +120,15 @@ def main() -> None:
 
     add_heading(document, "1. Production Status")
     document.add_paragraph(
-        "The Night-to-Clarity public patient site, the preserved legacy landing-page family, the three-practice campaign system, and the protected publishing workspace have been implemented and deployed to the existing Railway project. The production service is connected to the repository’s main branch."
+        "The Night-to-Clarity public patient site, the preserved legacy landing-page family, the complete three-practice patient-concept catalog, and the protected publishing workspace have been implemented and deployed to the existing Railway project. The production service is connected to the repository’s main branch."
     )
     add_table(document, ["Item", "Production value"], [
         ["Patient website", "https://www.breathebettertonight.com/"],
         ["Railway service", "breathebettertonight-web · Production environment"],
         ["Deployment branch", "main"],
         ["Migration release commit", "542b2ae — merge: night-to-clarity landing-page system"],
-        ["Documentation commit", "b5f8e47 — three production improvement rounds"],
-        ["Canonical route count in admin Page Index", "285 direct-preview routes"],
+        ["Complete doctor-set release", "1c146f4 — complete doctor concept and legacy page sets"],
+        ["Current Page Index", "1,092 direct-preview routes"],
     ])
 
     add_heading(document, "2. Verified Administrator Access")
@@ -145,57 +145,59 @@ def main() -> None:
         ["Night-to-Clarity public site", "/, /sleep-check, /find-a-provider, /sleep-apnea", "Patient education, symptom awareness, provider selection, and the clear next step."],
         ["General resources", "/about, /faq, /contact, /thank-you", "Supportive informational and generic inquiry routes."],
         ["Practice handoff", "/care/{practice}", "Local practice identity, Call/Text actions, and practice-scoped policy links."],
-        ["Paid traffic", "/go/{practice}/{campaign}", "Ad-matched hero, symptom-led education, Request a Consultation CTA, and the assigned GoHighLevel survey."],
-        ["Qualified outcome", "/go/{practice}/{campaign}/thank-you", "Matched thank-you confirmation for the campaign route."],
-        ["Non-qualified outcome", "/go/{practice}/{campaign}/not-qualified", "Matched non-qualified next-step page that remains non-diagnostic."],
+        ["Patient concept", "/lp/{practice}/concepts/{concept}", "One of sixteen patient-facing concepts, rendered for the selected practice with the assigned GoHighLevel survey and policy profile."],
+        ["Concept outcomes", "/lp/{practice}/concepts/{concept}/thank-you or /not-qualified", "Matched qualified and non-qualified outcome pages that retain the originating concept and selected practice."],
+        ["Doctor-owned legacy", "/lp/{practice}/legacy/{variant}[/{city}]", "All thirteen preserved LP designs made available as complete doctor-owned design sets with locality variants."],
+        ["Legacy outcomes", "/lp/{practice}/legacy/{variant}[/{city}]/thank-you or /not-qualified", "Matched qualified and non-qualified outcomes for each doctor-owned legacy design."],
+        ["Paid traffic", "/go/{practice}/{campaign}", "Ad-matched hero, symptom-led education, Request a consultation CTA, and the assigned GoHighLevel survey."],
         ["HCP handoff", "/for-professionals", "External handoff to the Propel Dental HCP experience."],
     ])
 
     add_heading(document, "4. GoHighLevel Survey Assignment")
     add_table(document, ["Practice", "Canonical key", "Assigned GoHighLevel survey ID", "Campaign themes"], [
-        ["Pantego Dental", "pantego-dental", "75op3Tl4LTjPkaXI1zhb", "Tired mornings; focus and brain fog; partner-noticed snoring"],
-        ["PerioDDS", "periodds", "pvHcEcGNjxhXI3L8lSrE", "Tired mornings; focus and brain fog; partner-noticed snoring"],
-        ["Dental World", "dental-world", "Rx0LnsI0XLu8JfhiDnYc", "Tired mornings; focus and brain fog; partner-noticed snoring"],
+        ["Pantego Dental", "pantego-dental", "75op3Tl4LTjPkaXI1zhb", "All sixteen patient concepts, paid variants, and doctor-owned legacy designs"],
+        ["PerioDDS", "periodds", "pvHcEcGNjxhXI3L8lSrE", "All sixteen patient concepts, paid variants, and doctor-owned legacy designs"],
+        ["Dental World", "dental-world", "Rx0LnsI0XLu8JfhiDnYc", "All sixteen patient concepts, paid variants, and doctor-owned legacy designs"],
     ])
     document.add_paragraph(
-        "All preserved Dr. Willis Lay legacy landing pages now use the assigned Pantego Dental survey. The migration preserves the existing legacy URLs while replacing retired conversion placeholders with the live survey handoff."
+        "Every patient-facing doctor page uses only its assigned survey. The preserved Dr. Willis Lay legacy URLs remain Pantego Dental compatibility routes, while standardized doctor-owned page-set paths make the same designs available for all three practices."
     )
 
     add_heading(document, "5. Administration Workspace")
     document.add_paragraph(
-        "The protected admin workspace contains a dedicated Page Index, practice configuration cards, and a general-inquiry dashboard. The Page Index provides direct previews and category filters for public pages, practice pages, campaign landing pages, qualified thank-you pages, non-qualified thank-you pages, policies, and every preserved legacy URL."
+        "The protected admin workspace contains a dedicated Page Index, practice configuration cards, and a general-inquiry dashboard. The Page Index provides direct previews and category filters for public pages, practice pages, canonical concepts, doctor-owned legacy pages, campaign landing pages, qualified thank-you pages, non-qualified thank-you pages, policies, and every preserved legacy URL."
     )
     add_table(document, ["Configuration area", "What it controls"], [
         ["Practice identity", "Public name, campaign destination name, service label, and local care destination."],
         ["Contact actions", "Visible Call number, Call route, and Text route per practice."],
         ["GoHighLevel handoff", "One validated survey ID for each practice; doctor-specific pages do not use generic placeholders."],
-        ["Design assignment", "Campaign-level visual-system selection per practice."],
+        ["Design assignment", "All sixteen patient-facing concepts and the legacy design catalog can be assigned per practice."],
         ["Policy profile", "Privacy, Terms & Conditions, and Accessibility override content that updates every route using that practice profile."],
-        ["Outcome family", "Direct previews of the landing page, qualified thank-you page, and non-qualified thank-you page for every campaign."],
+        ["Outcome family", "Direct previews of the landing page, qualified thank-you page, and non-qualified thank-you page for every campaign, concept, and doctor-owned legacy design."],
     ])
 
     add_heading(document, "6. Three Completed Improvement Rounds")
     add_table(document, ["Round", "Focus", "Outcome"], [
-        ["1", "Route preservation and information architecture", "All 234 preserved legacy URLs returned HTTP 200 locally; the admin Page Index provides 285 direct-preview routes."],
-        ["2", "Conversion and practice handoff", "All practice campaign routes use assigned GoHighLevel surveys, Call/Text actions, consultation language, and matched qualified/non-qualified outcomes."],
-        ["3", "Accessibility, performance, and administration", "Testimonial-like placeholders were removed; the third-party survey enhancer is asynchronous; responsive QA captured all 13 legacy variants at mobile and desktop sizes."],
+        ["1", "Copy clarity and doctor identity", "Every concept and outcome page names the selected local practice and explains that the request is routed to that destination."],
+        ["2", "Conversion and matched outcomes", "All doctor pages use assigned GoHighLevel surveys, visible Call/Text actions, consultation language, and concept-matched qualified/non-qualified outcomes."],
+        ["3", "Accessibility, responsive behavior, and administration", "Responsive QA checks all thirteen legacy variants plus representative concept and legacy pages for all three practices, including horizontal overflow and practice policy links."],
     ])
 
     add_heading(document, "7. Validation Summary")
     add_table(document, ["Validation", "Result"], [
         ["Legacy route regression", "234 generated legacy routes passed locally."],
         ["Legacy LP structural check", "13 legacy variants passed required accessible structure and approved content checks."],
-        ["Canonical campaign smoke test", "27 practice-campaign, qualified, and non-qualified routes returned HTTP 200 locally."],
-        ["Responsive visual QA", "All 13 legacy variants captured at 414 × 896 mobile and 1440px desktop targets."],
-        ["Production route check", "Public homepage, legacy LP, legacy qualified outcome, canonical campaign/outcome routes, and practice policy route returned HTTP 200."],
-        ["Production admin check", "Authenticated admin access returned HTTP 200 and rendered the Page Index."],
+        ["Complete doctor-set route regression", "All 690 doctor-owned concept and legacy routes passed locally, retaining their assigned survey and policy profile."],
+        ["Responsive visual QA", "38 mobile and desktop captures completed across the 13 legacy variants and all three active practice systems."],
+        ["Production route check", "The public site, Pantego concept route, PerioDDS legacy route, Dental World concept route, and a matched non-qualified outcome route returned HTTP 200 with the expected survey or policy evidence."],
+        ["Production admin check", "The `/admin` route remains protected in production; its complete Page Index was validated locally with all three doctor-owned route families."],
     ])
 
     add_heading(document, "8. Operating Notes")
     document.add_paragraph(
         "The Railway service must retain a writable persistent volume mounted at /data. The application uses LEADS_FILE for general inquiries and PRACTICE_CONFIG_FILE for updates made through the protected practice configuration workspace. Admin changes are intentionally stored outside Git so configuration can be managed without code edits.")
     document.add_paragraph(
-        "Before paid media is activated, verify each practice’s text-routing number accepts messages, add legally approved practice-specific policy text where needed, and replace any unapproved provider biography placeholder content with approved factual practice copy. The patient-facing content remains symptom-led and informational; it does not diagnose sleep apnea or make treatment guarantees.")
+        "Before paid media is activated, verify each practice’s text-routing number accepts messages, add legally approved practice-specific policy text where needed, and replace any unapproved provider biography placeholder content with approved factual practice copy. The patient-facing content remains symptom-led and informational; it does not diagnose sleep apnea, promise an outcome, or advertise a free consultation.")
 
     add_heading(document, "9. Source-Control Record")
     document.add_paragraph(
