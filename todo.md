@@ -53,4 +53,4 @@
 - [x] Complete two design-and-copy refinement loops, validate enabled and disabled profile states, and deploy to Railway.
 - [x] Add a neutral, replaceable doctor-photo placeholder to every About the Dentist section across all landing-page families.
 - [x] Add a persistent per-practice Show doctor photo control in the protected admin workspace and preserve its independent behavior.
-- [ ] Validate photo-on, photo-off, and practice-identity-hidden states across responsive layouts, then deploy to Railway.
+- [x] Validate photo-on, photo-off, and practice-identity-hidden states across responsive layouts, then deploy to Railway.

@@ -18,3 +18,7 @@ The protected admin practice configuration now has an independent **Show doctor 
 ## Local validation
 
 The isolated configuration fixture verified a photo-enabled Pantego Dental page, a photo-disabled PerioDDS page, a practice-identity-hidden Dental World page, and the preserved Dr. Lay legacy route. Each retained its assigned GoHighLevel survey. The photo toggle persisted correctly when switched off and then restored. Desktop browser inspection confirmed the profile used a 126 px placeholder column without horizontal overflow.
+
+## Production validation
+
+The release was committed as `3efe92d` and deployed successfully through the existing Railway web service. The live Pantego Dental Nighttime Breathing Sounds page confirms the neutral placeholder is present inside the visible dentist profile, has no portrait image source, and does not create horizontal overflow.
