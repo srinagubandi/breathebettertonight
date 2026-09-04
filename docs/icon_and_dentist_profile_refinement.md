@@ -8,3 +8,7 @@ The public landing-page change replaces only the numbered symptom-recognition ma
 |---:|---|---|
 | 1 | Icon hierarchy and concise profile copy | Replaced canonical recognition numerals with decorative medical-style SVG icons. Refined the mapping so breathing pauses and gasping receive an airway icon before broader partner/sound matching. Confirmed that the profile is visually distinct between the appliance and local practice sections, and shortened its copy to name, credentials, practice, local-care area, and a limited evaluation-led discussion—without unverified biographical or treatment claims. |
 | 2 | Responsive layout and enabled/disabled state | Completed 50 fresh mobile, desktop, and reduced-motion captures with no horizontal overflow. Tested profile-on, profile-off, and practice-name-hidden states across all three practice keys. The dentist profile disappears when its own toggle is off and also remains absent when public practice identity is hidden; it restores cleanly when both controls are enabled. |
+
+## Production validation
+
+The update was committed as `8c06f85` and deployed successfully to the existing Railway web service. The live Pantego Nighttime Breathing Sounds page exposes four semantic symptom icons, no numeric recognition-list marker, three credential icons, the enabled dentist profile, and a muted no-controls video hero.
