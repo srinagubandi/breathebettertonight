@@ -12,6 +12,8 @@
 - Added sixteen reusable, patient-facing concept records and complete doctor-owned concept route families for **Pantego Dental**, **PerioDDS**, and **Dental World**. Every concept provides a landing route plus matched qualified and non-qualified outcome routes.
 - Added complete doctor-owned legacy design families for the three active practices, while retaining the original `/dr-lay/...` Pantego compatibility URLs.
 - Added complete doctor-owned concept and legacy entries to the protected admin **Page Index**.
+- Added separate protected **Homepage Concepts** and **HCP Concepts** libraries to the `/admin` workspace, containing four Breathe Better Tonight patient-homepage directions and five Propel Dental HCP directions.
+- Added authenticated concept-image delivery through `/admin/concepts/:asset`; concept assets are not served from the public static directory.
 
 ### Changed
 
@@ -27,6 +29,7 @@
 - Canonical campaign and matched outcome smoke test passed for **27 practice-campaign routes**.
 - Responsive QA captured all **13 legacy LP variants** at both mobile and desktop viewports.
 - Complete doctor page-set regression passed across every concept and legacy route family. Responsive QA captured 38 mobile and desktop views across the preserved legacy catalog and active-practice samples.
+- Concept-library validation passed for authenticated content rendering, anonymous 401 responses for the admin and image endpoints, public static-image 404 behavior, semantic section headings, direction counts, and refined review copy.
 
 ### Deployment
 

@@ -144,6 +144,18 @@ Every patient-facing lookbook study now has a reusable production record in `src
 
 The protected Page Index lists the complete doctor-owned concept and legacy page families, in addition to public, policy, canonical campaign, outcome, and preserved compatibility routes. Local validation confirmed Pantego Dental has 96 concept-route previews and 468 legacy-route previews; PerioDDS and Dental World each have 96 concept-route previews and 312 legacy-route previews.
 
+## Protected Concept Libraries — 2026-09-04
+
+The authenticated `/admin` workspace now has separate **Homepage Concepts** and **HCP Concepts** sections before the Page Index. The first contains four Breathe Better Tonight patient-homepage directions; the second contains five Propel Dental HCP microsite directions. Their image files are stored outside `public/` and served only by the authenticated `/admin/concepts/:asset` route with no-store cache headers. The public patient site has no navigation path to these materials.
+
+| Loop | Focus | Result |
+|---:|---|---|
+| 1 | Structure and review clarity | Added clear library separation, concept numbering, review-only labels, and internal review guidance. |
+| 2 | Usability, protection, and responsive behavior | Added landmark headings, direction counts, focused navigation states, protected image assertions, and stacked mobile layouts. |
+| 3 | Copy and action language | Rewrote section, concept, and action copy to make each review decision explicit and distinguish patient from HCP work. |
+
+Local validation confirms both libraries render after authentication, anonymous requests to `/admin` and `/admin/concepts/:asset` return 401, and retired public concept-asset URLs return 404.
+
 ## Responsive QA Findings — 2026-08-13
 
 V1 was rendered locally at **414 × 896** mobile and **1440px** desktop. The symptom-first hierarchy, full-width CTA, stacked mobile symptom cards, provider/photo/bio/review placeholders, no-GHL policy, and desktop two-column symptom grid are all rendering correctly. The following improvements remain for the code passes: normalize all six theme variables; simplify the legacy footer disclaimer so it does not duplicate the page-specific non-diagnostic disclosure; increase small provider and FAQ supporting text where possible; and inspect V2–V6 screenshots for theme-specific contrast issues before release.

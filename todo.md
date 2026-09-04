@@ -16,3 +16,10 @@
 - [x] Complete review loop one for patient copy clarity and doctor/practice identity.
 - [x] Complete review loop two for survey conversion, Call/Text actions, and outcome-page continuity.
 - [x] Complete review loop three for accessibility, responsive behavior, route coverage, and admin Page Index completeness.
+- [x] Inventory the approved Breathe Better Tonight homepage and Propel Dental HCP concept references for protected admin review.
+- [x] Add a protected Homepage Concepts section to the admin workspace.
+- [x] Add a protected HCP Concepts section to the admin workspace.
+- [x] Complete improvement loop one for concept grouping, review states, and clear outbound previews.
+- [x] Complete improvement loop two for mobile responsiveness, protected access, and route verification.
+- [x] Complete improvement loop three for concept descriptions, review labels, and action-language refinement.
+- [ ] Deploy and validate the protected concept-library sections on Railway.

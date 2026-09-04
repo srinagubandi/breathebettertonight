@@ -17,6 +17,7 @@ const { renderLP }    = require('./src/pages/lp/template');
 const { renderTY }    = require('./src/pages/ty/template');
 const { renderTYBT }  = require('./src/pages/ty-bt/template');
 const { renderAdmin } = require('./src/pages/admin/template');
+const { ADMIN_CONCEPT_FILES } = require('./src/data/admin-concepts');
 const { getCampaign } = require('./src/data/campaigns');
 const { getPractice, getPractices, setPracticeOverrideProvider } = require('./src/data/practices');
 const { getDoctorPageSet } = require('./src/data/doctor-page-sets');
@@ -128,6 +129,18 @@ app.get('/admin', requireAdmin, (req, res) => {
     console.error('Admin lead-store error:', error.message);
     res.status(503).send('The lead dashboard is temporarily unavailable.');
   }
+});
+
+// Concept references are review-only assets. They are served only after the
+// admin middleware succeeds and have no public navigation path.
+app.get('/admin/concepts/:asset', requireAdmin, (req, res) => {
+  const asset = String(req.params.asset || '');
+  if (!ADMIN_CONCEPT_FILES.has(asset)) return res.status(404).send('Concept reference not found.');
+  return res.sendFile(path.join(__dirname, 'admin-assets', 'concepts', asset), {
+    headers: { 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' },
+  }, (error) => {
+    if (error && !res.headersSent) res.status(error.statusCode || 404).send('Concept reference unavailable.');
+  });
 });
 
 app.post('/admin/leads/:id/status', requireAdmin, (req, res) => {
