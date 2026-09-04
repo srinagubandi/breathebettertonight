@@ -1,9 +1,10 @@
-"""Capture local responsive QA screenshots for every configured Dr. Lay LP variant.
+"""Capture responsive QA evidence for legacy and doctor-owned page systems.
 
-This script is intentionally reusable. It starts the local Express server, captures
-both the selected US mobile viewport (414×896) and a 1440px desktop browser view,
-then asserts that every preserved LP uses the assigned Pantego survey handoff and
-the new practice-specific legal/accessibility route profile.
+The script preserves the complete Dr. Lay compatibility catalog while also sampling
+concept and legacy routes for Pantego Dental, PerioDDS, and Dental World. It checks
+the assigned survey, practice policy profile, Call/Text controls, access to the
+keyboard-reachable chat control, consultation wording, and horizontal overflow at
+both the selected mobile viewport and a desktop browser view.
 """
 from __future__ import annotations
 
@@ -18,8 +19,16 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "qa" / "responsive"
 PORT = 8091
 BASE_URL = f"http://127.0.0.1:{PORT}"
-# Keep this list aligned with the current data-driven variant inventory in src/data/dr-lay.js.
+# Preserve the complete original Dr. Lay compatibility set.
 VARIANTS = [f"v{number}" for number in range(1, 14)]
+DOCTOR_SAMPLES = [
+    ("pantego-concept", "/lp/pantego-dental/concepts/night-to-clarity", "75op3Tl4LTjPkaXI1zhb", "pantego-dental"),
+    ("pantego-legacy", "/lp/pantego-dental/legacy/v4/pantego-tx", "75op3Tl4LTjPkaXI1zhb", "pantego-dental"),
+    ("periodds-concept", "/lp/periodds/concepts/clinical-confidence", "pvHcEcGNjxhXI3L8lSrE", "periodds"),
+    ("periodds-legacy", "/lp/periodds/legacy/v6/rockwall-tx", "pvHcEcGNjxhXI3L8lSrE", "periodds"),
+    ("dental-world-concept", "/lp/dental-world/concepts/family-comfort", "Rx0LnsI0XLu8JfhiDnYc", "dental-world"),
+    ("dental-world-legacy", "/lp/dental-world/legacy/v8/longwood-fl", "Rx0LnsI0XLu8JfhiDnYc", "dental-world"),
+]
 
 MOBILE = {
     "viewport": {"width": 414, "height": 896},
@@ -53,7 +62,7 @@ def capture() -> None:
     server = subprocess.Popen(
         ["node", "server.js"],
         cwd=ROOT,
-        env={**os.environ, "PORT": str(PORT)},
+        env={**os.environ, "PORT": str(PORT), "PRACTICE_CONFIG_FILE": "/tmp/bbt-responsive-qa-practices.json"},
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         text=True,
@@ -62,8 +71,10 @@ def capture() -> None:
         wait_for_server()
         with sync_playwright() as playwright:
             browser = playwright.chromium.launch(executable_path=os.environ.get("CHROMIUM_EXECUTABLE", "/usr/bin/chromium"))
-            for variant in VARIANTS:
-                url = f"{BASE_URL}/dr-lay/{variant}"
+            routes = [(f"legacy-{variant}", f"/dr-lay/{variant}", "75op3Tl4LTjPkaXI1zhb", "pantego-dental") for variant in VARIANTS]
+            routes.extend(DOCTOR_SAMPLES)
+            for name, route, survey_id, practice_key in routes:
+                url = f"{BASE_URL}{route}"
                 for label, context_options in (("mobile", MOBILE), ("desktop", DESKTOP)):
                     page = browser.new_page(**context_options)
                     # External analytics placeholders can keep network requests open;
@@ -73,26 +84,30 @@ def capture() -> None:
                     page.wait_for_timeout(700)
                     html = page.content().lower()
                     if "ghl-form" in html:
-                        raise AssertionError(f"Retired form placeholder found in {variant} {label}")
-                    if not page.locator('iframe[src*="survey/75op3Tl4LTjPkaXI1zhb"]').count():
-                        raise AssertionError(f"Assigned Pantego survey missing in {variant} {label}")
-                    if not page.locator('a[href="/care/pantego-dental/privacy"]').count() or not page.locator('a[href="/care/pantego-dental/terms"]').count() or not page.locator('a[href="/care/pantego-dental/accessibility"]').count():
-                        raise AssertionError(f"Practice policy links missing in {variant} {label}")
+                        raise AssertionError(f"Retired form placeholder found in {name} {label}")
+                    if "free consultation" in html:
+                        raise AssertionError(f"Retired free-consultation wording found in {name} {label}")
+                    if not page.locator(f'iframe[src*="survey/{survey_id}"]').count():
+                        raise AssertionError(f"Assigned survey missing in {name} {label}")
+                    if not page.locator(f'a[href="/care/{practice_key}/privacy"]').count() or not page.locator(f'a[href="/care/{practice_key}/terms"]').count() or not page.locator(f'a[href="/care/{practice_key}/accessibility"]').count():
+                        raise AssertionError(f"Practice policy links missing in {name} {label}")
                     top_phone = page.locator('.top-phone')
                     if not top_phone.count():
-                        raise AssertionError(f"Top phone treatment missing in {variant} {label}")
+                        raise AssertionError(f"Top phone treatment missing in {name} {label}")
                     if not page.locator('.top-text').count():
-                        raise AssertionError(f"Top Text action missing in {variant} {label}")
+                        raise AssertionError(f"Top Text action missing in {name} {label}")
                     launcher = page.locator('.chat-launcher')
                     if not launcher.count():
-                        raise AssertionError(f"Chat launcher missing in {variant} {label}")
+                        raise AssertionError(f"Chat launcher missing in {name} {label}")
                     launcher.click()
                     if not page.locator('.chat-panel:not([hidden])').count():
-                        raise AssertionError(f"Chat panel did not open in {variant} {label}")
+                        raise AssertionError(f"Chat panel did not open in {name} {label}")
                     page.locator('.chat-close').click()
-                    page.screenshot(path=str(OUT / f"{variant}-{label}.png"), full_page=True)
+                    if page.evaluate("document.documentElement.scrollWidth > window.innerWidth + 1"):
+                        raise AssertionError(f"Horizontal overflow found in {name} {label}")
+                    page.screenshot(path=str(OUT / f"{name}-{label}.png"), full_page=True)
                     page.close()
-                    print(f"captured {variant} {label}")
+                    print(f"captured {name} {label}")
             browser.close()
     finally:
         server.terminate()

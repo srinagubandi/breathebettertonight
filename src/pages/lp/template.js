@@ -27,9 +27,9 @@ function icon(name) {
   return ICONS[name] || ICONS.sun;
 }
 
-function renderLP(doctor, variantSlug, citySlug) {
+function renderLP(doctor, variantSlug, citySlug, practiceOverride = null) {
   const variant = doctor.variants[variantSlug];
-  const practice = getPracticeByLegacyDoctor(doctor.slug);
+  const practice = practiceOverride || getPracticeByLegacyDoctor(doctor.slug);
   const cityLabel = resolveCityLabel(doctor, citySlug);
   const phone = resolvePhone(doctor, citySlug);
   const phoneRaw = phone.replace(/\D/g, '');
@@ -62,7 +62,7 @@ function renderLP(doctor, variantSlug, citySlug) {
         <p class="eyebrow">${content.eyebrow}</p>
         <h1>${content.headline}</h1>
         <p class="hero-subtitle">${content.subheadline}</p>
-        <a href="#free-consultation" class="button button-primary">Request a free consultation<span aria-hidden="true">→</span></a>
+        <a href="#consultation" class="button button-primary">Request a consultation<span aria-hidden="true">→</span></a>
         <p class="hero-microcopy">Private, pressure-free symptom awareness. No diagnosis through this page.</p>
       </div>
     </section>
@@ -87,7 +87,7 @@ function renderLP(doctor, variantSlug, citySlug) {
             <p class="eyebrow">Your local consultation route</p>
             <h2>${doctor.practice}</h2>
             <p class="provider-practice">${doctor.name}, ${doctor.credentials}</p>
-            <p class="provider-bio">Use the secure request below to ask the office for a free consultation about persistent sleep concerns.</p>
+            <p class="provider-bio">Use the secure request below to ask the office for a consultation about persistent sleep concerns.</p>
             <p class="provider-location">Serving ${cityLabel}</p>
           </div>
           <div class="provider-actions"><a href="tel:${phoneRaw}">Call ${phone}</a><a href="sms:${phoneRaw}">Text the office</a></div>
@@ -100,7 +100,7 @@ function renderLP(doctor, variantSlug, citySlug) {
         <div>
           <p class="eyebrow">When you are ready</p>
           <h2>Talk through your sleep concerns privately.</h2>
-          <p>Request a free consultation below or contact the office directly to discuss a practical next step.</p>
+          <p>Request a consultation below or contact the office directly to discuss a practical next step.</p>
         </div>
         <a href="tel:${phoneRaw}" class="button button-secondary">Call ${phone}<span aria-hidden="true">→</span></a>
       </div>
@@ -129,7 +129,7 @@ function renderLP(doctor, variantSlug, citySlug) {
     phone,
     phoneRaw,
     practice,
-    headerTarget: practice ? '#free-consultation' : '#symptom-check',
+    headerTarget: practice ? '#consultation' : '#symptom-check',
     policyBase: practice ? `/care/${practice.key}` : '',
   });
 }

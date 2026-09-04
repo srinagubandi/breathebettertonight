@@ -7,18 +7,12 @@ const { layout } = require('../../shared/layout');
 const { resolveCityLabel, resolvePhone } = require('../../data/index');
 const { getPracticeByLegacyDoctor } = require('../../data/practices');
 
-function renderTYBT(doctor, variantSlug, citySlug) {
+function renderTYBT(doctor, variantSlug, citySlug, practiceOverride = null) {
   const variant = doctor.variants[variantSlug];
-  const practice = getPracticeByLegacyDoctor(doctor.slug);
+  const practice = practiceOverride || getPracticeByLegacyDoctor(doctor.slug);
   const cityLabel = resolveCityLabel(doctor, citySlug);
   const phone = resolvePhone(doctor, citySlug);
   const phoneRaw = phone.replace(/\D/g, '');
-  const profile = doctor.profile;
-
-  const photo = profile.photo
-    ? `<img src="${profile.photo}" alt="${doctor.name}" />`
-    : '<span class="doctor-photo-placeholder" aria-hidden="true">DR<br>PHOTO</span>';
-
   const body = `<div class="legacy-outcome legacy-outcome-helpful" style="--outcome-image:url('${variant.hero}')">
     <section class="ty-hero">
       <div class="ty-check">i</div>
@@ -37,23 +31,7 @@ function renderTYBT(doctor, variantSlug, citySlug) {
 
     <section class="provider-section">
       <div class="container">
-        <div class="provider-card">
-          <div class="provider-profile">
-            <div class="doctor-photo">${photo}</div>
-            <div class="provider-copy">
-              <p class="eyebrow">Provider placeholder</p>
-              <h2>${doctor.name}, ${doctor.credentials}</h2>
-              <p class="provider-practice">${doctor.practice}</p>
-              <p class="provider-bio">${profile.bioPlaceholder}</p>
-              <p class="provider-location">Serving ${cityLabel}</p>
-            </div>
-          </div>
-          <aside class="review-placeholder">
-            <p class="review-label">${profile.reviewLabel}</p>
-            <blockquote>“${profile.reviewQuote}”</blockquote>
-            <p class="review-attribution">${profile.reviewAttribution}</p>
-          </aside>
-        </div>
+        <div class="provider-card provider-card-local"><div class="provider-copy"><p class="eyebrow">Your selected local practice</p><h2>${doctor.name}, ${doctor.credentials}</h2><p class="provider-practice">${doctor.practice}</p><p class="provider-bio">${doctor.profile.bioPlaceholder}</p><p class="provider-location">Serving ${cityLabel}</p></div></div>
       </div>
     </section>
 

@@ -3,8 +3,8 @@ const path = require('path');
 
 const MAX_TEXT = 6000;
 const MAX_LABEL = 160;
-const DESIGN_SYSTEMS = ['morning-signal', 'clarity-signal', 'shared-sleep-signal', 'night-to-clarity'];
-const CAMPAIGN_KEYS = ['tired-mornings', 'focus-and-brain-fog', 'partner-noticed-snoring'];
+const DESIGN_SYSTEMS = ['morning-signal', 'clarity-signal', 'shared-sleep-signal', 'night-to-clarity', 'clinical-confidence', 'family-comfort', 'local-care-calm-direction', 'soft-utility', 'humanist-morning', 'quiet-signal', 'sleep-check', 'provider-match', 'consultation-handoff', 'partner-path', 'treatment-questions', 'request-received'];
+const CAMPAIGN_KEYS = ['night-to-clarity', 'clinical-confidence', 'family-comfort', 'local-care-calm-direction', 'soft-utility', 'humanist-morning', 'quiet-signal', 'sleep-check', 'provider-match', 'consultation-handoff', 'partner-path', 'treatment-questions', 'request-received', 'tired-mornings', 'focus-and-brain-fog', 'partner-noticed-snoring'];
 
 function storePath() {
   return path.resolve(process.env.PRACTICE_CONFIG_FILE || path.join(__dirname, '../../data/practice-config.json'));

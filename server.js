@@ -19,6 +19,7 @@ const { renderTYBT }  = require('./src/pages/ty-bt/template');
 const { renderAdmin } = require('./src/pages/admin/template');
 const { getCampaign } = require('./src/data/campaigns');
 const { getPractice, getPractices, setPracticeOverrideProvider } = require('./src/data/practices');
+const { getDoctorPageSet } = require('./src/data/doctor-page-sets');
 const { renderLandingPage } = require('./src/pages/landing-pages/template');
 const { renderOutcome } = require('./src/pages/outcomes/template');
 const { renderPracticePolicy } = require('./src/pages/policies/template');
@@ -224,6 +225,77 @@ app.get('/go/:practice/:campaign', (req, res) => {
   const practice = getPractice(req.params.practice);
   const campaign = getCampaign(req.params.campaign);
   return practice && campaign ? res.send(renderLandingPage({ practice, campaign: campaignForPractice(practice, campaign) })) : res.status(404).send('Landing page not found.');
+});
+
+// ── Doctor-owned concept and legacy page sets ──────────────────
+function getDoctorSetContext(req, res) {
+  const practice = getPractice(req.params.practice);
+  if (!practice) {
+    res.status(404).send('Practice not found.');
+    return null;
+  }
+  const doctor = getDoctorPageSet(practice.key);
+  if (!doctor) {
+    res.status(404).send('Doctor page set not found.');
+    return null;
+  }
+  return { practice, doctor };
+}
+
+function getLegacyContext(req, res) {
+  const context = getDoctorSetContext(req, res);
+  if (!context) return null;
+  const variant = context.doctor.variants[req.params.variant];
+  if (!variant) {
+    res.status(404).send('Legacy design not found.');
+    return null;
+  }
+  if (req.params.city && !context.doctor.cities.some((city) => city.slug === req.params.city)) {
+    res.status(404).send('Locality not found.');
+    return null;
+  }
+  return context;
+}
+
+app.get('/lp/:practice/concepts/:concept/thank-you', (req, res) => {
+  const practice = getPractice(req.params.practice);
+  const concept = getCampaign(req.params.concept);
+  return practice && concept ? res.send(renderOutcome({ practice, campaign: campaignForPractice(practice, concept), type: 'qualified' })) : res.status(404).send('Concept page not found.');
+});
+app.get('/lp/:practice/concepts/:concept/not-qualified', (req, res) => {
+  const practice = getPractice(req.params.practice);
+  const concept = getCampaign(req.params.concept);
+  return practice && concept ? res.send(renderOutcome({ practice, campaign: campaignForPractice(practice, concept), type: 'non-qualified' })) : res.status(404).send('Concept page not found.');
+});
+app.get('/lp/:practice/concepts/:concept', (req, res) => {
+  const practice = getPractice(req.params.practice);
+  const concept = getCampaign(req.params.concept);
+  return practice && concept ? res.send(renderLandingPage({ practice, campaign: campaignForPractice(practice, concept) })) : res.status(404).send('Concept page not found.');
+});
+
+app.get('/lp/:practice/legacy/:variant/:city/thank-you', (req, res) => {
+  const context = getLegacyContext(req, res);
+  return context && res.send(renderTY(context.doctor, req.params.variant, req.params.city, context.practice));
+});
+app.get('/lp/:practice/legacy/:variant/:city/not-qualified', (req, res) => {
+  const context = getLegacyContext(req, res);
+  return context && res.send(renderTYBT(context.doctor, req.params.variant, req.params.city, context.practice));
+});
+app.get('/lp/:practice/legacy/:variant/thank-you', (req, res) => {
+  const context = getLegacyContext(req, res);
+  return context && res.send(renderTY(context.doctor, req.params.variant, null, context.practice));
+});
+app.get('/lp/:practice/legacy/:variant/not-qualified', (req, res) => {
+  const context = getLegacyContext(req, res);
+  return context && res.send(renderTYBT(context.doctor, req.params.variant, null, context.practice));
+});
+app.get('/lp/:practice/legacy/:variant/:city', (req, res) => {
+  const context = getLegacyContext(req, res);
+  return context && res.send(renderLP(context.doctor, req.params.variant, req.params.city, context.practice));
+});
+app.get('/lp/:practice/legacy/:variant', (req, res) => {
+  const context = getLegacyContext(req, res);
+  return context && res.send(renderLP(context.doctor, req.params.variant, null, context.practice));
 });
 
 // ── Auto-generate all LP / TY / TY-BT routes ─────────────────

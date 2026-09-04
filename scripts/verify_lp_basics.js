@@ -20,7 +20,7 @@ const requiredFragments = [
   'name="viewport"',
   '<h1>',
   expected.headline,
-  'Request a free consultation',
+  'Request a consultation',
   'class="header-phone top-phone"',
   `href="/care/${practice.key}/privacy"`,
   `href="/care/${practice.key}/terms"`,

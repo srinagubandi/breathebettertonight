@@ -132,6 +132,18 @@ The protected `/admin` workspace includes a full Page Index, searchable by route
 | 2026-09-04 | QA | Passed 234 legacy route checks, 13 structural LP checks, 27 campaign/outcome checks, and 13 mobile/desktop visual captures | Complete locally |
 | 2026-09-04 | Deploy | Merged the migration to `main`, deployed successfully to Railway, and verified the live public routes plus authenticated `/admin` Page Index | Complete |
 
+## Complete Doctor Page Sets — 2026-09-04
+
+Every patient-facing lookbook study now has a reusable production record in `src/data/design-concepts/`. The system exposes a matched landing page, qualified outcome page, and non-qualified outcome page for **Pantego Dental**, **PerioDDS**, and **Dental World**. The 13 preserved legacy designs are likewise available under each doctor-owned `/lp/{practice}/legacy/...` path while the existing `/dr-lay/...` family remains a Pantego-compatible route set.
+
+| Improvement loop | Completed change | Validation result |
+|---:|---|---|
+| 1 | Made the selected doctor/practice and local consultation destination explicit in every canonical concept page and matched outcome. | Canonical, legacy, and outcome routes load with the assigned practice identity. |
+| 2 | Strengthened the GoHighLevel consultation handoff, direct Call/Text labels, and concept-specific outcome copy; removed all retired “free consultation” wording. | Every landing route retains only its assigned survey and matched practice policy profile. |
+| 3 | Expanded mobile/desktop QA from the legacy catalog to representative Pantego, PerioDDS, and Dental World concept and legacy routes; added overflow checks. | 38 responsive captures completed without assertion failures. |
+
+The protected Page Index lists the complete doctor-owned concept and legacy page families, in addition to public, policy, canonical campaign, outcome, and preserved compatibility routes. Local validation confirmed Pantego Dental has 96 concept-route previews and 468 legacy-route previews; PerioDDS and Dental World each have 96 concept-route previews and 312 legacy-route previews.
+
 ## Responsive QA Findings — 2026-08-13
 
 V1 was rendered locally at **414 × 896** mobile and **1440px** desktop. The symptom-first hierarchy, full-width CTA, stacked mobile symptom cards, provider/photo/bio/review placeholders, no-GHL policy, and desktop two-column symptom grid are all rendering correctly. The following improvements remain for the code passes: normalize all six theme variables; simplify the legacy footer disclaimer so it does not duplicate the page-specific non-diagnostic disclosure; increase small provider and FAQ supporting text where possible; and inspect V2–V6 screenshots for theme-specific contrast issues before release.

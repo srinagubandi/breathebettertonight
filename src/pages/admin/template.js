@@ -1,5 +1,6 @@
 const { getAllDoctors, getAllRoutes } = require('../../data/index');
 const { CAMPAIGN_KEYS, DESIGN_SYSTEMS } = require('../../lib/practice-config');
+const { getDoctorPageSetRoutes } = require('../../data/doctor-page-sets');
 const { escapeHtml } = require('../../shared/escape');
 
 const statuses = ['New', 'Contacted', 'Scheduled', 'Closed'];
@@ -71,6 +72,13 @@ function completePageIndex(practices) {
       rows.push(indexRow({ category: 'Campaign', practice: practice.campaignDestination, page: `${campaignLabel} landing page`, path: `/go/${practice.key}/${campaign}`, system: design }));
       rows.push(indexRow({ category: 'Qualified TY', practice: practice.campaignDestination, page: `${campaignLabel} qualified thank-you`, path: `/go/${practice.key}/${campaign}/thank-you`, system: `${design} matched outcome` }));
       rows.push(indexRow({ category: 'NQ TY', practice: practice.campaignDestination, page: `${campaignLabel} non-qualified thank-you`, path: `/go/${practice.key}/${campaign}/not-qualified`, system: `${design} matched outcome` }));
+    });
+    getDoctorPageSetRoutes(practice.key).forEach((route) => {
+      const category = route.category === 'Patient concept'
+        ? route.type === 'landing' ? 'Concept LP' : route.type === 'qualified' ? 'Concept TY' : 'Concept NQ TY'
+        : route.type === 'landing' ? 'Doctor Legacy LP' : route.type === 'qualified' ? 'Doctor Legacy TY' : 'Doctor Legacy NQ TY';
+      const locality = route.locality ? ` · ${route.locality}` : '';
+      rows.push(indexRow({ category, practice: practice.campaignDestination, page: `${route.design}${locality}`, path: route.path, system: route.system }));
     });
   });
 

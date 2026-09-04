@@ -38,7 +38,7 @@ function layout({
   phone = '',
   phoneRaw = '',
   practice = null,
-  headerTarget = '#free-consultation',
+  headerTarget = '#consultation',
   policyBase = '',
   robots = 'noindex, nofollow',
 }) {
@@ -92,7 +92,7 @@ function layout({
       Call ${resolvedPhone}
     </a>
     <a href="sms:${resolvedTextRaw}" class="header-text top-text">Text</a>
-    <a href="${headerTarget}" class="header-cta btn-primary">FREE CONSULTATION</a>
+    <a href="${headerTarget}" class="header-cta btn-primary">REQUEST A CONSULTATION</a>
   </header>
 
   <!-- ── Page content ── -->

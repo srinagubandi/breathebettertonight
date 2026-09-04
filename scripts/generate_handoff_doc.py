@@ -145,7 +145,7 @@ def main() -> None:
         ["Night-to-Clarity public site", "/, /sleep-check, /find-a-provider, /sleep-apnea", "Patient education, symptom awareness, provider selection, and the clear next step."],
         ["General resources", "/about, /faq, /contact, /thank-you", "Supportive informational and generic inquiry routes."],
         ["Practice handoff", "/care/{practice}", "Local practice identity, Call/Text actions, and practice-scoped policy links."],
-        ["Paid traffic", "/go/{practice}/{campaign}", "Ad-matched hero, symptom-led education, Free Consultation CTA, and the assigned GoHighLevel survey."],
+        ["Paid traffic", "/go/{practice}/{campaign}", "Ad-matched hero, symptom-led education, Request a Consultation CTA, and the assigned GoHighLevel survey."],
         ["Qualified outcome", "/go/{practice}/{campaign}/thank-you", "Matched thank-you confirmation for the campaign route."],
         ["Non-qualified outcome", "/go/{practice}/{campaign}/not-qualified", "Matched non-qualified next-step page that remains non-diagnostic."],
         ["HCP handoff", "/for-professionals", "External handoff to the Propel Dental HCP experience."],
@@ -177,7 +177,7 @@ def main() -> None:
     add_heading(document, "6. Three Completed Improvement Rounds")
     add_table(document, ["Round", "Focus", "Outcome"], [
         ["1", "Route preservation and information architecture", "All 234 preserved legacy URLs returned HTTP 200 locally; the admin Page Index provides 285 direct-preview routes."],
-        ["2", "Conversion and practice handoff", "All practice campaign routes use assigned GoHighLevel surveys, Call/Text actions, Free Consultation language, and matched qualified/non-qualified outcomes."],
+        ["2", "Conversion and practice handoff", "All practice campaign routes use assigned GoHighLevel surveys, Call/Text actions, consultation language, and matched qualified/non-qualified outcomes."],
         ["3", "Accessibility, performance, and administration", "Testimonial-like placeholders were removed; the third-party survey enhancer is asynchronous; responsive QA captured all 13 legacy variants at mobile and desktop sizes."],
     ])
 

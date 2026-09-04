@@ -9,13 +9,16 @@
 - Added practice-specific privacy, terms, and accessibility routes, each capable of using a stored local policy override.
 - Added a protected practice publishing workspace with configurable GoHighLevel survey IDs, Call/Text actions, campaign-design assignments, policy profiles, and a complete Page Index with direct previews for public, campaign, outcome, policy, and legacy routes.
 - Added the approved current ad creative to the deployment source for paid-traffic hero continuity.
+- Added sixteen reusable, patient-facing concept records and complete doctor-owned concept route families for **Pantego Dental**, **PerioDDS**, and **Dental World**. Every concept provides a landing route plus matched qualified and non-qualified outcome routes.
+- Added complete doctor-owned legacy design families for the three active practices, while retaining the original `/dr-lay/...` Pantego compatibility URLs.
+- Added complete doctor-owned concept and legacy entries to the protected admin **Page Index**.
 
 ### Changed
 
 - Preserved all existing generated Dr. Lay landing-page URLs while replacing their conversion placeholders with the assigned Pantego Dental GoHighLevel survey.
-- Updated legacy LP CTAs to use a free-consultation handoff and removed testimonial-style placeholder content.
+- Updated legacy and canonical LP CTAs to use a consultation handoff, removed all retired “free consultation” language, and removed testimonial-style placeholder content.
 - Converted the GoHighLevel enhancer to an asynchronous load so it does not hold up page rendering or visual QA.
-- Updated responsive QA to use the available Chromium executable and assert the assigned survey, Call/Text header actions, and practice policy links.
+- Updated responsive QA to use the available Chromium executable and assert the assigned survey, Call/Text header actions, practice policy links, no retired consultation wording, and no horizontal overflow across representative three-practice routes.
 
 ### Validation
 
@@ -23,6 +26,7 @@
 - Structural landing-page regression passed for **13 legacy LP variants**.
 - Canonical campaign and matched outcome smoke test passed for **27 practice-campaign routes**.
 - Responsive QA captured all **13 legacy LP variants** at both mobile and desktop viewports.
+- Complete doctor page-set regression passed across every concept and legacy route family. Responsive QA captured 38 mobile and desktop views across the preserved legacy catalog and active-practice samples.
 
 ### Deployment
 
