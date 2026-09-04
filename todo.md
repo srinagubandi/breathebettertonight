@@ -22,4 +22,4 @@
 - [x] Complete improvement loop one for concept grouping, review states, and clear outbound previews.
 - [x] Complete improvement loop two for mobile responsiveness, protected access, and route verification.
 - [x] Complete improvement loop three for concept descriptions, review labels, and action-language refinement.
-- [ ] Deploy and validate the protected concept-library sections on Railway.
+- [x] Deploy and validate the protected concept-library sections on Railway.

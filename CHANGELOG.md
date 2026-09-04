@@ -30,6 +30,7 @@
 - Responsive QA captured all **13 legacy LP variants** at both mobile and desktop viewports.
 - Complete doctor page-set regression passed across every concept and legacy route family. Responsive QA captured 38 mobile and desktop views across the preserved legacy catalog and active-practice samples.
 - Concept-library validation passed for authenticated content rendering, anonymous 401 responses for the admin and image endpoints, public static-image 404 behavior, semantic section headings, direction counts, and refined review copy.
+- Railway production validation passed for the concept-library release: the authenticated admin boundary remains in place, review artwork is not publicly statically served, and the patient site contains no internal concept reference.
 
 ### Deployment
 

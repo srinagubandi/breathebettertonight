@@ -156,6 +156,8 @@ The authenticated `/admin` workspace now has separate **Homepage Concepts** and 
 
 Local validation confirms both libraries render after authentication, anonymous requests to `/admin` and `/admin/concepts/:asset` return 401, and retired public concept-asset URLs return 404.
 
+The protected concept-library release was committed to `main` as `e707b52` and deployed successfully to Railway. Production-boundary verification confirmed anonymous requests to `/admin` and `/admin/concepts/bbt_patient_home_video_hero_concept.png` receive HTTP 401, the former public static asset path returns HTTP 404, and the public homepage contains no protected concept-asset link.
+
 ## Responsive QA Findings — 2026-08-13
 
 V1 was rendered locally at **414 × 896** mobile and **1440px** desktop. The symptom-first hierarchy, full-width CTA, stacked mobile symptom cards, provider/photo/bio/review placeholders, no-GHL policy, and desktop two-column symptom grid are all rendering correctly. The following improvements remain for the code passes: normalize all six theme variables; simplify the legacy footer disclaimer so it does not duplicate the page-specific non-diagnostic disclosure; increase small provider and FAQ supporting text where possible; and inspect V2–V6 screenshots for theme-specific contrast issues before release.
