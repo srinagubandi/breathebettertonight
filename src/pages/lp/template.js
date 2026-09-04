@@ -9,6 +9,7 @@ const { resolveCityLabel, resolvePhone } = require('../../data/index');
 const { getPracticeByLegacyDoctor } = require('../../data/practices');
 const { renderSurvey } = require('../../shared/survey');
 const { renderReasonsAndSymptoms, renderOralApplianceContext } = require('../../shared/sleep-guidance');
+const { renderDentistProfile } = require('../../shared/dentist-profile');
 
 const ICONS = {
   sound: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10v4h4l5 4V6l-5 4H4Zm12.5-3.5a1 1 0 0 1 1.4.1 7.5 7.5 0 0 1 0 10.8 1 1 0 1 1-1.5-1.3 5.5 5.5 0 0 0 0-8 1 1 0 0 1 .1-1.5Zm2.8-2.9a1 1 0 0 1 1.4.1 11.5 11.5 0 0 1 0 16.6 1 1 0 0 1-1.5-1.3 9.5 9.5 0 0 0 0-13.8 1 1 0 0 1 .1-1.5Z"/></svg>',
@@ -101,6 +102,7 @@ function renderLP(doctor, variantSlug, citySlug, practiceOverride = null) {
 
     ${renderReasonsAndSymptoms()}
     ${renderOralApplianceContext()}
+    ${renderDentistProfile({ practice, doctorName: doctor.name, credentials: doctor.credentials, locationLabel: cityLabel || practice?.serviceLabel })}
 
     <section class="provider-section" id="provider-profile">
       <div class="container">

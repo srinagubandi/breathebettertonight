@@ -94,6 +94,7 @@ function updatePracticeOverride(key, input, defaults) {
     showPracticeName: normalizeBoolean(input.showPracticeName, defaults.showPracticeName),
     showPhone: normalizeBoolean(input.showPhone, defaults.showPhone),
     showText: normalizeBoolean(input.showText, defaults.showText),
+    showDentistProfile: normalizeBoolean(input.showDentistProfile, defaults.showDentistProfile),
     phoneDisplay: formatPhone(phoneRaw, cleanText(input.phoneDisplay || defaults.phoneDisplay)),
     phoneRaw,
     textRaw,

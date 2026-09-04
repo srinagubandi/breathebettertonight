@@ -19,6 +19,7 @@
 - Added independently persisted per-practice visibility controls for public practice name, Call action, and Text action in the protected admin workspace.
 - Added a dedicated **Video Hero LPs** admin summary that groups all twelve canonical video-background landing pages by practice, with direct previews for every video concept.
 - Added shared reasons-and-symptoms guidance and a clinician-gated oral-appliance discussion path to canonical, doctor-owned, and preserved legacy LPs.
+- Added a credential-led **About the Dentist** LP section for all canonical, doctor-owned, and preserved legacy landing-page families, with a persistent per-practice Show About the Dentist control in the protected admin workspace.
 
 ### Changed
 
@@ -32,6 +33,7 @@
 - Removed public hero campaign-label, practice-name, and video-background metadata rows from canonical, doctor-owned, and preserved legacy LPs.
 - Brightened all supplied video-hero media and refined their scrims for clearer subject visibility while retaining readable text and actions.
 - Updated every video hero to use muted and default-muted inline playback without controls; the optimized MP4 assets contain no audio track.
+- Replaced canonical symptom-recognition list numerals with semantic medical-style SVG icons, retaining legacy symptom icons and preserving unrelated care-path sequence numbering.
 
 ### Validation
 
@@ -46,6 +48,7 @@
 - Local authenticated-admin validation passed for the Page Index’s new Nighttime Breathing Sounds entries and all three visibility controls.
 - Grouped-video navigation validation passed locally: twelve video LPs showed the marker, retained their assigned surveys, and retained their matched outcome routes; static LPs did not show the marker.
 - Copy-and-guidance validation passed locally: all 234 generated routes, all doctor page sets, six representative canonical/legacy LPs with symptom-to-treatment assertions, and 50 mobile, desktop, and reduced-motion browser captures completed successfully.
+- Icon-and-profile validation passed locally: semantic canonical symptom icons, legacy symptom icons, credential-icon profile markup, admin display control persistence, profile-on/profile-off/identity-hidden states, 50 responsive captures, 234 generated routes, complete doctor page sets, policy links, surveys, and approved consultation wording.
 
 ### Deployment
 

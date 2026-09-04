@@ -3,9 +3,20 @@ const { layout } = require('../../shared/layout');
 const { escapeHtml } = require('../../shared/escape');
 const { renderSurvey } = require('../../shared/survey');
 const { renderReasonsAndSymptoms, renderOralApplianceContext } = require('../../shared/sleep-guidance');
+const { renderDentistProfile } = require('../../shared/dentist-profile');
+const { medicalIcon } = require('../../shared/medical-icons');
 
 function renderRecognition(items) {
-  return items.map((item, index) => `<article class="signal-card"><span>0${index + 1}</span><p>${escapeHtml(item)}</p></article>`).join('');
+  const iconFor = (item, index) => {
+    const text = String(item || '').toLowerCase();
+    if (/pause|gasp|breath/.test(text)) return 'airway';
+    if (/snor|sound|partner/.test(text)) return 'sound';
+    if (/wake|morning|dry mouth|headache|rested/.test(text)) return 'sunrise';
+    if (/focus|brain/.test(text)) return 'focus';
+    if (/tired|energy|sleepy|daytime/.test(text)) return 'moon';
+    return index % 2 ? 'airway' : 'moon';
+  };
+  return items.map((item, index) => `<article class="signal-card"><span class="signal-icon">${medicalIcon(iconFor(item, index))}</span><p>${escapeHtml(item)}</p></article>`).join('');
 }
 
 function renderLandingPage({ practice, campaign, locality = '', legacy = false }) {
@@ -50,6 +61,7 @@ function renderLandingPage({ practice, campaign, locality = '', legacy = false }
     </section>
     ${renderReasonsAndSymptoms()}
     ${renderOralApplianceContext()}
+    ${renderDentistProfile({ practice, doctorName: practice.doctorName, credentials: practice.credentials, locationLabel: practice.serviceLabel })}
     <section class="practice-context">
       <div class="landing-container practice-context-grid"><div><p class="landing-eyebrow">${showPracticeName ? 'Your selected local destination' : 'A local next step'}</p><h2>${contextTitle}</h2><p>${contextDetails}</p><p>${localityLine}</p></div>${contactCard}</div>
     </section>

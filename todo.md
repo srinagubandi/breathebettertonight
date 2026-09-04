@@ -48,3 +48,6 @@
 - [x] Remove every hero eyebrow, campaign-label, and video-background metadata row from canonical, doctor-owned, and preserved legacy landing-page variants while retaining hero media and primary actions.
 - [x] Improve subject visibility and text contrast across every video-background LP, and verify every deployed video remains muted with no audio controls or audible track.
 - [x] Make the reusable symptom guidance explicitly lead to an appropriate oral-appliance treatment conversation across every landing-page family.
+- [x] Replace numbered symptom-recognition list markers across canonical, doctor-owned, and preserved legacy LPs with meaningful medical-style icons, while retaining unrelated process-step numbering.
+- [x] Add an About the Dentist section with credential icons and a persistent per-practice admin visibility setting.
+- [x] Complete two design-and-copy refinement loops, validate enabled and disabled profile states, and deploy to Railway.

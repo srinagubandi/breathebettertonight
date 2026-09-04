@@ -109,6 +109,10 @@ def capture() -> None:
                     page.locator('.chat-close').click()
                     if not page.locator('.reasons-section').count() or not page.locator('.oral-appliance-section').count():
                         raise AssertionError(f"Shared symptom-to-treatment guidance missing in {name} {label}")
+                    if not page.locator('.dentist-profile-section').count() or not page.locator('.dentist-credential-icon').count():
+                        raise AssertionError(f"Dentist profile or credential icons missing in {name} {label}")
+                    if page.locator('.landing-v3').count() and not page.locator('.signal-list .signal-icon').count():
+                        raise AssertionError(f"Medical symptom icons missing from canonical recognition list in {name} {label}")
                     if page.evaluate("document.documentElement.scrollWidth > window.innerWidth + 1"):
                         raise AssertionError(f"Horizontal overflow found in {name} {label}")
                     if "-video-" in name:

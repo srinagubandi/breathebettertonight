@@ -196,6 +196,14 @@ All four video-hero treatments now use a brighter media treatment and adjusted s
 
 Local validation passed for all 234 generated routes, 13 structural legacy LP variants, every doctor page set, six representative canonical/legacy LP routes with symptom-to-treatment assertions, and 50 mobile, desktop, and reduced-motion browser captures.
 
+## Medical-Icon Symptom Lists and Dentist Profiles — 2026-09-04
+
+The numbered markers in canonical symptom-recognition lists have been replaced with purpose-specific medical-style icons. The recognition list now uses sound, airway, morning, focus, or sleep icons according to the symptom language; existing legacy symptom lists already use semantic icons and retain them. Unrelated treatment-path numbering remains intact because it communicates a sequence rather than a symptom category.
+
+Every canonical, doctor-owned, and preserved legacy LP now has an **About the Dentist** section placed between the oral-appliance context and local consultation handoff. The concise section presents only the dentist’s name, credentials, practice, and local-care area using credential, dental, and follow-up icons. It does not introduce testimonials or unsupported clinician claims. The profile is configurable for each practice from the protected admin workspace’s **Show About the Dentist** control. It renders only when both that control and public practice identity are enabled.
+
+Two refinement loops are complete. The first refined icon matching and shortened the profile copy. The second completed 50 fresh mobile, desktop, and reduced-motion captures with no horizontal overflow and verified profile-on, profile-off, and practice-identity-hidden states across the three practices. Final local validation passed for generated routes, all doctor page sets, preserved LP variants, assigned surveys, policy links, approved consultation wording, and the new icon/profile markup. Deployment is the remaining release step.
+
 ## Responsive QA Findings — 2026-08-13
 
 V1 was rendered locally at **414 × 896** mobile and **1440px** desktop. The symptom-first hierarchy, full-width CTA, stacked mobile symptom cards, provider/photo/bio/review placeholders, no-GHL policy, and desktop two-column symptom grid are all rendering correctly. The following improvements remain for the code passes: normalize all six theme variables; simplify the legacy footer disclaimer so it does not duplicate the page-specific non-diagnostic disclosure; increase small provider and FAQ supporting text where possible; and inspect V2–V6 screenshots for theme-specific contrast issues before release.

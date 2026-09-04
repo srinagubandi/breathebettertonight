@@ -1,4 +1,6 @@
 /** Shared symptom-awareness section for patient landing pages; keep it concise and non-diagnostic. */
+const { medicalIcon } = require('./medical-icons');
+
 function renderReasonsAndSymptoms() {
   return `<section class="reasons-section" aria-labelledby="reasons-heading">
     <div class="landing-container reasons-layout">
@@ -8,9 +10,9 @@ function renderReasonsAndSymptoms() {
         <p>Changes in breathing, rest, or daytime energy can affect you or a partner. They can have many causes, so an evaluation helps clarify the next step.</p>
       </div>
       <div class="reasons-signal-grid" aria-label="Common sleep-related patterns to discuss">
-        <article><span class="reason-number">01</span><h3>During sleep</h3><p>Loud snoring, pauses, gasping, or restless sleep.</p></article>
-        <article><span class="reason-number">02</span><h3>In the morning</h3><p>Waking tired, dry mouth, or a morning headache.</p></article>
-        <article><span class="reason-number">03</span><h3>Through the day</h3><p>Sleepiness, low energy, or trouble focusing.</p></article>
+        <article><span class="reason-icon">${medicalIcon('moon')}</span><h3>During sleep</h3><p>Loud snoring, pauses, gasping, or restless sleep.</p></article>
+        <article><span class="reason-icon">${medicalIcon('sunrise')}</span><h3>In the morning</h3><p>Waking tired, dry mouth, or a morning headache.</p></article>
+        <article><span class="reason-icon">${medicalIcon('focus')}</span><h3>Through the day</h3><p>Sleepiness, low energy, or trouble focusing.</p></article>
       </div>
     </div>
   </section>`;
