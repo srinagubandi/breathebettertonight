@@ -174,6 +174,12 @@ The protected practice configuration store now persists `showPracticeName`, `sho
 
 The completed local regression set covers generated legacy URLs, all doctor-owned concept/legacy route families, the three active practice survey assignments, four video families with qualified/non-qualified outcomes, the optimized video/poster assets, and retired consultation-wording cleanup. The release was committed as `b950b84`, pushed to `main`, and deployed successfully by the existing Railway web service. Live verification confirms the Nighttime Breathing Sounds route for Pantego Dental, PerioDDS, and Dental World, plus live muted video playback and poster metadata on the Pantego route.
 
+## Grouped Video LP Navigation — 2026-09-04
+
+The protected admin workspace now puts the four video-background concepts together in a dedicated **Video Hero LPs** summary directly below the protected concept libraries. The summary contains a grouped set of twelve canonical campaign landing-page links—four per active practice—and states that each uses a muted decorative video treatment, static reduced-motion fallback, practice-specific survey, and matched outcomes. A prominent **Video LPs** icon button is available in the top workspace navigation to jump directly to that section.
+
+Every canonical landing page with a background video now renders an adjacent visible video-camera label in the hero eyebrow row. Static-image landing pages do not render the label. Local checks confirmed all twelve video LPs preserve their assigned survey IDs and qualified/non-qualified outcome URLs, and production validation confirms the new marker on the live Pantego Nighttime Breathing Sounds route. The update was committed to `main` as `51c45f0` and deployed successfully to the designated Railway web service.
+
 ## Responsive QA Findings — 2026-08-13
 
 V1 was rendered locally at **414 × 896** mobile and **1440px** desktop. The symptom-first hierarchy, full-width CTA, stacked mobile symptom cards, provider/photo/bio/review placeholders, no-GHL policy, and desktop two-column symptom grid are all rendering correctly. The following improvements remain for the code passes: normalize all six theme variables; simplify the legacy footer disclaimer so it does not duplicate the page-specific non-diagnostic disclosure; increase small provider and FAQ supporting text where possible; and inspect V2–V6 screenshots for theme-specific contrast issues before release.

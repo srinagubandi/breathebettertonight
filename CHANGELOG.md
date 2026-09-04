@@ -17,6 +17,7 @@
 - Added four patient-safe supplied-video symptom concepts—**Partner-Disrupted Sleep**, **Waking Unrefreshed**, **Daytime Brain Fog**, and **Nighttime Breathing Sounds**—for every active practice, each with canonical and doctor-owned landing, qualified, and non-qualified page families.
 - Added optimized muted H.264 hero-video assets and matching JPG poster fallbacks, including reduced-motion static behavior.
 - Added independently persisted per-practice visibility controls for public practice name, Call action, and Text action in the protected admin workspace.
+- Added a dedicated **Video Hero LPs** admin summary that groups all twelve canonical video-background landing pages by practice, with direct previews for every video concept.
 
 ### Changed
 
@@ -25,6 +26,7 @@
 - Converted the GoHighLevel enhancer to an asynchronous load so it does not hold up page rendering or visual QA.
 - Updated responsive QA to use the available Chromium executable and assert the assigned survey, Call/Text header actions, practice policy links, no retired consultation wording, and no horizontal overflow across representative three-practice routes.
 - Updated canonical and legacy landing/outcome renderers, the shared header, survey context, and chat fallback so hidden practice/contact settings do not leave empty action containers or ambiguous visible copy.
+- Updated every canonical video-background landing page with a visible, non-interactive video-camera indicator and added a prominent Video LPs shortcut to the top protected-workspace navigation.
 
 ### Validation
 
@@ -37,9 +39,11 @@
 - Railway production validation passed for the concept-library release: the authenticated admin boundary remains in place, review artwork is not publicly statically served, and the patient site contains no internal concept reference.
 - Local release validation passed for 234 preserved generated legacy routes, all doctor-owned concept and legacy page sets, four video concepts and their matched outcomes across three practices, all video/poster asset URLs, and repository wording cleanup.
 - Local authenticated-admin validation passed for the Page Index’s new Nighttime Breathing Sounds entries and all three visibility controls.
+- Grouped-video navigation validation passed locally: twelve video LPs showed the marker, retained their assigned surveys, and retained their matched outcome routes; static LPs did not show the marker.
 
 ### Deployment
 
 - Merged the migration into `main` as commit `542b2ae` and deployed it successfully to the existing Railway production service and `www.breathebettertonight.com`.
 - Configured a dedicated protected admin account through Railway environment variables and validated the live `/admin` Page Index with authenticated access.
 - Merged the supplied-video and display-control release to `main` as `b950b84`; the designated Railway web service deployed it successfully. Live checks confirmed the new Nighttime Breathing Sounds concept for Pantego Dental, PerioDDS, and Dental World, including the muted inline video asset and static poster metadata.
+- Merged the grouped video-LP navigation update to `main` as `51c45f0`; the Railway web service deployed it successfully and the live Pantego Nighttime Breathing Sounds page displays the video-background indicator.
