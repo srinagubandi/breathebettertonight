@@ -54,3 +54,17 @@
 - [x] Add a neutral, replaceable doctor-photo placeholder to every About the Dentist section across all landing-page families.
 - [x] Add a persistent per-practice Show doctor photo control in the protected admin workspace and preserve its independent behavior.
 - [x] Validate photo-on, photo-off, and practice-identity-hidden states across responsive layouts, then deploy to Railway.
+- [x] Audit the protected admin architecture, persistent configuration store, Page Index, current route inventory, and available analytics data before implementing the expanded operating workspace.
+- [x] Define and document the draft-versus-live configuration model, impact calculations, history records, data minimization, and safe operating permissions.
+- [x] Add practice preview mode with desktop, mobile, and reduced-motion views plus visible configuration-state context.
+- [x] Add change-impact summaries and safe draft/review/promote controls for practice configuration updates.
+- [x] Add persistent configuration history with clear change records and safe rollback to an earlier configuration version.
+- [x] Add structured dentist-profile and portrait management with placeholder fallback, concise credential controls, and image/alt-text readiness fields.
+- [x] Add a campaign matrix covering practices, concepts, design assignments, video/static status, surveys, readiness, and direct route previews.
+- [x] Add advanced Page Index filters, saved review views, and safe bulk actions with scope confirmation and impact detail.
+- [x] Add automated content-readability and route-readiness checks, including approved wording, conditional sections, symptom-to-treatment context, and required policy/survey links.
+- [x] Add a practice launch checklist and a privacy-safe analytics summary that reports aggregate route behavior without exposing patient-sensitive information.
+- [x] Complete refinement loop one for safety, operational hierarchy, concise admin copy, and change-review clarity.
+- [x] Complete refinement loop two for responsive/mobile usability, empty/error states, configuration edge cases, and release-readiness behavior.
+- [x] Validate protected access, persistence, preview fidelity, bulk-action scope, route/survey preservation, and all three practice configurations before Railway deployment.
+- [ ] Deploy the expanded admin operating workspace to the existing Railway project and update release documentation.

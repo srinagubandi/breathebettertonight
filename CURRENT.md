@@ -210,6 +210,21 @@ Each public **About the Dentist** section now includes a neutral, explicitly lab
 
 The protected admin practice form has a separate **Show doctor photo placeholder** setting. It independently hides or reveals the placeholder while keeping the profile section and its credential icons available. The placeholder is also correctly suppressed if the dentist profile or public practice identity is hidden. Local testing verified a visible Pantego Dental placeholder, a photo-hidden PerioDDS profile, a hidden-identity Dental World page, and the preserved Dr. Lay legacy route—all retaining their assigned GoHighLevel surveys. The configuration setting persisted correctly through disabled and enabled states. Responsive QA captured 50 mobile, desktop, and reduced-motion samples without horizontal overflow. The release was committed as `3efe92d`, deployed successfully by the designated Railway web service, and live-validated on Pantego Dental’s Nighttime Breathing Sounds page: the neutral non-image placeholder renders inside the dentist profile without horizontal overflow.
 
+## Protected Admin Operations Workspace — 2026-09-05
+
+The authenticated `/admin` area now operates as a practice publishing console. It includes live and draft presentation review, desktop/mobile/reduced-motion iframe previews, impact summaries, campaign matrix review, a video-LP review grouping, an advanced complete Page Index, structured dentist and portrait metadata, profile and photo readiness, confirmed bulk visibility actions, launch checklists, configuration history, safe restore, and aggregate-only BBT inquiry reporting.
+
+Each practice supports a protected draft that remains non-public until explicitly published. A direct live save clears an older draft for that same practice, preventing an outdated review state from being mistaken for the live configuration. Every live publish, draft publish, bulk display update, and history restore creates a bounded configuration-history record. Restoring a saved version requires the explicit confirmation `RESTORE`; bulk display changes require `APPLY`.
+
+The Page Index now supports direct search plus practice, category, and video-only filters. Shareable protected review presets are available for video LP review, campaign review, and launch-readiness review. Portrait metadata accepts only approved local public image paths; unapproved external image URLs are rejected, and portrait readiness requires meaningful alt text whenever an approved portrait is used. Analytics intentionally remain aggregate-only for the general BBT form; practice-level survey activity continues to reside in GoHighLevel.
+
+| Review loop | Focus | Result |
+|---:|---|---|
+| 1 | Workflow safety and operational clarity | Preview, draft, publish, history, restore, and bulk actions were structured around explicit review states and confirmation language. |
+| 2 | Responsive review and edge cases | Verified mobile and reduced-motion previews, Page Index review presets and filters, portrait validation, direct-publish draft clearing, and history restoration. |
+
+Local validation passed JavaScript syntax checks; 234 generated public routes; complete doctor page-set and baseline LP regressions; 76 public responsive captures; authenticated draft/publish/preview/history/bulk workflows; anonymous 401 checks for all new admin operations routes; and unchanged public landing-page access.
+
 ## Responsive QA Findings — 2026-08-13
 
 V1 was rendered locally at **414 × 896** mobile and **1440px** desktop. The symptom-first hierarchy, full-width CTA, stacked mobile symptom cards, provider/photo/bio/review placeholders, no-GHL policy, and desktop two-column symptom grid are all rendering correctly. The following improvements remain for the code passes: normalize all six theme variables; simplify the legacy footer disclaimer so it does not duplicate the page-specific non-diagnostic disclosure; increase small provider and FAQ supporting text where possible; and inspect V2–V6 screenshots for theme-specific contrast issues before release.

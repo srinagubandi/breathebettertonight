@@ -27,8 +27,16 @@ const { renderPracticePolicy } = require('./src/pages/policies/template');
 const {
   getPracticeConfigStorage,
   getPracticeOverrides,
+  getPracticeDrafts,
+  getPracticeHistory,
   updatePracticeOverride,
+  savePracticeDraft,
+  discardPracticeDraft,
+  publishPracticeDraft,
+  restorePracticeHistory,
+  applyBulkDisplayUpdate,
 } = require('./src/lib/practice-config');
+const { buildAdminWorkspaceData } = require('./src/lib/admin-workspace');
 const {
   findProviderPage,
   homePage: nightToClarityHomePage,
@@ -115,16 +123,62 @@ function requireAdmin(req, res, next) {
   return next();
 }
 
+function isSameOrigin(req) {
+  const origin = req.get('origin');
+  return !origin || origin === `${req.protocol}://${req.get('host')}`;
+}
+
+function adminInput({ configErrors = {}, adminNotice = '', adminError = '' } = {}) {
+  const leads = listLeads();
+  const practices = getPractices();
+  const drafts = getPracticeDrafts();
+  const history = getPracticeHistory();
+  return {
+    leads,
+    summary: getLeadSummary(leads),
+    storage: getStorageState(),
+    practices,
+    configStorage: getPracticeConfigStorage(),
+    configErrors,
+    adminNotice,
+    adminError,
+    workspace: buildAdminWorkspaceData({ practices, leads, drafts, history }),
+  };
+}
+
+function applyAdminReviewPreset(html, preset) {
+  const presets = {
+    video: {
+      label: 'Video LP review',
+      note: 'Saved review view: Page Index is limited to routes with a supplied video-background treatment.',
+      css: '.admin-review-video [data-index-row][data-video="false"]{display:none!important}',
+    },
+    campaigns: {
+      label: 'Campaign operations',
+      note: 'Saved review view: start with the campaign matrix, then review the complete Page Index below.',
+      css: '',
+    },
+    readiness: {
+      label: 'Launch readiness',
+      note: 'Saved review view: use the practice launch checklist before changing public configuration.',
+      css: '',
+    },
+  };
+  const selected = presets[preset];
+  const presetLinks = `<span class="saved-view-links"><a href="/admin?view=video#page-index">Video review</a><a href="/admin?view=campaigns#campaign-matrix">Campaign review</a><a href="/admin?view=readiness#launch-readiness">Readiness review</a></span>`;
+  let output = html.replace('</nav>', `${presetLinks}</nav>`)
+    .replace('</style>', '.saved-view-links{display:inline-flex;gap:7px;align-items:center;margin-left:auto}.saved-view-links a{padding:7px 9px;border:1px dashed #8ab7ae;background:#f7fffc;color:#17614f;font-size:.7rem;text-decoration:none}.saved-view-note{margin:-5px 0 20px;padding:11px 14px;border-left:3px solid #0b776c;background:#eaf8f5;color:#315f58;font-size:.8rem}</style>');
+  if (!selected) return output;
+  output = output.replace('<body>', `<body class="admin-review-${preset}">`);
+  output = output.replace('</style>', `${selected.css}</style>`);
+  if (preset === 'video') output = output.replace('id="index-video" type="checkbox"', 'id="index-video" type="checkbox" checked');
+  return output.replace('<section class="card page-index"', `<p class="saved-view-note"><strong>${selected.label}:</strong> ${selected.note}</p><section class="card page-index"`);
+}
+
 app.get('/admin', requireAdmin, (req, res) => {
   try {
-    const leads = listLeads();
-    res.send(renderAdmin({
-      leads,
-      summary: getLeadSummary(leads),
-      storage: getStorageState(),
-      practices: getPractices(),
-      configStorage: getPracticeConfigStorage(),
-    }));
+    const html = renderAdmin(adminInput({ adminNotice: String(req.query.notice || '') }));
+    res.send(applyAdminReviewPreset(html, String(req.query.view || '')));
   } catch (error) {
     console.error('Admin lead-store error:', error.message);
     res.status(503).send('The lead dashboard is temporarily unavailable.');
@@ -144,35 +198,88 @@ app.get('/admin/concepts/:asset', requireAdmin, (req, res) => {
 });
 
 app.post('/admin/leads/:id/status', requireAdmin, (req, res) => {
-  const origin = req.get('origin');
-  const expectedOrigin = `${req.protocol}://${req.get('host')}`;
-  if (origin && origin !== expectedOrigin) return res.status(403).send('Invalid request origin.');
+  if (!isSameOrigin(req)) return res.status(403).send('Invalid request origin.');
   const updated = updateLeadStatus(req.params.id, req.body.status);
   if (!updated) return res.status(400).send('Unable to update that lead.');
   return res.redirect(303, '/admin');
 });
 
 app.post('/admin/practices/:key', requireAdmin, (req, res) => {
-  const origin = req.get('origin');
-  const expectedOrigin = `${req.protocol}://${req.get('host')}`;
-  if (origin && origin !== expectedOrigin) return res.status(403).send('Invalid request origin.');
+  if (!isSameOrigin(req)) return res.status(403).send('Invalid request origin.');
   const practice = getPractice(req.params.key);
   if (!practice) return res.status(404).send('Practice not found.');
   try {
     const result = updatePracticeOverride(practice.key, req.body, practice);
-    if (!result.updated) return res.status(422).send(renderAdmin({
-      leads: listLeads(),
-      summary: getLeadSummary(listLeads()),
-      storage: getStorageState(),
-      practices: getPractices(),
-      configStorage: getPracticeConfigStorage(),
-      configErrors: { [practice.key]: result.errors },
-    }));
-    return res.redirect(303, '/admin#practice-config');
+    if (!result.updated) return res.status(422).send(renderAdmin(adminInput({ configErrors: { [practice.key]: result.errors } })));
+    return res.redirect(303, '/admin?notice=Published+live+practice+configuration.#practice-config');
   } catch (error) {
     console.error('Practice configuration error:', error.message);
     return res.status(503).send('The practice configuration could not be saved.');
   }
+});
+
+app.post('/admin/practices/:key/draft', requireAdmin, (req, res) => {
+  if (!isSameOrigin(req)) return res.status(403).send('Invalid request origin.');
+  const practice = getPractice(req.params.key);
+  if (!practice) return res.status(404).send('Practice not found.');
+  try {
+    const result = savePracticeDraft(practice.key, req.body, practice);
+    if (!result.updated) return res.status(422).send(renderAdmin(adminInput({ configErrors: { [practice.key]: result.errors } })));
+    return res.redirect(303, `/admin?notice=Saved+draft+for+${encodeURIComponent(practice.campaignDestination)}.#practice-${practice.key}`);
+  } catch (error) {
+    console.error('Practice draft error:', error.message);
+    return res.status(503).send('The practice draft could not be saved.');
+  }
+});
+
+app.post('/admin/practices/:key/draft/discard', requireAdmin, (req, res) => {
+  if (!isSameOrigin(req)) return res.status(403).send('Invalid request origin.');
+  if (!discardPracticeDraft(req.params.key)) return res.status(404).send('No draft was available to discard.');
+  return res.redirect(303, '/admin?notice=Discarded+practice+draft.#practice-config');
+});
+
+app.post('/admin/practices/:key/draft/publish', requireAdmin, (req, res) => {
+  if (!isSameOrigin(req)) return res.status(403).send('Invalid request origin.');
+  const result = publishPracticeDraft(req.params.key);
+  if (!result.updated) return res.status(422).send(result.reason);
+  return res.redirect(303, '/admin?notice=Published+reviewed+draft.#practice-config');
+});
+
+app.post('/admin/practices/:key/history/:id/restore', requireAdmin, (req, res) => {
+  if (!isSameOrigin(req)) return res.status(403).send('Invalid request origin.');
+  if (req.body.confirmScope !== 'RESTORE') return res.status(422).send('Type RESTORE to confirm a saved configuration restore.');
+  const result = restorePracticeHistory(req.params.key, req.params.id);
+  if (!result.updated) return res.status(422).send(result.reason);
+  return res.redirect(303, '/admin?notice=Restored+saved+configuration+version.#configuration-history');
+});
+
+app.post('/admin/bulk/visibility', requireAdmin, (req, res) => {
+  if (!isSameOrigin(req)) return res.status(403).send('Invalid request origin.');
+  if (req.body.confirmScope !== 'APPLY') return res.status(422).send('Type APPLY to confirm the selected bulk visibility change.');
+  const selected = Array.isArray(req.body.practiceKeys) ? req.body.practiceKeys : [req.body.practiceKeys].filter(Boolean);
+  const validKeys = new Set(getPractices().map((practice) => practice.key));
+  const keys = selected.filter((key) => validKeys.has(key));
+  const result = applyBulkDisplayUpdate(keys, req.body.field, req.body.value);
+  if (!result.updated) return res.status(422).send(result.reason);
+  return res.redirect(303, `/admin?notice=Applied+bulk+visibility+change+to+${result.targetCount}+practice(s).#bulk-actions`);
+});
+
+app.get('/admin/preview/:practice', requireAdmin, (req, res) => {
+  const livePractice = getPractice(req.params.practice);
+  const campaign = getCampaign(req.query.campaign);
+  if (!livePractice || !campaign) return res.status(404).send('Practice or campaign preview not found.');
+  const draft = getPracticeDrafts()[livePractice.key];
+  const useDraft = req.query.state === 'draft' && draft;
+  const previewPractice = useDraft ? {
+    ...livePractice,
+    ...draft,
+    designAssignments: { ...(livePractice.designAssignments || {}), ...(draft.designAssignments || {}) },
+    policyOverrides: { ...(livePractice.policyOverrides || {}), ...(draft.policyOverrides || {}) },
+  } : livePractice;
+  const selectedCampaign = campaignForPractice(previewPractice, campaign);
+  const forceReducedMotion = req.query.motion === 'reduced';
+  const banner = `<div class="admin-preview-banner">Admin preview · ${useDraft ? 'draft configuration' : 'live configuration'} · ${forceReducedMotion ? 'reduced motion' : 'standard motion'}</div><style>.admin-preview-banner{position:fixed;z-index:9999;top:0;left:0;right:0;padding:9px 16px;background:#071a2d;color:#fff;font:800 12px/1.2 system-ui,sans-serif;letter-spacing:.08em;text-align:center;text-transform:uppercase}${forceReducedMotion ? '.landing-hero-video{display:none!important}.landing-hero-poster{display:block!important}' : ''}</style>`;
+  return res.send(renderLandingPage({ practice: previewPractice, campaign: selectedCampaign }).replace('<body>', `<body>${banner}`));
 });
 
 // ── Night-to-Clarity public patient website ──────────────────

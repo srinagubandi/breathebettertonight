@@ -21,6 +21,7 @@
 - Added shared reasons-and-symptoms guidance and a clinician-gated oral-appliance discussion path to canonical, doctor-owned, and preserved legacy LPs.
 - Added a credential-led **About the Dentist** LP section for all canonical, doctor-owned, and preserved legacy landing-page families, with a persistent per-practice Show About the Dentist control in the protected admin workspace.
 - Added a neutral, replaceable doctor-photo placeholder to every About the Dentist section, plus an independent per-practice Show doctor photo placeholder control in the protected admin workspace.
+- Added a protected **practice operations workspace** with live and draft review, desktop/mobile/reduced-motion landing-page preview, change-impact summaries, configuration history, safe restore, shareable review presets, structured dentist-profile and portrait fields, a campaign matrix, advanced Page Index filters, confirmed bulk visibility controls, launch-readiness checks, content review prompts, and aggregate-only general BBT inquiry reporting.
 
 ### Changed
 
@@ -35,6 +36,7 @@
 - Brightened all supplied video-hero media and refined their scrims for clearer subject visibility while retaining readable text and actions.
 - Updated every video hero to use muted and default-muted inline playback without controls; the optimized MP4 assets contain no audio track.
 - Replaced canonical symptom-recognition list numerals with semantic medical-style SVG icons, retaining legacy symptom icons and preserving unrelated care-path sequence numbering.
+- Updated protected configuration behavior so a direct live publish clears an older saved draft for the same practice and portrait readiness requires approved local image paths plus meaningful alt text.
 
 ### Validation
 
@@ -51,6 +53,7 @@
 - Copy-and-guidance validation passed locally: all 234 generated routes, all doctor page sets, six representative canonical/legacy LPs with symptom-to-treatment assertions, and 50 mobile, desktop, and reduced-motion browser captures completed successfully.
 - Icon-and-profile validation passed locally: semantic canonical symptom icons, legacy symptom icons, credential-icon profile markup, admin display control persistence, profile-on/profile-off/identity-hidden states, 50 responsive captures, 234 generated routes, complete doctor page sets, policy links, surveys, and approved consultation wording.
 - Doctor-photo validation passed locally: photo-enabled, photo-disabled, dentist-profile-disabled, and practice-identity-hidden states; profile layout without horizontal overflow; 50 responsive captures; and the 234-route generated legacy regression with assigned survey preservation.
+- Admin-operations validation passed locally: protected draft, preview, publish, bulk display update, history restore, and direct-publish draft-clearing workflows; external-portrait rejection; Page Index search/practice/category/video filters; video, campaign, and readiness review presets; anonymous 401 checks for every new admin operation; 234 generated routes; complete doctor page sets; 13 baseline LP checks; and 76 responsive public captures.
 
 ### Deployment
 

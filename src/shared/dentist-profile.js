@@ -9,10 +9,14 @@ function renderDentistProfile({ practice, doctorName, credentials, locationLabel
   const safePracticeName = escapeHtml(practice.publicName || practice.campaignDestination || 'Local practice');
   const safeLocation = escapeHtml(locationLabel || practice.serviceLabel || 'your local area');
   const showDentistPhoto = practice.showDentistPhoto !== false;
-  const photoPlaceholder = showDentistPhoto ? `<figure class="dentist-photo-placeholder" role="img" aria-label="Doctor photo placeholder for ${safeDoctorName}">
+  const approvedPortrait = showDentistPhoto && practice.portraitStatus === 'Approved for publication' && practice.portraitUrl;
+  const safePortraitUrl = approvedPortrait ? escapeHtml(practice.portraitUrl) : '';
+  const safePortraitAlt = escapeHtml(practice.portraitAlt || `${practice.doctorName || 'Doctor'} portrait`);
+  const photoPlaceholder = showDentistPhoto ? (approvedPortrait ? `<figure class="dentist-photo-placeholder dentist-photo-approved"><img src="${safePortraitUrl}" alt="${safePortraitAlt}" style="display:block;width:100%;height:104px;object-fit:cover;object-position:center"/><figcaption><strong>Approved doctor portrait</strong><small>Practice-provided image</small></figcaption></figure>` : `<figure class="dentist-photo-placeholder" role="img" aria-label="Doctor photo placeholder for ${safeDoctorName}">
           <span class="dentist-photo-illustration">${medicalIcon('portrait')}</span>
           <figcaption><strong>Doctor photo</strong><small>Portrait placeholder</small></figcaption>
-        </figure>` : '';
+        </figure>`) : '';
+  const profileNote = escapeHtml(practice.doctorBio || 'Discuss sleep-related concerns, next steps, and whether an oral-appliance conversation may fit your care plan.');
   return `<section class="dentist-profile-section" aria-labelledby="about-dentist-heading">
     <div class="landing-container dentist-profile-layout">
       <div class="dentist-profile-intro${showDentistPhoto ? ' dentist-profile-intro-with-photo' : ''}">
@@ -20,7 +24,7 @@ function renderDentistProfile({ practice, doctorName, credentials, locationLabel
         <div class="dentist-profile-copy">
           <p class="landing-eyebrow landing-eyebrow-dark">About the dentist</p>
           <h2 id="about-dentist-heading">${safeDoctorName}</h2>
-          <p>Discuss sleep-related concerns, next steps, and whether an oral-appliance conversation may fit your care plan.</p>
+          <p>${profileNote}</p>
         </div>
       </div>
       <ul class="dentist-credential-list" aria-label="Dentist credentials and practice details">
