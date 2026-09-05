@@ -67,4 +67,4 @@
 - [x] Complete refinement loop one for safety, operational hierarchy, concise admin copy, and change-review clarity.
 - [x] Complete refinement loop two for responsive/mobile usability, empty/error states, configuration edge cases, and release-readiness behavior.
 - [x] Validate protected access, persistence, preview fidelity, bulk-action scope, route/survey preservation, and all three practice configurations before Railway deployment.
-- [ ] Deploy the expanded admin operating workspace to the existing Railway project and update release documentation.
+- [x] Deploy the expanded admin operating workspace to the existing Railway project and update release documentation.

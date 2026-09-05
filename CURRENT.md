@@ -225,6 +225,8 @@ The Page Index now supports direct search plus practice, category, and video-onl
 
 Local validation passed JavaScript syntax checks; 234 generated public routes; complete doctor page-set and baseline LP regressions; 76 public responsive captures; authenticated draft/publish/preview/history/bulk workflows; anonymous 401 checks for all new admin operations routes; and unchanged public landing-page access.
 
+The admin operations workspace was committed to `main` as `63d3b0e` and deployed successfully by the existing Railway production service. Railway reports the deployed production commit as `63d3b0e5f9985a219b072d2bbb6ee1a2900065ef`. Production boundary validation confirms a representative public video LP returns HTTP 200 while `/admin` and `/admin/preview/pantego-dental` both return HTTP 401 without authentication.
+
 ## Responsive QA Findings — 2026-08-13
 
 V1 was rendered locally at **414 × 896** mobile and **1440px** desktop. The symptom-first hierarchy, full-width CTA, stacked mobile symptom cards, provider/photo/bio/review placeholders, no-GHL policy, and desktop two-column symptom grid are all rendering correctly. The following improvements remain for the code passes: normalize all six theme variables; simplify the legacy footer disclaimer so it does not duplicate the page-specific non-diagnostic disclosure; increase small provider and FAQ supporting text where possible; and inspect V2–V6 screenshots for theme-specific contrast issues before release.
