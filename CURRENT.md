@@ -227,6 +227,21 @@ Local validation passed JavaScript syntax checks; 234 generated public routes; c
 
 The admin operations workspace was committed to `main` as `63d3b0e` and deployed successfully by the existing Railway production service. Railway reports the deployed production commit as `63d3b0e5f9985a219b072d2bbb6ee1a2900065ef`. Production boundary validation confirms a representative public video LP returns HTTP 200 while `/admin` and `/admin/preview/pantego-dental` both return HTTP 401 without authentication.
 
+## Copy-Based Patient Landing-Page Families — 2026-09-13
+
+Five new patient LP directions now extend the campaign registry for every active practice: **Sleep Pattern Clarity**, **A Gentler Sleep Check**, **Shared-Night Conversation**, **Sleep Symptom Check**, and **Local Sleep Next Step**. The concepts add 15 canonical practice landing pages plus 30 matched canonical outcome pages. Their complete doctor-owned concept families are also generated automatically for Pantego Dental, PerioDDS, and Dental World.
+
+The five directions use expanded but concise symptom-to-evaluation copy. Each explains that symptoms can have multiple causes, that a survey does not provide a diagnosis, and that a custom oral appliance may be discussed only after appropriate clinical evaluation and only when suitable for the individual. The partner-focused concept uses an explicitly respectful, non-blaming frame.
+
+The new copy-family pages show a small decorative open-guide icon above the public hero headline. It is not a campaign-label row and does not restore the removed hero metadata strip. In the protected admin workspace, a new **Copy LPs** navigation item and grouped **Copy-Based LPs** section provide 15 direct practice previews. The Page Index now includes all related canonical landing/outcome and doctor-owned concept routes; local inspection counted 1,254 total indexed routes and 90 tagged copy-family rows.
+
+| Loop | Focus | Result |
+|---:|---|---|
+| 1 | Symptom recognition and patient safety | Retained clear symptom recognition, removed fear-forward risk framing, and confirmed the evaluation-first care path across all five directions. |
+| 2 | Visual hierarchy and oral-appliance context | Verified the guide icon remains a quiet decorative marker, mobile hierarchy remains readable, and treatment language remains individualized. |
+
+Local validation passed all 15 new canonical LPs and 30 matched outcomes with the assigned GoHighLevel survey ID for each practice; Page Index and copy-family summary/listing checks; anonymous `/admin` protection; complete doctor page sets; 234 generated legacy routes; 13 baseline LP variants; and 84 mobile, desktop, and reduced-motion responsive captures.
+
 ## Responsive QA Findings — 2026-08-13
 
 V1 was rendered locally at **414 × 896** mobile and **1440px** desktop. The symptom-first hierarchy, full-width CTA, stacked mobile symptom cards, provider/photo/bio/review placeholders, no-GHL policy, and desktop two-column symptom grid are all rendering correctly. The following improvements remain for the code passes: normalize all six theme variables; simplify the legacy footer disclaimer so it does not duplicate the page-specific non-diagnostic disclosure; increase small provider and FAQ supporting text where possible; and inspect V2–V6 screenshots for theme-specific contrast issues before release.

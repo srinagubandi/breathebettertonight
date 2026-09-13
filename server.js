@@ -18,7 +18,7 @@ const { renderTY }    = require('./src/pages/ty/template');
 const { renderTYBT }  = require('./src/pages/ty-bt/template');
 const { renderAdmin } = require('./src/pages/admin/template');
 const { ADMIN_CONCEPT_FILES } = require('./src/data/admin-concepts');
-const { getCampaign } = require('./src/data/campaigns');
+const { getCampaign, getCampaigns } = require('./src/data/campaigns');
 const { getPractice, getPractices, setPracticeOverrideProvider } = require('./src/data/practices');
 const { getDoctorPageSet } = require('./src/data/doctor-page-sets');
 const { renderLandingPage } = require('./src/pages/landing-pages/template');
@@ -146,6 +146,27 @@ function adminInput({ configErrors = {}, adminNotice = '', adminError = '' } = {
   };
 }
 
+function adminEscape(value) {
+  return String(value || '').replace(/[&<>'"]/g, (character) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[character]));
+}
+
+function copyGuideIcon() {
+  return '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4.5h8a3 3 0 0 1 3 3v12H8a3 3 0 0 0-3 1.5V4.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 7.5h3v13.5a3 3 0 0 0-3-1.5h-8M8.5 9h4.5M8.5 13h4.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+}
+
+function addCopyFamilyAdminListing(html, practices) {
+  const copyConcepts = getCampaigns().filter((concept) => concept.copyFamily);
+  if (!copyConcepts.length) return html;
+  const keys = copyConcepts.map((concept) => concept.key);
+  const summary = `<section class="card copy-family-summary" id="copy-family-lps"><div class="card-heading"><div><p class="card-kicker">New patient copy directions</p><h2>${copyGuideIcon()} Copy-Based LPs</h2><p>Five concise symptom-to-evaluation landing-page directions for each active practice. Each listing opens the practice-specific LP with its assigned survey and matched outcomes in the protected Page Index.</p></div><span class="route-count">${copyGuideIcon()} ${copyConcepts.length * practices.length} LPs</span></div><div class="copy-family-groups">${practices.map((practice) => `<article><h3>${adminEscape(practice.campaignDestination)}</h3>${copyConcepts.map((concept) => `<a href="/go/${encodeURIComponent(practice.key)}/${encodeURIComponent(concept.key)}" target="_blank" rel="noreferrer">${copyGuideIcon()} ${adminEscape(concept.navLabel)} ↗</a>`).join('')}</article>`).join('')}</div></section>`;
+  const style = '.copy-family-summary .card-heading{background:linear-gradient(105deg,#f5f0e5,#edf6f1)}.copy-family-summary h2{display:flex;align-items:center;gap:9px}.copy-family-summary h2 svg,.copy-tag svg{width:18px;height:18px}.copy-family-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:25px}.copy-family-groups article{padding:18px;border:1px solid #d8cfae;background:#fffdf7}.copy-family-groups a{display:flex;align-items:center;gap:7px;margin-top:10px;padding:9px;border:1px solid #e4dcc3;background:#fff;font-size:.78rem;text-decoration:none}.copy-tag{display:inline-flex;align-items:center;gap:4px;margin-top:5px;padding:4px 7px;background:#f5ecce;color:#6d5913;font-size:.65rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}.copy-tag svg{width:13px;height:13px}@media(max-width:1050px){.copy-family-groups{grid-template-columns:1fr}}@media(max-width:640px){.copy-family-groups{padding:20px}.copy-family-summary h2{font-size:1.55rem}}';
+  const script = `<script>document.addEventListener('DOMContentLoaded',function(){var keys=${JSON.stringify(keys)},icon='${copyGuideIcon().replace(/'/g, "\\'")}';document.querySelectorAll('[data-index-row]').forEach(function(row){var route=(row.querySelector('code')||{}).textContent||'';if(keys.some(function(key){return route.indexOf('/'+key)>-1})){row.dataset.copy='true';var cells=row.querySelectorAll('td'),pageCell=cells[2];if(pageCell&&!pageCell.querySelector('.copy-tag')){pageCell.insertAdjacentHTML('beforeend','<span class="copy-tag">'+icon+' copy LP</span>')}}})});</script>`;
+  return html.replace('</nav>', `<a href="#copy-family-lps">${copyGuideIcon()} Copy LPs</a></nav>`)
+    .replace('</style>', `${style}</style>`)
+    .replace('<section class="card page-index"', `${summary}<section class="card page-index"`)
+    .replace('</body>', `${script}</body>`);
+}
+
 function applyAdminReviewPreset(html, preset) {
   const presets = {
     video: {
@@ -178,7 +199,7 @@ function applyAdminReviewPreset(html, preset) {
 app.get('/admin', requireAdmin, (req, res) => {
   try {
     const html = renderAdmin(adminInput({ adminNotice: String(req.query.notice || '') }));
-    res.send(applyAdminReviewPreset(html, String(req.query.view || '')));
+    res.send(applyAdminReviewPreset(addCopyFamilyAdminListing(html, getPractices()), String(req.query.view || '')));
   } catch (error) {
     console.error('Admin lead-store error:', error.message);
     res.status(503).send('The lead dashboard is temporarily unavailable.');

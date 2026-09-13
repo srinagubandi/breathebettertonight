@@ -32,6 +32,21 @@ DOCTOR_SAMPLES = [
     ("periodds-video-morning", "/go/periodds/waking-unrefreshed-video", "pvHcEcGNjxhXI3L8lSrE", "periodds"),
     ("dental-world-video-focus", "/go/dental-world/daytime-brain-fog-video", "Rx0LnsI0XLu8JfhiDnYc", "dental-world"),
     ("pantego-video-breathing", "/go/pantego-dental/nighttime-breathing-sounds", "75op3Tl4LTjPkaXI1zhb", "pantego-dental"),
+    ("copy-pantego-clarity", "/go/pantego-dental/sleep-pattern-clarity", "75op3Tl4LTjPkaXI1zhb", "pantego-dental"),
+    ("copy-pantego-gentle", "/go/pantego-dental/gentle-sleep-check", "75op3Tl4LTjPkaXI1zhb", "pantego-dental"),
+    ("copy-pantego-shared", "/go/pantego-dental/shared-night-conversation", "75op3Tl4LTjPkaXI1zhb", "pantego-dental"),
+    ("copy-pantego-symptom", "/go/pantego-dental/sleep-symptom-check", "75op3Tl4LTjPkaXI1zhb", "pantego-dental"),
+    ("copy-pantego-local", "/go/pantego-dental/local-sleep-next-step", "75op3Tl4LTjPkaXI1zhb", "pantego-dental"),
+    ("copy-periodds-clarity", "/go/periodds/sleep-pattern-clarity", "pvHcEcGNjxhXI3L8lSrE", "periodds"),
+    ("copy-periodds-gentle", "/go/periodds/gentle-sleep-check", "pvHcEcGNjxhXI3L8lSrE", "periodds"),
+    ("copy-periodds-shared", "/go/periodds/shared-night-conversation", "pvHcEcGNjxhXI3L8lSrE", "periodds"),
+    ("copy-periodds-symptom", "/go/periodds/sleep-symptom-check", "pvHcEcGNjxhXI3L8lSrE", "periodds"),
+    ("copy-periodds-local", "/go/periodds/local-sleep-next-step", "pvHcEcGNjxhXI3L8lSrE", "periodds"),
+    ("copy-dental-world-clarity", "/go/dental-world/sleep-pattern-clarity", "Rx0LnsI0XLu8JfhiDnYc", "dental-world"),
+    ("copy-dental-world-gentle", "/go/dental-world/gentle-sleep-check", "Rx0LnsI0XLu8JfhiDnYc", "dental-world"),
+    ("copy-dental-world-shared", "/go/dental-world/shared-night-conversation", "Rx0LnsI0XLu8JfhiDnYc", "dental-world"),
+    ("copy-dental-world-symptom", "/go/dental-world/sleep-symptom-check", "Rx0LnsI0XLu8JfhiDnYc", "dental-world"),
+    ("copy-dental-world-local", "/go/dental-world/local-sleep-next-step", "Rx0LnsI0XLu8JfhiDnYc", "dental-world"),
 ]
 
 MOBILE = {
@@ -115,6 +130,8 @@ def capture() -> None:
                         raise AssertionError(f"Doctor photo placeholder missing in {name} {label}")
                     if page.locator('.landing-v3').count() and not page.locator('.signal-list .signal-icon').count():
                         raise AssertionError(f"Medical symptom icons missing from canonical recognition list in {name} {label}")
+                    if name.startswith("copy-") and not page.locator('.copy-family-page-icon').count():
+                        raise AssertionError(f"Copy-family guide icon missing in {name} {label}")
                     if page.evaluate("document.documentElement.scrollWidth > window.innerWidth + 1"):
                         raise AssertionError(f"Horizontal overflow found in {name} {label}")
                     if "-video-" in name:

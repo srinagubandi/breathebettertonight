@@ -68,3 +68,11 @@
 - [x] Complete refinement loop two for responsive/mobile usability, empty/error states, configuration edge cases, and release-readiness behavior.
 - [x] Validate protected access, persistence, preview fidelity, bulk-action scope, route/survey preservation, and all three practice configurations before Railway deployment.
 - [x] Deploy the expanded admin operating workspace to the existing Railway project and update release documentation.
+- [x] Review the supplied patient-landing-page copy and prepare concise updated variations for approval.
+- [x] Audit all existing public routes against the protected admin Page Index and resolve any missing listing coverage.
+- [x] Define five new copy-based patient landing-page concepts with distinct routes, patient-safe expanded copy, and a dedicated copy-family icon.
+- [x] Build all five concept families for Pantego Dental, PerioDDS, and Dental World with assigned GoHighLevel surveys and matched outcomes.
+- [x] Add every new copy-based LP, qualified outcome, and non-qualified outcome to protected admin inventory, campaign matrix, previews, and readiness checks.
+- [x] Complete two refinement loops for patient-safe conversion copy, responsive hierarchy, oral-appliance context, and icon clarity.
+- [x] Validate public routes, doctor page sets, surveys, policies, complete admin listings, and icon behavior before Railway deployment.
+- [ ] Deploy the five copy-based LP families and complete release documentation.

@@ -40,6 +40,8 @@ function renderLandingPage({ practice, campaign, locality = '', legacy = false }
     showText ? `<a href="sms:${escapeHtml(practice.textRaw)}">Text the office</a>` : '',
   ].filter(Boolean).join('');
   const contactCard = contactActions ? `<div class="practice-contact-card"><strong>Request a consultation</strong><p>Choose the secure request below, or contact the office directly.</p>${contactActions}</div>` : '';
+  const copyFamilyIcon = campaign.copyFamily ? `<span class="copy-family-page-icon" aria-hidden="true">${medicalIcon('guide')}</span>` : '';
+  const recognitionIntro = campaign.recognitionIntro || 'Sleep symptoms can have more than one cause. Recognizing a pattern is a reason to begin a conversation, not a diagnosis.';
   const videoHero = campaign.heroVideo ? `<div class="landing-hero-visual" aria-hidden="true"><img class="landing-hero-poster" src="${escapeHtml(campaign.heroPoster || campaign.hero)}" alt=""/><video class="landing-hero-video" autoplay muted defaultMuted loop playsinline preload="metadata" tabindex="-1" poster="${escapeHtml(campaign.heroPoster || campaign.hero)}"><source src="${escapeHtml(campaign.heroVideo)}" type="video/mp4"/></video></div>` : '';
   const heroClass = campaign.heroVideo ? 'landing-hero landing-hero-video-enabled' : 'landing-hero';
   const body = `<div class="landing-v3 landing-${escapeHtml(campaign.designSystem || 'night-to-clarity')}">
@@ -47,7 +49,7 @@ function renderLandingPage({ practice, campaign, locality = '', legacy = false }
       ${videoHero}
       <div class="landing-hero-scrim"></div>
       <div class="landing-container landing-hero-content">
-        <h1>${escapeHtml(campaign.headline)}</h1>
+        ${copyFamilyIcon}<h1>${escapeHtml(campaign.headline)}</h1>
         <p class="landing-lede">${escapeHtml(campaign.subheadline)}</p>
         <div class="landing-actions">${heroActions}</div>
         <p class="landing-microcopy">${microcopy}</p>
@@ -55,12 +57,12 @@ function renderLandingPage({ practice, campaign, locality = '', legacy = false }
     </section>
     <section class="recognition-section" id="signals">
       <div class="landing-container recognition-layout">
-        <div><p class="landing-eyebrow landing-eyebrow-dark">Recognition first</p><h2>${escapeHtml(campaign.recognitionTitle || 'Start with the signs you recognize.')}</h2><p>Sleep symptoms can have more than one cause. Recognizing a pattern is a reason to begin a conversation, not a diagnosis.</p></div>
+        <div><p class="landing-eyebrow landing-eyebrow-dark">Recognition first</p><h2>${escapeHtml(campaign.recognitionTitle || 'Start with the signs you recognize.')}</h2><p>${escapeHtml(recognitionIntro)}</p></div>
         <div class="signal-list">${renderRecognition(campaign.recognition || [])}</div>
       </div>
     </section>
-    ${renderReasonsAndSymptoms()}
-    ${renderOralApplianceContext()}
+    ${renderReasonsAndSymptoms(campaign.guidance?.reasons)}
+    ${renderOralApplianceContext(campaign.guidance?.appliance)}
     ${renderDentistProfile({ practice, doctorName: practice.doctorName, credentials: practice.credentials, locationLabel: practice.serviceLabel })}
     <section class="practice-context">
       <div class="landing-container practice-context-grid"><div><p class="landing-eyebrow">${showPracticeName ? 'Your selected local destination' : 'A local next step'}</p><h2>${contextTitle}</h2><p>${contextDetails}</p><p>${localityLine}</p></div>${contactCard}</div>

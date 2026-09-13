@@ -7,7 +7,7 @@ const MAX_LABEL = 160;
 const MAX_PROFILE_NOTE = 420;
 const MAX_HISTORY = 180;
 const DESIGN_SYSTEMS = ['morning-signal', 'clarity-signal', 'shared-sleep-signal', 'night-breathing-signal', 'night-to-clarity', 'clinical-confidence', 'family-comfort', 'local-care-calm-direction', 'soft-utility', 'humanist-morning', 'quiet-signal', 'sleep-check', 'provider-match', 'consultation-handoff', 'partner-path', 'treatment-questions', 'request-received'];
-const CAMPAIGN_KEYS = ['night-to-clarity', 'clinical-confidence', 'family-comfort', 'local-care-calm-direction', 'soft-utility', 'humanist-morning', 'quiet-signal', 'sleep-check', 'provider-match', 'consultation-handoff', 'partner-path', 'treatment-questions', 'request-received', 'tired-mornings', 'focus-and-brain-fog', 'partner-noticed-snoring', 'partner-disrupted-sleep', 'waking-unrefreshed-video', 'daytime-brain-fog-video', 'nighttime-breathing-sounds'];
+const CAMPAIGN_KEYS = ['night-to-clarity', 'clinical-confidence', 'family-comfort', 'local-care-calm-direction', 'soft-utility', 'humanist-morning', 'quiet-signal', 'sleep-check', 'provider-match', 'consultation-handoff', 'partner-path', 'treatment-questions', 'request-received', 'tired-mornings', 'focus-and-brain-fog', 'partner-noticed-snoring', 'partner-disrupted-sleep', 'waking-unrefreshed-video', 'daytime-brain-fog-video', 'nighttime-breathing-sounds', 'sleep-pattern-clarity', 'gentle-sleep-check', 'shared-night-conversation', 'sleep-symptom-check', 'local-sleep-next-step'];
 const PORTRAIT_STATUSES = ['Placeholder', 'Pending approval', 'Approved for publication'];
 const BULK_DISPLAY_FIELDS = ['showPracticeName', 'showPhone', 'showText', 'showDentistProfile', 'showDentistPhoto'];
 
