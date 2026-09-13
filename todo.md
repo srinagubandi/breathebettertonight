@@ -85,4 +85,4 @@
 - [x] Confirm the open-guide icon remains on every new copy-based LP and its protected admin Page Index listing through the logo rollout.
 - [x] Complete copy refinement loop one across the five new LP directions for concise symptom recognition and supportive consultation language.
 - [x] Complete copy refinement loop two across the five new LP directions for evaluation-first oral-appliance context and mobile reading clarity.
-- [ ] Deploy the unified supplied-logo update to the existing Railway project and document the release.
+- [x] Deploy the unified supplied-logo update to the existing Railway project and document the release.

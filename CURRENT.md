@@ -256,6 +256,8 @@ The five new copy-based LP families completed two additional refinements. The fi
 | Copy-family marker | All 15 new practice LPs retained the decorative open-guide icon, assigned survey, approved consultation wording, and oral-appliance context. |
 | Route regressions | Generated-route, complete doctor page-set, and baseline legacy LP suites passed against the refreshed local review server. |
 
+The unified supplied-logo and refined-copy release was committed to `main` as `ea6487e` and deployed successfully by the existing Railway production service. Live validation on the Pantego Dental Gentle Sleep Check page confirms the supplied moon-badge asset, transparent borderless header frame, 12-pixel upper-left header inset, retained open-guide icon, refined patient copy, and the assigned GoHighLevel survey.
+
 ## Responsive QA Findings — 2026-08-13
 
 V1 was rendered locally at **414 × 896** mobile and **1440px** desktop. The symptom-first hierarchy, full-width CTA, stacked mobile symptom cards, provider/photo/bio/review placeholders, no-GHL policy, and desktop two-column symptom grid are all rendering correctly. The following improvements remain for the code passes: normalize all six theme variables; simplify the legacy footer disclaimer so it does not duplicate the page-specific non-diagnostic disclosure; increase small provider and FAQ supporting text where possible; and inspect V2–V6 screenshots for theme-specific contrast issues before release.
