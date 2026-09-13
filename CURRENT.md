@@ -242,6 +242,8 @@ The new copy-family pages show a small decorative open-guide icon above the publ
 
 Local validation passed all 15 new canonical LPs and 30 matched outcomes with the assigned GoHighLevel survey ID for each practice; Page Index and copy-family summary/listing checks; anonymous `/admin` protection; complete doctor page sets; 234 generated legacy routes; 13 baseline LP variants; and 84 mobile, desktop, and reduced-motion responsive captures.
 
+The release was committed to `main` as `fc6f09d` and deployed successfully by the existing Railway production service. Live validation confirmed all 15 new practice LPs and 30 matched outcomes return successfully with their assigned survey, guide icon, and approved `Request a consultation` action; unauthenticated `/admin` remains HTTP 401. Visual production review confirmed the open-guide icon is a quiet marker above the headline and does not restore the removed public hero metadata strip.
+
 ## Responsive QA Findings — 2026-08-13
 
 V1 was rendered locally at **414 × 896** mobile and **1440px** desktop. The symptom-first hierarchy, full-width CTA, stacked mobile symptom cards, provider/photo/bio/review placeholders, no-GHL policy, and desktop two-column symptom grid are all rendering correctly. The following improvements remain for the code passes: normalize all six theme variables; simplify the legacy footer disclaimer so it does not duplicate the page-specific non-diagnostic disclosure; increase small provider and FAQ supporting text where possible; and inspect V2–V6 screenshots for theme-specific contrast issues before release.

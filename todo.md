@@ -75,4 +75,4 @@
 - [x] Add every new copy-based LP, qualified outcome, and non-qualified outcome to protected admin inventory, campaign matrix, previews, and readiness checks.
 - [x] Complete two refinement loops for patient-safe conversion copy, responsive hierarchy, oral-appliance context, and icon clarity.
 - [x] Validate public routes, doctor page sets, surveys, policies, complete admin listings, and icon behavior before Railway deployment.
-- [ ] Deploy the five copy-based LP families and complete release documentation.
+- [x] Deploy the five copy-based LP families and complete release documentation.
