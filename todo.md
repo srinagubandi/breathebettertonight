@@ -76,3 +76,13 @@
 - [x] Complete two refinement loops for patient-safe conversion copy, responsive hierarchy, oral-appliance context, and icon clarity.
 - [x] Validate public routes, doctor page sets, surveys, policies, complete admin listings, and icon behavior before Railway deployment.
 - [x] Deploy the five copy-based LP families and complete release documentation.
+- [ ] Audit every public header, footer, canonical LP, doctor-owned LP, preserved legacy LP, and outcome renderer for current logo usage.
+- [x] Prepare the supplied Breathe Better Tonight moon-badge logo as a production-ready asset and replace all public landing-page logo references.
+- [x] Refine responsive logo sizing, contrast, and fallback presentation across all public page treatments.
+- [x] Remove all logo background panels and enforce transparent upper-left placement in every public landing-page header.
+- [x] Perform a visual-quality review of the supplied logo on dark video heroes, light static heroes, legacy layouts, outcomes, and the public footer before deployment.
+- [x] Validate logo coverage, assigned surveys, outcomes, policy links, public routes, and mobile/desktop layouts before Railway deployment.
+- [x] Confirm the open-guide icon remains on every new copy-based LP and its protected admin Page Index listing through the logo rollout.
+- [x] Complete copy refinement loop one across the five new LP directions for concise symptom recognition and supportive consultation language.
+- [x] Complete copy refinement loop two across the five new LP directions for evaluation-first oral-appliance context and mobile reading clarity.
+- [ ] Deploy the unified supplied-logo update to the existing Railway project and document the release.

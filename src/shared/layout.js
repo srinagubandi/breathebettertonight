@@ -42,6 +42,7 @@ function layout({
   policyBase = '',
   robots = 'noindex, nofollow',
 }) {
+  const publicLogo = '/assets/images/brand/breathe-better-tonight-moon-badge.webp';
   const trackingHead = renderTrackingHead();
   const trackingBody = renderTrackingBody();
   const resolvedPhone = practice ? practice.phoneDisplay : phone;
@@ -66,7 +67,7 @@ function layout({
   <title>${title} | BreatheBetterTonight.com</title>
 
   <!-- ── Favicon ── -->
-  <link rel="icon" type="image/png" href="/assets/images/logo.png" />
+  <link rel="icon" type="image/webp" href="${publicLogo}" />
 
   <!-- ── Fonts ── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -94,9 +95,16 @@ function layout({
 
   <!-- ── Sticky tap-to-call header ── -->
   <header class="${headerClass}" data-design-system="${designSystem}">
-    ${headerPhone}
-    ${headerText}
-    <a href="${headerTarget}" class="header-cta btn-primary">REQUEST A CONSULTATION</a>
+    <a href="/" class="header-brand" aria-label="Breathe Better Tonight home">
+      <span class="header-brand-frame"><img src="${publicLogo}" alt="Breathe Better Tonight" /></span>
+    </a>
+    <div class="header-actions">
+      <div class="header-contact-actions">
+        ${headerPhone}
+        ${headerText}
+      </div>
+      <a href="${headerTarget}" class="header-cta btn-primary">REQUEST A CONSULTATION</a>
+    </div>
   </header>
 
   <!-- ── Page content ── -->
@@ -107,7 +115,6 @@ function layout({
   <!-- ── Footer ── -->
   <footer class="site-footer">
     <div class="footer-inner">
-      <img src="/assets/images/logo.png" alt="Breathe Better Tonight" class="footer-logo" />
       <p class="footer-brand">BreatheBetterTonight.com</p>
       <p class="footer-tagline">Better Sleep. Better Health. Better You.</p>
       <div class="footer-links">

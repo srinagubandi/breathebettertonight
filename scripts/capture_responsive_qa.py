@@ -115,6 +115,13 @@ def capture() -> None:
                         raise AssertionError(f"Top phone treatment missing in {name} {label}")
                     if not page.locator('.top-text').count():
                         raise AssertionError(f"Top Text action missing in {name} {label}")
+                    brand_logo = page.locator('.header-brand img')
+                    if brand_logo.count() != 1 or not brand_logo.get_attribute('src').endswith('/assets/images/brand/breathe-better-tonight-moon-badge.webp'):
+                        raise AssertionError(f"Supplied moon-badge logo missing in {name} {label}")
+                    if not brand_logo.evaluate("node => { const header = document.querySelector('.sticky-header').getBoundingClientRect(); return node.getBoundingClientRect().left - header.left <= 24; }"):
+                        raise AssertionError(f"Moon-badge logo is not anchored at upper-left in {name} {label}")
+                    if not page.locator('.header-brand-frame').evaluate("node => { const style = getComputedStyle(node); return style.backgroundColor === 'rgba(0, 0, 0, 0)' && style.borderWidth === '0px'; }"):
+                        raise AssertionError(f"Moon-badge logo has a background panel in {name} {label}")
                     launcher = page.locator('.chat-launcher')
                     if not launcher.count():
                         raise AssertionError(f"Chat launcher missing in {name} {label}")

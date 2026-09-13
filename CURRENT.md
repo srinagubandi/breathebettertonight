@@ -244,6 +244,18 @@ Local validation passed all 15 new canonical LPs and 30 matched outcomes with th
 
 The release was committed to `main` as `fc6f09d` and deployed successfully by the existing Railway production service. Live validation confirmed all 15 new practice LPs and 30 matched outcomes return successfully with their assigned survey, guide icon, and approved `Request a consultation` action; unauthenticated `/admin` remains HTTP 401. Visual production review confirmed the open-guide icon is a quiet marker above the headline and does not restore the removed public hero metadata strip.
 
+## Supplied Moon-Badge Logo and Copy-Family Refinement — 2026-09-13
+
+The supplied Breathe Better Tonight moon-badge mark now replaces the prior public landing-page logo treatment through the shared page layout. It is rendered as a transparent, borderless mark at the upper-left of every public header. The header uses a restrained shadow for legibility on dark treatments rather than a white logo panel. Legacy designs that intentionally inset their entire header retain the mark at the upper-left of that header.
+
+The five new copy-based LP families completed two additional refinements. The first shortened hero, recognition, and reason-to-discuss language while maintaining the direction of each concept. The second simplified oral-appliance section titles and three-step guidance while retaining the evaluation-first boundary: symptoms do not diagnose; clinical evaluation determines the next step; and a custom appliance may be an option only for some adults when appropriate.
+
+| Validation | Result |
+|---|---|
+| Responsive logo review | Canonical, legacy, and outcome samples passed desktop and mobile checks for the supplied asset, transparent frame, upper-left header anchoring, and no horizontal overflow. |
+| Copy-family marker | All 15 new practice LPs retained the decorative open-guide icon, assigned survey, approved consultation wording, and oral-appliance context. |
+| Route regressions | Generated-route, complete doctor page-set, and baseline legacy LP suites passed against the refreshed local review server. |
+
 ## Responsive QA Findings — 2026-08-13
 
 V1 was rendered locally at **414 × 896** mobile and **1440px** desktop. The symptom-first hierarchy, full-width CTA, stacked mobile symptom cards, provider/photo/bio/review placeholders, no-GHL policy, and desktop two-column symptom grid are all rendering correctly. The following improvements remain for the code passes: normalize all six theme variables; simplify the legacy footer disclaimer so it does not duplicate the page-specific non-diagnostic disclosure; increase small provider and FAQ supporting text where possible; and inspect V2–V6 screenshots for theme-specific contrast issues before release.

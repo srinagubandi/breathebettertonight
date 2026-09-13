@@ -40,6 +40,8 @@
 - Replaced canonical symptom-recognition list numerals with semantic medical-style SVG icons, retaining legacy symptom icons and preserving unrelated care-path sequence numbering.
 - Updated protected configuration behavior so a direct live publish clears an older saved draft for the same practice and portrait readiness requires approved local image paths plus meaningful alt text.
 - Updated the shared symptom and oral-appliance renderers so campaign records can provide concise, direction-specific reasons, evaluation context, and individualized oral-appliance safeguards without changing the shared patient-safety baseline.
+- Replaced the public LP brand treatment with the supplied Breathe Better Tonight moon-badge mark, positioned transparently at the upper-left of shared public headers with no white background panel.
+- Refined the five new copy-based LP directions through two additional loops, shortening recognition, reason-to-discuss, and oral-appliance guidance while retaining their patient-safe meanings and evaluation-first safeguards.
 
 ### Validation
 
@@ -58,6 +60,7 @@
 - Doctor-photo validation passed locally: photo-enabled, photo-disabled, dentist-profile-disabled, and practice-identity-hidden states; profile layout without horizontal overflow; 50 responsive captures; and the 234-route generated legacy regression with assigned survey preservation.
 - Admin-operations validation passed locally: protected draft, preview, publish, bulk display update, history restore, and direct-publish draft-clearing workflows; external-portrait rejection; Page Index search/practice/category/video filters; video, campaign, and readiness review presets; anonymous 401 checks for every new admin operation; 234 generated routes; complete doctor page sets; 13 baseline LP checks; and 76 responsive public captures.
 - Copy-family validation passed locally: 15 new canonical LPs and 30 matched outcomes with correct practice-specific surveys; 90 tagged copy-family Page Index routes inside a complete 1,254-route inventory; anonymous admin protection; complete doctor page sets; 234 generated legacy routes; 13 baseline LP checks; and 84 desktop/mobile/reduced-motion public captures.
+- Focused logo and copy-family validation passed locally across canonical, legacy, and outcome samples at desktop and mobile sizes: the supplied asset is upper-left within each header, its frame remains transparent and borderless, no horizontal overflow occurs, and all 15 new copy LPs retain the open-guide icon, practice survey, approved consultation action, and oral-appliance context.
 
 ### Deployment
 
