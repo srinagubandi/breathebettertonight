@@ -52,7 +52,9 @@ def main() -> None:
         pages.extend([("privacy-policy", "/privacy-policy"), ("terms-and-conditions", "/terms-and-conditions")])
 
         with sync_playwright() as playwright:
-            browser = playwright.chromium.launch()
+            browser = playwright.chromium.launch(
+                executable_path=os.environ.get("CHROMIUM_EXECUTABLE", "/usr/bin/chromium")
+            )
             for name, route in pages:
                 for label, options in DEVICES.items():
                     page = browser.new_page(**options)
