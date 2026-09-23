@@ -44,6 +44,8 @@ function renderLandingPage({ practice, campaign, locality = '', legacy = false }
   const recognitionIntro = campaign.recognitionIntro || 'Sleep symptoms can have more than one cause. Recognizing a pattern is a reason to begin a conversation, not a diagnosis.';
   const videoHero = campaign.heroVideo ? `<div class="landing-hero-visual" aria-hidden="true"><img class="landing-hero-poster" src="${escapeHtml(campaign.heroPoster || campaign.hero)}" alt=""/><video class="landing-hero-video" autoplay muted defaultMuted loop playsinline preload="metadata" tabindex="-1" poster="${escapeHtml(campaign.heroPoster || campaign.hero)}"><source src="${escapeHtml(campaign.heroVideo)}" type="video/mp4"/></video></div>` : '';
   const heroClass = campaign.heroVideo ? 'landing-hero landing-hero-video-enabled' : 'landing-hero';
+  const surveyBelowHero = practice.key === 'pantego-dental' && campaign.key === 'sleep-symptom-check';
+  const surveySection = renderSurvey(practice, { heroAdjacent: surveyBelowHero });
   const body = `<div class="landing-v3 landing-${escapeHtml(campaign.designSystem || 'night-to-clarity')}">
     <section class="${heroClass}" style="--hero-image:url('${escapeHtml(campaign.hero)}')">
       ${videoHero}
@@ -55,6 +57,7 @@ function renderLandingPage({ practice, campaign, locality = '', legacy = false }
         <p class="landing-microcopy">${microcopy}</p>
       </div>
     </section>
+    ${surveyBelowHero ? surveySection : ''}
     <section class="recognition-section" id="signals">
       <div class="landing-container recognition-layout">
         <div><p class="landing-eyebrow landing-eyebrow-dark">Recognition first</p><h2>${escapeHtml(campaign.recognitionTitle || 'Start with the signs you recognize.')}</h2><p>${escapeHtml(recognitionIntro)}</p></div>
@@ -67,7 +70,7 @@ function renderLandingPage({ practice, campaign, locality = '', legacy = false }
     <section class="practice-context">
       <div class="landing-container practice-context-grid"><div><p class="landing-eyebrow">${showPracticeName ? 'Your selected local destination' : 'A local next step'}</p><h2>${contextTitle}</h2><p>${contextDetails}</p><p>${localityLine}</p></div>${contactCard}</div>
     </section>
-    ${renderSurvey(practice)}
+    ${surveyBelowHero ? '' : surveySection}
     <section class="landing-disclaimer"><div class="landing-container">This page provides general symptom-awareness information. It does not provide medical advice, a diagnosis, treatment recommendations, or emergency services. If you are experiencing an emergency, call 911 or seek immediate local care.</div></section>
   </div>`;
 

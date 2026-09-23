@@ -12,19 +12,31 @@ function renderDentistProfile({ practice, doctorName, credentials, locationLabel
   const approvedPortrait = showDentistPhoto && practice.portraitStatus === 'Approved for publication' && practice.portraitUrl;
   const safePortraitUrl = approvedPortrait ? escapeHtml(practice.portraitUrl) : '';
   const safePortraitAlt = escapeHtml(practice.portraitAlt || `${practice.doctorName || 'Doctor'} portrait`);
-  const photoPlaceholder = showDentistPhoto ? (approvedPortrait ? `<figure class="dentist-photo-placeholder dentist-photo-approved"><img src="${safePortraitUrl}" alt="${safePortraitAlt}" style="display:block;width:100%;height:104px;object-fit:cover;object-position:center"/><figcaption><strong>Approved doctor portrait</strong><small>Practice-provided image</small></figcaption></figure>` : `<figure class="dentist-photo-placeholder" role="img" aria-label="Doctor photo placeholder for ${safeDoctorName}">
+  const portrait = showDentistPhoto
+    ? (approvedPortrait
+      ? `<figure class="dentist-photo dentist-photo-approved"><img src="${safePortraitUrl}" alt="${safePortraitAlt}"/></figure>`
+      : `<figure class="dentist-photo-placeholder" role="img" aria-label="Doctor photo placeholder for ${safeDoctorName}">
           <span class="dentist-photo-illustration">${medicalIcon('portrait')}</span>
           <figcaption><strong>Doctor photo</strong><small>Portrait placeholder</small></figcaption>
-        </figure>`) : '';
-  const profileNote = escapeHtml(practice.doctorBio || 'Discuss sleep-related concerns, next steps, and whether an oral-appliance conversation may fit your care plan.');
-  return `<section class="dentist-profile-section" aria-labelledby="about-dentist-heading">
+        </figure>`)
+    : '';
+  const profileParagraphs = Array.isArray(practice.doctorBio)
+    ? practice.doctorBio
+    : [practice.doctorBio || 'Discuss sleep-related concerns, next steps, and whether an oral-appliance conversation may fit your care plan.'];
+  const profileCopy = profileParagraphs
+    .filter(Boolean)
+    .map((paragraph, index) => `<p${index === 0 ? ' class="dentist-profile-lead"' : ''}>${escapeHtml(paragraph)}</p>`)
+    .join('');
+  const profileSectionClass = `dentist-profile-section${practice.key === 'pantego-dental' ? ' dentist-profile-pantego' : ''}`;
+
+  return `<section class="${profileSectionClass}" aria-labelledby="about-dentist-heading">
     <div class="landing-container dentist-profile-layout">
       <div class="dentist-profile-intro${showDentistPhoto ? ' dentist-profile-intro-with-photo' : ''}">
-        ${photoPlaceholder}
+        ${portrait}
         <div class="dentist-profile-copy">
           <p class="landing-eyebrow landing-eyebrow-dark">About the dentist</p>
           <h2 id="about-dentist-heading">${safeDoctorName}</h2>
-          <p>${profileNote}</p>
+          <div class="dentist-profile-bio">${profileCopy}</div>
         </div>
       </div>
       <ul class="dentist-credential-list" aria-label="Dentist credentials and practice details">
