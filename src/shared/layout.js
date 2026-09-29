@@ -5,29 +5,21 @@
  */
 
 const { renderChatLauncher } = require('./chat');
+const { renderGoogleTagManagerHead, renderGoogleTagManagerBody } = require('./google-tag-manager');
 
 function matches(value, pattern) {
   return pattern.test(String(value || ''));
 }
 
 function renderTrackingHead() {
-  const gtmId = process.env.TRACKING_GTM_ID;
   const ga4Id = process.env.TRACKING_GA4_ID;
   const metaPixelId = process.env.TRACKING_META_PIXEL_ID;
   const mouseflowId = process.env.TRACKING_MOUSEFLOW_ID;
   const tags = [];
-  if (matches(gtmId, /^GTM-[A-Z0-9]+$/)) tags.push(`<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','${gtmId}');</script>`);
   if (matches(ga4Id, /^G-[A-Z0-9]+$/)) tags.push(`<script async src="https://www.googletagmanager.com/gtag/js?id=${ga4Id}"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${ga4Id}');</script>`);
   if (matches(metaPixelId, /^\d+$/)) tags.push(`<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','${metaPixelId}');fbq('track','PageView');</script>`);
   if (matches(mouseflowId, /^[A-Za-z0-9_-]+$/)) tags.push(`<script>window._mfq=window._mfq||[];(function(){var mf=document.createElement('script');mf.type='text/javascript';mf.defer=true;mf.src='https://cdn.mouseflow.com/projects/${mouseflowId}.js';document.getElementsByTagName('head')[0].appendChild(mf);})();</script>`);
   return tags.join('\n');
-}
-
-function renderTrackingBody() {
-  const gtmId = process.env.TRACKING_GTM_ID;
-  return matches(gtmId, /^GTM-[A-Z0-9]+$/)
-    ? `<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`
-    : '';
 }
 
 function layout({
@@ -44,7 +36,8 @@ function layout({
 }) {
   const publicLogo = '/assets/images/brand/breathe-better-tonight-moon-badge.webp';
   const trackingHead = renderTrackingHead();
-  const trackingBody = renderTrackingBody();
+  const googleTagManagerHead = renderGoogleTagManagerHead();
+  const googleTagManagerBody = renderGoogleTagManagerBody();
   const resolvedPhone = practice ? practice.phoneDisplay : phone;
   const resolvedPhoneRaw = practice ? practice.phoneRaw : phoneRaw;
   const resolvedTextRaw = practice ? practice.textRaw : phoneRaw;
@@ -85,13 +78,15 @@ function layout({
   <!-- ── Theme styles ── -->
   <link rel="stylesheet" href="/assets/css/theme-${theme}.css" />
 
-  <!-- Optional tracking is rendered only when valid environment IDs are configured. -->
+  ${googleTagManagerHead}
+
+  <!-- Optional non-GTM tracking is rendered only when valid environment IDs are configured. -->
   ${trackingHead}
 
 </head>
 <body class="theme-${theme} design-${designSystem}">
 
-  ${trackingBody}
+  ${googleTagManagerBody}
 
   <!-- ── Sticky tap-to-call header ── -->
   <header class="${headerClass}" data-design-system="${designSystem}">
