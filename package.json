@@ -7,6 +7,7 @@
     "start": "node server.js",
     "dev": "node server.js",
     "qa:routes": "node scripts/verify_generated_routes.js",
+    "qa:gtm": "node scripts/verify_gtm_install.js",
     "qa:responsive": "python3 scripts/capture_responsive_qa.py",
     "qa:supporting": "python3 scripts/capture_supporting_qa.py",
     "qa:basics": "node scripts/verify_lp_basics.js"

@@ -1,3 +1,5 @@
+const { renderGoogleTagManagerHead, renderGoogleTagManagerBody } = require('../../shared/google-tag-manager');
+
 function escapeHtml(value = '') {
   return String(value)
     .replace(/&/g, '&amp;')
@@ -33,8 +35,10 @@ function siteShell({ title, description, active, body }) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/css/site.css" />
+${renderGoogleTagManagerHead()}
 </head>
 <body>
+  ${renderGoogleTagManagerBody()}
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <header class="site-header">
     <div class="site-container nav-wrap">

@@ -62,6 +62,7 @@ const {
   updateLeadStatus,
 } = require('./src/lib/leads');
 const crypto = require('crypto');
+const { renderGoogleTagManagerHead, renderGoogleTagManagerBody } = require('./src/shared/google-tag-manager');
 
 setPracticeOverrideProvider(getPracticeOverrides);
 
@@ -470,7 +471,7 @@ app.use((req, res) => {
   res.status(404).send(`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
   <title>Page Not Found</title>
   <style>body{font-family:sans-serif;background:#0D1B2A;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;}
-  a{color:#00B4C8;}</style></head><body>
+  a{color:#00B4C8;}</style>${renderGoogleTagManagerHead()}</head><body>${renderGoogleTagManagerBody()}
   <div><h1>404</h1><p>Page not found.</p><a href="/">Home</a></div></body></html>`);
 });
 
@@ -484,7 +485,7 @@ app.listen(PORT, () => {
 function legalShell(title, body) {
   return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>${title} — BreatheBetterTonight.com</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
-  <style>body{font-family:Inter,system-ui,sans-serif;max-width:760px;margin:0 auto;padding:52px 24px;color:#28485e;line-height:1.7;background:#fff}h1{color:#0a2944;line-height:1.1;letter-spacing:-.04em}h2{color:#0a2944;margin-top:34px}a{color:#008fa0;font-weight:700}.notice{padding:14px 16px;border-radius:12px;background:#effafb;color:#426a74;font-size:.9rem}</style></head><body>${body}<p><a href="javascript:history.back()">← Back</a></p></body></html>`;
+  <style>body{font-family:Inter,system-ui,sans-serif;max-width:760px;margin:0 auto;padding:52px 24px;color:#28485e;line-height:1.7;background:#fff}h1{color:#0a2944;line-height:1.1;letter-spacing:-.04em}h2{color:#0a2944;margin-top:34px}a{color:#008fa0;font-weight:700}.notice{padding:14px 16px;border-radius:12px;background:#effafb;color:#426a74;font-size:.9rem}</style>${renderGoogleTagManagerHead()}</head><body>${renderGoogleTagManagerBody()}${body}<p><a href="javascript:history.back()">← Back</a></p></body></html>`;
 }
 
 function privacyPage() {
