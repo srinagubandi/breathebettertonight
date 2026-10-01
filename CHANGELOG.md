@@ -27,6 +27,7 @@
 
 ### Changed
 
+- Installed the supplied **OpenPanel** browser analytics client on every public, policy, landing, outcome, legacy, static, error, and protected-admin document shell, with screen-view, outgoing-link, and attribute tracking enabled.
 - Installed the supplied **Google Tag Manager** container `GTM-MQH2FBWX` in the head and immediate body position of every public, policy, landing, outcome, legacy, protected-admin, static, and error document shell.
 - Preserved all existing generated Dr. Lay landing-page URLs while replacing their conversion placeholders with the assigned Pantego Dental GoHighLevel survey.
 - Updated legacy and canonical LP CTAs to use a consultation handoff, removed retired no-cost consultation wording, and removed testimonial-style placeholder content.

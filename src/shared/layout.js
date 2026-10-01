@@ -6,6 +6,7 @@
 
 const { renderChatLauncher } = require('./chat');
 const { renderGoogleTagManagerHead, renderGoogleTagManagerBody } = require('./google-tag-manager');
+const { renderOpenPanelHead } = require('./openpanel');
 
 function matches(value, pattern) {
   return pattern.test(String(value || ''));
@@ -38,6 +39,7 @@ function layout({
   const trackingHead = renderTrackingHead();
   const googleTagManagerHead = renderGoogleTagManagerHead();
   const googleTagManagerBody = renderGoogleTagManagerBody();
+  const openPanelHead = renderOpenPanelHead();
   const resolvedPhone = practice ? practice.phoneDisplay : phone;
   const resolvedPhoneRaw = practice ? practice.phoneRaw : phoneRaw;
   const resolvedTextRaw = practice ? practice.textRaw : phoneRaw;
@@ -79,6 +81,8 @@ function layout({
   <link rel="stylesheet" href="/assets/css/theme-${theme}.css" />
 
   ${googleTagManagerHead}
+
+  ${openPanelHead}
 
   <!-- Optional non-GTM tracking is rendered only when valid environment IDs are configured. -->
   ${trackingHead}
