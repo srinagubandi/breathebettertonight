@@ -1,10 +1,10 @@
 # Design Systems V3 — Six Distinct Symptom-Led LPs
 
-> **Scope:** Concept and implementation direction for six responsive LPs. Every design uses a visible top phone treatment for **(817) 274-1825**. The shared phone background is Seahawks blue `#002244` with Seahawks green `#69BE28`; each page otherwise has a distinct layout, typography rhythm, card system, and palette.
+> **Scope:** Concept and implementation direction for six responsive LPs. Every design uses a visible top phone treatment for **(817) 670-8968**. The shared phone background is Seahawks blue `#002244` with Seahawks green `#69BE28`; each page otherwise has a distinct layout, typography rhythm, card system, and palette.
 
 ## Shared Phone Treatment
 
-The phone number is a persistent top-of-page call target, displayed with the phone icon and `(817) 274-1825`. It is visually distinct from the page's normal CTA and adapts for desktop and mobile. The visual treatment is the only cross-variant constant: blue background with green phone text.
+The phone number is a persistent top-of-page call target, displayed with the phone icon and `(817) 670-8968`. It is visually distinct from the page's normal CTA and adapts for desktop and mobile. The visual treatment is the only cross-variant constant: blue background with green phone text.
 
 ## Ten-Pass Design Checklist
 
