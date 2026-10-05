@@ -175,6 +175,36 @@ function getPracticeConfigStorage() {
   return { path: storePath(), persistent: Boolean(process.env.PRACTICE_CONFIG_FILE) };
 }
 
+function enforcePracticeContactRoute(key, { phoneRaw, textRaw = phoneRaw, phoneDisplay = '' }) {
+  const current = readStore();
+  const normalizedPhone = normalizePhone(phoneRaw);
+  const normalizedText = normalizePhone(textRaw);
+  if (normalizedPhone.length < 7 || normalizedText.length < 7) throw new Error('A valid practice contact route is required.');
+
+  const previous = current.practices[key] || {};
+  const snapshot = {
+    ...previous,
+    phoneDisplay: formatPhone(normalizedPhone, cleanText(phoneDisplay || previous.phoneDisplay)),
+    phoneRaw: normalizedPhone,
+    textRaw: normalizedText,
+    updatedAt: new Date().toISOString(),
+  };
+  const changedFields = fieldsThatChanged(previous, snapshot).filter((field) => field !== 'updatedAt');
+  if (!changedFields.length) return { updated: false, changedFields: [] };
+
+  current.practices[key] = snapshot;
+  appendHistory(current, {
+    action: 'Updated contact routing',
+    practiceKey: key,
+    previous,
+    snapshot,
+    changedFields,
+  });
+  current.updatedAt = new Date().toISOString();
+  writeStore(current);
+  return { updated: true, changedFields };
+}
+
 function updatePracticeOverride(key, input, defaults) {
   const current = readStore();
   const { errors, override } = buildOverride(input, defaults);
@@ -279,6 +309,7 @@ module.exports = {
   PORTRAIT_STATUSES,
   BULK_DISPLAY_FIELDS,
   getPracticeConfigStorage,
+  enforcePracticeContactRoute,
   getPracticeOverrides,
   getPracticeDrafts,
   getPracticeHistory,

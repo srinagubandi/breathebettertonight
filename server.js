@@ -26,6 +26,7 @@ const { renderOutcome } = require('./src/pages/outcomes/template');
 const { renderPracticePolicy } = require('./src/pages/policies/template');
 const {
   getPracticeConfigStorage,
+  enforcePracticeContactRoute,
   getPracticeOverrides,
   getPracticeDrafts,
   getPracticeHistory,
@@ -65,6 +66,15 @@ const crypto = require('crypto');
 const { renderGoogleTagManagerHead, renderGoogleTagManagerBody } = require('./src/shared/google-tag-manager');
 const { renderOpenPanelHead } = require('./src/shared/openpanel');
 
+// Preserve the explicitly requested Dr. Lay route in the production-backed
+// practice store, while base configuration covers fresh/local installations.
+if (process.env.PRACTICE_CONFIG_FILE) {
+  enforcePracticeContactRoute('pantego-dental', {
+    phoneDisplay: '(817) 670-8968',
+    phoneRaw: '8176708968',
+    textRaw: '8176708968',
+  });
+}
 setPracticeOverrideProvider(getPracticeOverrides);
 
 const app  = express();

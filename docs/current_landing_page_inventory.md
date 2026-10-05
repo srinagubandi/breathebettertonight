@@ -32,7 +32,7 @@ The generic public route will not silently load a practice-specific survey. Its 
 
 ## Contact configuration verification
 
-Pantego Dental publicly lists `(817) 274-1825`. Dental World publicly lists `(407) 830-4401`. Lakeside Dental Solutions’ public contact materials list `(972) 412-0014`. These numbers can populate the Call action in the practice configuration; the corresponding Text action must remain explicitly configurable rather than assuming an office line accepts SMS.
+Pantego Dental publicly lists `(817) 670-8968`. Dental World publicly lists `(407) 830-4401`. Lakeside Dental Solutions’ public contact materials list `(972) 412-0014`. These numbers can populate the Call action in the practice configuration; the corresponding Text action must remain explicitly configurable rather than assuming an office line accepts SMS.
 
 ## Local implementation browser verification — 2026-09-04
 
