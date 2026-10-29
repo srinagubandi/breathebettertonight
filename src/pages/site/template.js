@@ -1,5 +1,6 @@
 const { renderGoogleTagManagerHead, renderGoogleTagManagerBody } = require('../../shared/google-tag-manager');
 const { renderOpenPanelHead } = require('../../shared/openpanel');
+const { renderOpenReplayHead } = require('../../shared/openreplay');
 
 function escapeHtml(value = '') {
   return String(value)
@@ -38,6 +39,7 @@ function siteShell({ title, description, active, body }) {
   <link rel="stylesheet" href="/assets/css/site.css" />
 ${renderGoogleTagManagerHead()}
 ${renderOpenPanelHead()}
+${renderOpenReplayHead()}
 </head>
 <body>
   ${renderGoogleTagManagerBody()}
