@@ -27,6 +27,7 @@
 
 ### Changed
 
+- Installed the supplied **OpenReplay** session-replay tracker on every public document shell with inputs ignored by default and email text obscured; excluded all protected `/admin` documents and admin previews.
 - Updated every Dr. Lay/Pantego Dental public Call and Text route—including canonical, doctor-owned, preserved legacy, outcome, practice, policy, and provider-directory pages—to **(817) 670-8968**.
 - Installed the supplied **OpenPanel** browser analytics client on every public, policy, landing, outcome, legacy, static, error, and protected-admin document shell, with screen-view, outgoing-link, and attribute tracking enabled.
 - Installed the supplied **Google Tag Manager** container `GTM-MQH2FBWX` in the head and immediate body position of every public, policy, landing, outcome, legacy, protected-admin, static, and error document shell.

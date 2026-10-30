@@ -65,6 +65,7 @@ const {
 const crypto = require('crypto');
 const { renderGoogleTagManagerHead, renderGoogleTagManagerBody } = require('./src/shared/google-tag-manager');
 const { renderOpenPanelHead } = require('./src/shared/openpanel');
+const { renderOpenReplayHead } = require('./src/shared/openreplay');
 
 // Preserve the explicitly requested Dr. Lay route in the production-backed
 // practice store, while base configuration covers fresh/local installations.
@@ -312,7 +313,7 @@ app.get('/admin/preview/:practice', requireAdmin, (req, res) => {
   const selectedCampaign = campaignForPractice(previewPractice, campaign);
   const forceReducedMotion = req.query.motion === 'reduced';
   const banner = `<div class="admin-preview-banner">Admin preview · ${useDraft ? 'draft configuration' : 'live configuration'} · ${forceReducedMotion ? 'reduced motion' : 'standard motion'}</div><style>.admin-preview-banner{position:fixed;z-index:9999;top:0;left:0;right:0;padding:9px 16px;background:#071a2d;color:#fff;font:800 12px/1.2 system-ui,sans-serif;letter-spacing:.08em;text-align:center;text-transform:uppercase}${forceReducedMotion ? '.landing-hero-video{display:none!important}.landing-hero-poster{display:block!important}' : ''}</style>`;
-  return res.send(renderLandingPage({ practice: previewPractice, campaign: selectedCampaign }).replace('<body>', `<body>${banner}`));
+  return res.send(renderLandingPage({ practice: previewPractice, campaign: selectedCampaign, includeOpenReplay: false }).replace('<body>', `<body>${banner}`));
 });
 
 // ── Night-to-Clarity public patient website ──────────────────
@@ -482,7 +483,7 @@ app.use((req, res) => {
   res.status(404).send(`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
   <title>Page Not Found</title>
   <style>body{font-family:sans-serif;background:#0D1B2A;color:#fff;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;}
-  a{color:#00B4C8;}</style>${renderGoogleTagManagerHead()}${renderOpenPanelHead()}</head><body>${renderGoogleTagManagerBody()}
+  a{color:#00B4C8;}</style>${renderGoogleTagManagerHead()}${renderOpenPanelHead()}${renderOpenReplayHead()}</head><body>${renderGoogleTagManagerBody()}
   <div><h1>404</h1><p>Page not found.</p><a href="/">Home</a></div></body></html>`);
 });
 
@@ -496,7 +497,7 @@ app.listen(PORT, () => {
 function legalShell(title, body) {
   return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>${title} — BreatheBetterTonight.com</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet"/>
-  <style>body{font-family:Inter,system-ui,sans-serif;max-width:760px;margin:0 auto;padding:52px 24px;color:#28485e;line-height:1.7;background:#fff}h1{color:#0a2944;line-height:1.1;letter-spacing:-.04em}h2{color:#0a2944;margin-top:34px}a{color:#008fa0;font-weight:700}.notice{padding:14px 16px;border-radius:12px;background:#effafb;color:#426a74;font-size:.9rem}</style>${renderGoogleTagManagerHead()}${renderOpenPanelHead()}</head><body>${renderGoogleTagManagerBody()}${body}<p><a href="javascript:history.back()">← Back</a></p></body></html>`;
+  <style>body{font-family:Inter,system-ui,sans-serif;max-width:760px;margin:0 auto;padding:52px 24px;color:#28485e;line-height:1.7;background:#fff}h1{color:#0a2944;line-height:1.1;letter-spacing:-.04em}h2{color:#0a2944;margin-top:34px}a{color:#008fa0;font-weight:700}.notice{padding:14px 16px;border-radius:12px;background:#effafb;color:#426a74;font-size:.9rem}</style>${renderGoogleTagManagerHead()}${renderOpenPanelHead()}${renderOpenReplayHead()}</head><body>${renderGoogleTagManagerBody()}${body}<p><a href="javascript:history.back()">← Back</a></p></body></html>`;
 }
 
 function privacyPage() {

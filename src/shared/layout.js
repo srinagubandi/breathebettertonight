@@ -7,6 +7,7 @@
 const { renderChatLauncher } = require('./chat');
 const { renderGoogleTagManagerHead, renderGoogleTagManagerBody } = require('./google-tag-manager');
 const { renderOpenPanelHead } = require('./openpanel');
+const { renderOpenReplayHead } = require('./openreplay');
 
 function matches(value, pattern) {
   return pattern.test(String(value || ''));
@@ -34,12 +35,14 @@ function layout({
   headerTarget = '#consultation',
   policyBase = '',
   robots = 'noindex, nofollow',
+  includeOpenReplay = true,
 }) {
   const publicLogo = '/assets/images/brand/breathe-better-tonight-moon-badge.webp';
   const trackingHead = renderTrackingHead();
   const googleTagManagerHead = renderGoogleTagManagerHead();
   const googleTagManagerBody = renderGoogleTagManagerBody();
   const openPanelHead = renderOpenPanelHead();
+  const openReplayHead = includeOpenReplay ? renderOpenReplayHead() : '';
   const resolvedPhone = practice ? practice.phoneDisplay : phone;
   const resolvedPhoneRaw = practice ? practice.phoneRaw : phoneRaw;
   const resolvedTextRaw = practice ? practice.textRaw : phoneRaw;
@@ -83,6 +86,8 @@ function layout({
   ${googleTagManagerHead}
 
   ${openPanelHead}
+
+  ${openReplayHead}
 
   <!-- Optional non-GTM tracking is rendered only when valid environment IDs are configured. -->
   ${trackingHead}

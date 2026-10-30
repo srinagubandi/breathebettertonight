@@ -19,7 +19,7 @@ function renderRecognition(items) {
   return items.map((item, index) => `<article class="signal-card"><span class="signal-icon">${medicalIcon(iconFor(item, index))}</span><p>${escapeHtml(item)}</p></article>`).join('');
 }
 
-function renderLandingPage({ practice, campaign, locality = '', legacy = false }) {
+function renderLandingPage({ practice, campaign, locality = '', legacy = false, includeOpenReplay = true }) {
   const showPracticeName = practice.showPracticeName !== false;
   const showPhone = practice.showPhone !== false;
   const showText = practice.showText !== false;
@@ -83,6 +83,7 @@ function renderLandingPage({ practice, campaign, locality = '', legacy = false }
     headerTarget: '#consultation',
     policyBase: `/care/${practice.key}`,
     robots: 'noindex, nofollow',
+    includeOpenReplay,
   });
 }
 
