@@ -6,7 +6,6 @@
 
 const { renderChatLauncher } = require('./chat');
 const { renderGoogleTagManagerHead, renderGoogleTagManagerBody } = require('./google-tag-manager');
-const { renderOpenPanelHead } = require('./openpanel');
 const { renderOpenReplayHead } = require('./openreplay');
 
 function matches(value, pattern) {
@@ -41,7 +40,6 @@ function layout({
   const trackingHead = renderTrackingHead();
   const googleTagManagerHead = renderGoogleTagManagerHead();
   const googleTagManagerBody = renderGoogleTagManagerBody();
-  const openPanelHead = renderOpenPanelHead();
   const openReplayHead = includeOpenReplay ? renderOpenReplayHead() : '';
   const resolvedPhone = practice ? practice.phoneDisplay : phone;
   const resolvedPhoneRaw = practice ? practice.phoneRaw : phoneRaw;
@@ -84,8 +82,6 @@ function layout({
   <link rel="stylesheet" href="/assets/css/theme-${theme}.css" />
 
   ${googleTagManagerHead}
-
-  ${openPanelHead}
 
   ${openReplayHead}
 
