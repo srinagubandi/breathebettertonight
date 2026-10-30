@@ -1,5 +1,4 @@
 const { renderGoogleTagManagerHead, renderGoogleTagManagerBody } = require('../../shared/google-tag-manager');
-const { renderOpenPanelHead } = require('../../shared/openpanel');
 const { renderOpenReplayHead } = require('../../shared/openreplay');
 
 function escapeHtml(value = '') {
@@ -38,7 +37,6 @@ function siteShell({ title, description, active, body }) {
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/assets/css/site.css" />
 ${renderGoogleTagManagerHead()}
-${renderOpenPanelHead()}
 ${renderOpenReplayHead()}
 </head>
 <body>
